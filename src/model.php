@@ -270,7 +270,7 @@ function tagname2id($name) {
 
 }
 
-function showtags($type="item",$id,$lnk=1) {
+function showtags($id,$type="item",$lnk=1) {
   // id: item id
   global $dbh;
 
