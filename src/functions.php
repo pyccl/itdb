@@ -54,8 +54,8 @@ function validfn($s) {
   $t =preg_split('//u', 'ABGDEZHUIKLMNJOPRSSTYFXCVIUOUVAEUabgdezhuiklmnjoprsstyfxcviiiuouvaeu');
   $s=str_replace($f,$t,$s);
   $reserved = preg_quote('\/:*?"<>|', '/');
-  $s=preg_replace("/([-\\x00-\\x20\\x7f-\\xff{$reserved}])/e", "", $s); 
-  $s=strtolower($s);
+  $s=preg_replace("/([-\\x00-\\x20\\x7f-\\xff{$reserved}])", "", $s);
+  $s=strtolower((string)$s);
   return $s;
 }
 

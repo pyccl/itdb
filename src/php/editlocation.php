@@ -117,7 +117,6 @@ if (isset($_POST['id'])) { //if we came from a post (save), update
 
       $path_parts = pathinfo($_FILES['file']["name"]);
       $fileext=$path_parts['extension'];
-      $ftypestr=ftype2str($_POST['type'],$dbh);
       $unique=substr(uniqid(),-4,4);
 
       $filefn=strtolower("floorplan-".validfn($name)."-$unique.$fileext");

@@ -467,7 +467,7 @@ $currow++;
 
 
     echo "\n<!-- expanded columns -->\n";
-    echo "\n  <td><small>". showtags("item",$r['id'],0). "</small></td>";
+    echo "\n  <td><small>". showtags($r['id'],"item",0). "</small></td>";
     echo "\n  <td><small>$invinfo</small></td>".
 	 "\n  <td><small>$softinfo</small></td>";
     echo "\n  <td>".$r['purchprice']."</td>";

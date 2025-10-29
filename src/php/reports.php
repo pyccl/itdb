@@ -66,6 +66,7 @@ $reports=array (
 <div style='width:100%;clear:both;'>
 
 <?php 
+$graph = array();
 switch ($query) {
 
   case "depreciation5":
@@ -230,7 +231,7 @@ switch ($query) {
       echo "\n</tr>\n<tr>";
     }
     
-    if (($graph['type']=='pie') && $graph['limit']-->0) {
+    if (isset($graph['type']) && ($graph['type']=='pie') && $graph['limit']-->0) {
       if (!($r[$graph['colx']]=='Total'))  { //don't include totals in pies
 	$plot_param.="['".$r[$graph['colx']]."',".$r[$graph['coly']]."],";
       }

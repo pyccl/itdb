@@ -78,17 +78,23 @@ if (isset($_GET['delfid'])) {
 if (isset($_POST['id'])) { //if we came from a post (save) the update software 
   $id=$_POST['id'];
 
+  $stitle=$_POST['stitle'];
+  $sversion=$_POST['sversion'];
+  $manufacturerid=$_POST['manufacturerid'];
+  $purchdate=$_POST['purchdate'];
+  $licqty=$_POST['licqty'];
+  $lictype=$_POST['lictype'];
+
   //don't accept empty fields
-  if ((empty($stitle))|| (empty($version))|| (!strlen($manufacturerid)) || (!strlen($purchdate)) ) {
+  if ((empty($stitle))|| (empty($sversion))|| (!strlen($manufacturerid)) || (!strlen($purchdate)) ) {
     echo "<br><b>".t("Some <span class='mandatory'> mandatory</span> fields are missing").".</b><br><a href='javascript:history.go(-1);'>Go back</a></body></html>";
     exit;
   }
 
   $slicenseinfo=$_POST['slicenseinfo'];
-  $manufacturerid=$_POST['manufacturerid'];
-  $sversion=$_POST['sversion'];
   $sinfo=$_POST['sinfo'];
-  $stitle=$_POST['stitle'];
+  $maintend=$_POST['maintend'] ?? '';
+  $invoiceid=$_POST['invoiceid'] ?? '';
 
   $pd=ymd2sec($purchdate);
   $mend=ymd2sec($maintend);
@@ -396,7 +402,7 @@ else
 
 
       <?php 
-      echo showtags("software",$id);
+      echo showtags($id,"software");
       ?>
       <script>
         ajaxtagscript="php/tag2software_ajaxedit.php?id=<?php echo $id?>";

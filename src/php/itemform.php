@@ -716,7 +716,7 @@ else if ($action=="edititem") {
       <h3>Tags <span title='Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the "Tags" menu for that.' style='font-weight:normal;font-size:70%'>(<a class="edit-tags" href="">edit tags</a>)</span></h3>
       
       <?php 
-      echo showtags("item",$id);
+      echo showtags($id,"item");
       ?>
       <script>
 	ajaxtagscript="php/tag2item_ajaxedit.php?id=<?php echo $id?>";

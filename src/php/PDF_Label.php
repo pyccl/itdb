@@ -37,8 +37,7 @@
 **/
 
 
-require_once('../tcpdf/config/lang/eng.php');
-require_once('../tcpdf/tcpdf.php');
+require_once('./vendor/autoload.php');
 
 //class PDF_Label extends PDF_Label {
 class PDF_Label extends TCPDF{
@@ -85,7 +84,7 @@ class PDF_Label extends TCPDF{
 
 		//($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false)
 		//parent::TCPDF('P', $unit, $format, true, 'UTF-8', false);
-		 parent::__construct ('P', $unit, $format, true, 'UTF-8', false);
+		 parent::__construct ('P', $unit, (string)$Tformat['paper-size'], true, 'UTF-8', false);
 
 		$this->_Metric_Doc = $unit;
 		$this->_Set_Format($Tformat);
@@ -93,7 +92,7 @@ class PDF_Label extends TCPDF{
 		//$this->AddFont('dejavusans','','tahoma.php');
 		//$this->AddFont('dejavusans','B','tahomabd.php');
 
-		$this->SetFont($format['font-family']);
+		
 		//$this->SetFont('dejavusans','B');
 
 		$this->SetMargins(0,0); 
@@ -112,7 +111,7 @@ class PDF_Label extends TCPDF{
 		$this->_Width 		= $this->_Convert_Metric($format['width'], $format['metric']);
 		$this->_Height	 	= $this->_Convert_Metric($format['height'], $format['metric']);
 		$this->Set_Font_Size($format['font-size']);
-		$this->FontFamily	= $format['font-family'];
+		$this->FontFamily = isset($format['font-family']) && !empty($format['font-family']) ? $format['font-family'] : 'helvetica';
 		$this->_Padding		= $this->_Convert_Metric(3, 'mm');
 	}
 
@@ -257,9 +256,8 @@ class PDF_Label extends TCPDF{
 
 		$this->MultiCell($this->_Width-(2*$padding), $this->_Line_Height, $text,0,'L');
 
-		if ($bordercolor) 
-		  $this->SetDrawColor($bordercolor,$bordercolor,$bordercolor);
-
+		if ($bordercolor)
+				  $this->SetDrawColor((int)$bordercolor,(int)$bordercolor,(int)$bordercolor);
 		//horz borders (sivann):
 		$this->Line($_PosX,$_PosY,$_PosX+$this->_Width,$_PosY);
 		$this->Line($_PosX,$_PosY+$this->_Height, $_PosX+$this->_Width, $_PosY+$this->_Height);

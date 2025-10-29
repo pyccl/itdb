@@ -34,9 +34,14 @@ function ftype2str($typeid,$dbh) {
   $sql="SELECT typedesc from filetypes WHERE ".
         " id='$typeid'";
   $sth=db_execute($dbh,$sql);
-  $typestr=$sth->fetch(PDO::FETCH_ASSOC);
+  $typestr_row=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
-  $typestr=$typestr['typedesc'];
+  if ($typestr_row) {
+    $typestr=$typestr_row['typedesc'];
+  }
+  else {
+    $typestr = '';
+  }
 
   return ucfirst($typestr);
 

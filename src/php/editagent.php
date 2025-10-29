@@ -314,7 +314,7 @@ else
 	</tr> 
 
 	<?php 
-	$allcontacts=explode("|",$contacts);
+	$allcontacts=explode("|",$contacts ?? '');
 	for ($i=0;$i<count($allcontacts);$i++) {
 	  $row=explode("#",$allcontacts[$i]);
 	  $name=$row[0];
@@ -358,7 +358,7 @@ else
 	</tr> 
 
 	<?php 
-	$allurls=explode("|",$urls);
+	$allurls=explode("|",$urls ?? '');
 	for ($i=0;$i<count($allurls);$i++) {
 	  $row=explode("#",$allurls[$i]);
 	  $description=$row[0];

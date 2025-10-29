@@ -162,7 +162,7 @@ while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
   <td sorttable_customkey="<?php echo $mendkey?>"><?php echo $mend?></td>
   <td><?php echo $slicenseinfo?></td>
   <td><?php echo $sinfo?></td> <!-- other info -->
-  <td><small><?php  echo showtags("software",$r['id']); ?></small></td>
+  <td><small><?php  echo showtags($r['id'], "software"); ?></small></td>
   <td <?php echo $style?>><?php echo $licitems?>/<?php echo $licqty?></td>
   <td><?php echo $vendor?></td>
   <td ><?php echo $invinfo?></td>
