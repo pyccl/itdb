@@ -1,63 +1,62 @@
-## ITDB:  IT Items Database - Free IT Asset Management Software  
+## ITDB: IT项目无数据库IT资产管理软件  
 
-**Note, this is no longer maintained**
+**注意，此项目官方已不再维护，现由爱好者pyccl维护**
 
 
-About
+关于
 =====
 
-Description
+描述
 -----------
 
-ITDB is a web based asset inventory management tool used to store information about assets found in office environments, with a focus -but not lmited to- IT assets. It is not or targets for ITIL/CMDB compliance (yet), but it has served me for years and hopefully it will do the same for you :-)  
-ITDB comes with sources and is distributed under the GNU Public license.  
+ITDB是一个基于网络的资产库存管理工具，用于存储在办公环境中发现的资产信息，重点是不限于IT资产。它不是ITIL/CMDB法规遵从性的目标，但它为我服务了多年，希望它也能为您服务:-)  
+ITDB附带源代码，在GNU公共许可证下发布。  
 
 [![](itdb-overview.png)](itdb-overview.png)
 
 
-Security
+安全性
 --------
 
-Please do **NOT** expose ITDB to the public internet. It is not secure, it is aimed for intranets. If you need to do so, please at least use https and configure an HTTP auth password on your web server so it will be hidden behind a password.
+请不要把ITDB暴露在公众的网络上。它是不安全的，它是针对内部网的。如果您需要这样做，请至少使用https并在您的web服务器上配置一个HTTP auth密码，这样它将隐藏在密码后面。
 
-TODO
+待办事项
 ----
+官方已经不再维护，现在由pyccl进行维护。BUG修复、功能增加等。
 
-Not really planned any more.
+* 采购订单管理
+* 基本票务支持
+* 每个项目/软件的配置/知识/常见问题条目。(比附加文件更容易)
+* RRD支持历史图表趋势
+* 平面图中的项目定位，带拖放功能(WIP)
+* 更好的(分析性)许可模型、SLA事件、重复事件、描述
+* 自动主机和软件发现-数据库审计
+* 类似ISO20000的功能
 
-* Purchase Order management
-* Basic Ticketing support
-* Configuration/Knowledge/FAQ entries per item/software. (Something easier than attaching files)
-* RRD support for historical graph trends
-* Item positioning in floor plan, with drag & drop (WIP)
-* Better (analytical) licensing models, SLA events, recurring events, descriptions
-* Automatic host and software discovery - db auditing
-* ISO20000-like features
-
-Features
+特性
 --------
 
-* **Items**: specs, warranties, s/n, IP info, what other H/W relates/connects to this H/W, item status, event log, assignees
-* **Software**: specs, license info, ...
-* **Relations**: where each software is installed, license QTY, component relations, contract relations to software/hardware/invoices
-* **Invoices**: purchase proofs depicting date, vendor, prices, attached documents
-* **Agents**: Vendors, H/W & S/W Manufacturers, Buyers (for different Dpt), Contactors
-* **Locations**: location of each asset: building, floor, room, rack, rack row, row depth
-* **Contracts**: define custom contract types, like support& maintenance, SLA, etc. Track contract events.
-* **Tags**: multiple tags for items and software. You may use tags for grouping according to usage, budget, owner, importance, etc.
-* **Files**: attach documents to every main object entity (Items, Software, Invoices, Contracts
-* **Users**: who has what or who is responsible for what
-* **Racks**: display rack layout with items assigned to each rack row. (supports multiple items/rackrow).
-* **Print labels:** print label stickers for tag all your assets, with or without barcode, from phones and laptops to cooling units and ups. Easily define new label paper layouts through the GUI.
-* **One click backup**: get a full backup of the ITDB installation and data in a .tar.gz from the main menu. To restore, just extract the backup file on the web server!
-* **All pages are printable**: all screen pages/lists/reports print-out nicely, without menus, scrollbars and other clutter.
-* **Interface Translations**: translation file support. You may create your own translations (v1.3)
-* **Rudimentary LDAP support**: pull userlist for item assignment from an LDAP URL.(Not tested with active directory, and not used for auth.
+* **硬件**: 规格、保修、序列号、IP信息、与该硬件相关的其他硬件、项目状态、事件日志、受托人
+* **软件**: 规格，许可证信息，...
+* **关联**: 每个软件的安装位置、许可证数量、组件关系、与软件/硬件/发票的合同关系
+* **发票**: 描述日期、供应商、价格、附加文件的购买证明
+* **代理商**: 供应商、软硬件制造商、买方(针对不同的Dpt)、承包商
+* **位置**: 每项资产的位置:建筑、楼层、房间、机柜、机架、深度
+* **合同**: 定义自定义合同类型，如支持和维护、SLA等。跟踪合同事件。
+* **标签**: 硬件和软件的多个标签。您可以根据用途、预算、所有者、重要性等使用标签进行分组。
+* **文件**: 将文档附加到每个主要对象实体（项目、软件、发票、合同等）
+* **用户**: 谁拥有什么或谁对什么负责（现已经只有登录功能）
+* **机柜**: 显示机柜布局，包括分配给每个U的硬件。(支持多个硬件/机柜)。
+* **打印标签:** 打印标签贴纸，用于标记您的所有资产，无论有无二维码，从电话、笔记本电脑、冷却装置、ups。通过GUI轻松定义新的标签纸布局（新增支持自定义纸张大小）。
+* **一键式备份**: 从主菜单中获得ITDB安装和数据的完整备份。要恢复，只需提取网络服务器上的备份文件！
+* **所有页面都可以打印**: 所有屏幕页面/列表/报告打印出来很好，没有菜单，滚动条和其他杂物。
+* **界面翻译**: 翻译文件支持。您可以创建自己的翻译(1.3版)
+* **基本的LDAP支持**: 从LDAP URL提取项目分配的用户列表。(未经active directory测试，也不用于身份验证。
 
-DOWNLOAD
+下载
 --------
 
-Current release:  
+当前官方版本:  
 6/Mar/2016 version 1.23: [itdb-1.23.zip](https://github.com/sivann/itdb/archive/1.23.zip)  
 4/Jul/2015 version 1.22: [itdb-1.22.zip](https://github.com/sivann/itdb/archive/1.22.zip)  
 2/Jul/2015 version 1.21: [itdb-1.21.zip](https://github.com/sivann/itdb/archive/1.21.zip)  
