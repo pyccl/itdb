@@ -67,89 +67,90 @@ ITDB附带源代码，在GNU公共许可证下发布。
 ~22/Oct/2013 version 1.10: (wrong db version bundled)  
 ~28/Sep/2013 version 1.9: [itdb-1.9.tar.gz](itdb-1.9.tar.gz)  
   
-You can download the current development version on [GitHub](https://github.com/sivann/itdb)  
+您可以在[GitHub](https://github.com/sivann/itdb)上下载当前的开发版本  
   
-Previous releases are [here](releases_old/?C=M;O=D).  
+以前的版本在[这里](releases_old/?C=M;O=D).  
 
-DEMO
+演示
 ----
 
-The [DEMO](demo/itdb-1.23/) is **read-only** with limited functionality. The demo may be a bit slow, this is due to my provider, not due to itdb.
+[DEMO](demo/itdb-1.23/)是**只读**的，功能有限。演示可能有点慢，这是由于我的供应商，而不是由于itdb。
 
-LICENCE
+许可证
 -------
 
-The software is distributed under GPL. I would be very happy to receive an email describing how you use it!  
+该软件是在GPL下发布的。我会很高兴收到一封描述你如何使用它的电子邮件！  
 
-Links
+链接
 -----
 
 * [GitHub](https://github.com/sivann/itdb)
 * [Freshmeat/Freecode](http://freecode.com/projects/itdb)
 * [ohloh](https://www.ohloh.net/p/itdb)
 
-SCREENSHOTS
+截图
 -----------
 
-Some screenshots are from previous versions.  
-Some screenshots have been edited to wipe-out private info.  
+部分截图来自之前的版本。  
+一些截图已经被编辑删除私人信息。  
 
-[![](images/itdb-home.png)  <br>Home](images/itdb-home.png)
+[![](images/itdb-home.png)  <br>首页](images/itdb-home.png)
 
-[![](images/itdb-listitems.png)  <br>Items Search](images/itdb-listitems.png)
+[![](images/itdb-listitems.png)  <br>硬件搜索](images/itdb-listitems.png)
 
-[![](images/itdb-items-edit.png)  <br>Item Edit](images/itdb-items-edit.png)
+[![](images/itdb-items-edit.png)  <br>硬件编辑](images/itdb-items-edit.png)
 
-[![](images/itdb-item-invoices.png)  <br>Related Item Invoices](images/itdb-item-invoices.png)
+[![](images/itdb-item-invoices.png)  <br>相关项目发票](images/itdb-item-invoices.png)
 
-[![](images/itdb-editcontract.png)  <br>Edit Contract](images/itdb-editcontract.png)
+[![](images/itdb-editcontract.png)  <br>编辑合同](images/itdb-editcontract.png)
 
-[![](images/itdb-contractevents.png)  <br>Contract Events](images/itdb-contractevents.png)
+[![](images/itdb-contractevents.png)  <br>合同事件](images/itdb-contractevents.png)
 
-[![](images/itdb-itemtypes.png)  <br>Item Types](images/itdb-itemtypes.png)
+[![](images/itdb-itemtypes.png)  <br>硬件类型](images/itdb-itemtypes.png)
 
-[![](images/itdb-editagent.png)  <br>Edit Agent](images/itdb-editagent.png)
+[![](images/itdb-editagent.png)  <br>编辑代理商](images/itdb-editagent.png)
 
-[![](images/itdb-labelprint.png)  <br>Label Printing](images/itdb-labelprint.png)
+[![](images/itdb-labelprint.png)  <br>标签打印](images/itdb-labelprint.png)
 
-[![](images/itdb-editrack.png)  <br>Rack Edit & Side View](images/itdb-editrack.png)
+[![](images/itdb-editrack.png)  <br>机柜编辑和侧视图](images/itdb-editrack.png)
 
-[![](images/itdb-reportspie.png)  <br>Reports](images/itdb-reportspie.png)
+[![](images/itdb-reportspie.png)  <br>报告](images/itdb-reportspie.png)
 
-[![](images/itdb-software-list.png)  <br>Software List](images/itdb-software-list.png)
+[![](images/itdb-software-list.png)  <br>软件列表](images/itdb-software-list.png)
 
-[![](images/itdb-software-edit.png)  <br>Software Edit](images/itdb-software-edit.png)
+[![](images/itdb-software-edit.png)  <br>编辑软件](images/itdb-software-edit.png)
 
-[![](images/itdb-editlocation.png)  <br>Edit Location](images/itdb-editlocation.png)
+[![](images/itdb-editlocation.png)  <br>编辑位置](images/itdb-editlocation.png)
 
-[![](images/itdb-browse.png)  <br>Tree Browser](images/itdb-browse.png "Browse")
+[![](images/itdb-browse.png)  <br>树形浏览器](images/itdb-browse.png "Browse")
 
-[![](images/itdb-addcontract-trans.png)  <br>Translation sample](images/itdb-addcontract-trans.png "Greek Translation")
+[![](images/itdb-addcontract-trans.png)  <br>翻译样本](images/itdb-addcontract-trans.png "希腊语翻译")
 
-INSTALLATION
+安装
 ============
 
-System Requirements
+系统需求
 -------------------
 
-* A recent version of Firefox, Chrome, Opera, etc or IE≥9
-* Apache 2.2 on a posix system (linux, solaris, etc) (apache 2.0 may also work)
-* PHP > 5.2.x
+* 火狐、Chrome、EDGE等或IE≥9的最新版本
+* posix系统(linux、solaris等)上的Apache 2.2(Apache 2.0也可以工作)
+* PHP版本 > 5.2.x，并且PHP版本 < 7.0。
 * PHP SQlite PDO, SQlite >3.6.14.1
-* depending on your distribution, you may have to also install packages "php-posix", "php-mbstring", "php5-gd", "php5-json" "php5-sqlite" "php-pdo"
+* 根据您的发行版，您可能还需要安装软件包"php-posix", "php-mbstring", "php5-gd", "php5-json" "php5-sqlite" "php-pdo"
 
-It has been reported to me that it also runs under MS-Windows but I cannot test it.
+据我所知，它也可以在Windows系统下运行，但我无法测试它。
 
-Installation instructions
+安装说明
 -------------------------
 
-1.  extract the files in a web-exported directory (under the "DocumentRoot")
-2.  rename pure.db to itdb.db (pure.db is a blank database)
-3.  make the data/itdb.db file **AND** the data/ directory **AND** the data/files/ directory readable and writeable by the web server
-4.  make translations/ directory readable and writeable by the web server
-5.  Login with **admin/admin**
+1.  将文件提取到web导出的目录中(在“DocumentRoot”下)
+2.  将pure.db重命名为itdb.db (pure.db是一个空白数据库)
+（**注意**：更新我的非官方版本后，需要执行/a.php进行数据库结构的更新）
+3.  使data/itdb.db文件**和**data/ 目录**和**data/files/ 可由web服务器读写
+4.  使 translations/ 目录对web服务器可读和可写
+5.  使用**admin/admin**登录
 
-If you need to find out which sqlite library is used by your apache/php installation, browse to itdb/phpinfo.php or press the small blue (i) on the bottom left of the itdb menu.
+如果您需要找到apache/php安装所使用的sqlite库，请浏览到itdb/phpinfo.php或按下itdb菜单左下方的蓝色小图标(I)。
 
 Upgrade
 -------
