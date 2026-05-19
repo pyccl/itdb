@@ -1,0 +1,926 @@
+ : Folder doesn't exist.#：文件夹不存在。
+ : Folder not writable.#：文件夹不可写入。
+ : File not writable.#：文件不可写入。
+ %d Employees#%d个员工
+ %s<br>Database version=#%s<br>数据库版本：
+ %s Software listed#%s 个软件已列出
+ %s U occupied#已占用 %sU 空间
+ (field separator)#（字段分隔符）
+ (for authentication only, except user admin which is local)#（仅用于身份验证，但 admin 用户除外，它是本地用户）
+(Optional) Internal Reference Number#（可选）内部编号
+[DNS: %s]# [DNS: %s]
+[ID: %s]#[ID: %s]
+<b>File not deleted: Please remove associations first for this file<br></b>#文件未被删除：请先移除该文件的关联关系。
+<b>location</b> of this item  different from location of associated item#<b>地点</b>与相关设备的地点不同
+<b>Not saved -- Username already exists</b>#未保存 - 用户名已存在
+<b>Rack not deleted: Please remove items first from this rack<br></b>\n#<br>机柜未被删除：请先从该机柜中移除设备<br></b>\n
+<b>status</b> of this item  different from status of associated item#<b>状态</b>与相关设备的状态不同
+<b>uncheck</b> "auto-rotate &amp; center"</b>#<b>取消勾选</b> “自动旋转与居中”
+<b>user</b> of this item  different from user of associated item#<b>用户</b>与相关设备的地点不同
+<b><big>Error: field count in line %d is %d, %d is expected</big></b>#错误：第 %d 行的字段数量是 %d，但预期应该是 %d。
+<b><big>ERROR：Preset name already exists！</big></b>#<b><big>错误：预设名称已经存在！</big></b>
+<b><big>Not saved: specify preset name!</big></b>#<b><big>未保存：请指定预设名称！</big></b>
+<b><big>Preset saved!</big></b>#<b><big>预设已保存！</big></b>
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>在PDF打印对话框中，<br>将 <b>'页面缩放比例'</b> 设置为 <b>'无'</b>, <br>并 <b>取消勾选</b> '自动旋转与居中'</b>
+<br>In the PDF printing dialog,#<br>在打印PDF对话框,
+<b>Updating DB with %s</b>#<b>正在使用 %s 更新数据库</b>
+<br>Skipping first line<br>#<br>跳过首行<br>
+<li>Applying  updates</li>#正在应用更新
+<li>Reading update file: %s (%d bytes)</li>#正在读取更新文件：%s（%d 字节）
+<li>Updating to version %s:</li>#<li>正在更新到版本： %s</li>
+_NL_ = newline#_NL_ 代表换行符
+0:black, 255:white#0:黑色, 255:白色
+1=Bottom#1U位于底部
+1=Top#1U位于顶部
+ABORTED...#操作已中止…
+About#关于
+Accounting#帐目
+Action Date#活动日期
+Action#操作
+Active#在职
+Add Agent#添加代理商
+Add Contract#添加合同
+Add Dashboard Card#添加卡片
+Add File#添加文件
+Add hierarchical or sibling relations to: parts, cards, monitors, et.c.#为部件、卡件、监控设备等添加层级或同级关系。
+Add Invoice#添加发票
+Add Location#添加地点
+Add more manufacturers at the "Agents" menu#在“代理商”菜单中添加更多厂商
+Add new Agent#添加新代理
+Add new Contract#添加新合同
+Add new Department#添加新部门
+Add new Employee#添加新员工
+Add new File#添加新文件
+Add new Invoice#添加新发票
+Add new item#添加新设备
+Add new Item#添加新设备
+Add New Item#添加新设备
+Add new Location#添加新地点
+Add new Rack#添加新机柜
+Add new software#添加新软件
+Add new Software#添加新软件
+Add new User#添加新用户
+Add Rack#添加机柜
+Add Row#添加行
+Add Software#添加软件
+Add User#添加用户
+Add#添加
+Add/View#添加/查看
+Added by#添加人：
+Added Contract#已添加的合同
+Added File#已添加的文件
+Added item#已添加的设备
+Added Location#已添加新地点
+added new tag#已添加新Tag标签
+Added Rack#已添加的机柜
+Added Software#已添加的软件
+Added Invoice#已添加的发票
+Added user#已添加的用户
+Address, Phone number, other info, etc#地址，电话号码，其余信息
+Agent of Type Contractor#承包商类型的代理商
+Agent Properties#代理商属性
+Agent#代理商
+Agent name is missing#代理商名称缺失
+Agent type(s) are missing#代理商类型缺失
+Agents#代理商
+agents are entities like Vendors, S/W Manufacturers, H/W Manufacturers, Contractors, and Buyers#代理商指的是诸如供应商、软件制造商、设备制造商、承包商以及买家等实体。
+All#全部
+all physical assets. PCs, printers, servers, phones, tape libraries, video players, etc.#所有物理资产。例如：个人电脑、打印机、服务器、电话、磁带库、视频播放器等。
+all software metadata. You may associate software with items in this menu (e.g. assign a software to multiple PCs)#所有的软件元数据。您可以在该菜单中将软件与设备进行关联（例如，将某软件分配给多台电脑）。
+already exists, not overwritten!#已经存在，不会被覆盖！
+Are you sure you want to clone item id #您确定要克隆
+Are you sure you want to delete id #您确定要删除
+Are you sure you want to delete this area?#您确定要删除该区域吗？
+Are you sure you want to delete this employee?#您确定要删除该员工吗？
+Are you sure you want to delete this department?#您确定要删除该部门吗？
+Are you sure you want to delete this row?#您确定要删除该行吗？
+Are you sure you want to regenerate the database password? This will expire the old password.#您确定要重新生成数据库密码吗？这将使旧密码失效。
+Area Names/Offices#区域/办公室
+Area#区域
+Area/Room#区域/房间
+Areas: rooms, offices#区域：房间，办公室
+Asset Management#资产管理
+Assign#分配
+Assign Item#分配设备
+Assigned Items#已分配的设备
+Associate file with the following contracts#关联文件到以下合同
+Associate file with the following invoices#关联文件到以下发票
+Associate file with the following items#关联文件到以下设备
+Associate file with the following software#关联文件到以下软件
+Associate#关联
+Associated Employees#关联员工
+Associated Files#关联文件
+Associated Items#关联设备
+Associated Software#关联软件
+associated tag#关联Tag标签
+Associated#关联
+Associations (items/racks)#关联（设备/机柜）
+Associations Overview#关联概览
+Associations#关联
+Attention: The database management password is valid only for today (until 23:59:59) and will expire immediately thereafter.<br>This password grants direct access to the system database. <font color=red><b>Do not change it unless absolutely necessary</b></font>, as doing so may cause system failure!#注意：数据库管理密码有效期为当天（23:59:59），过期将失效。<br>该密码可以直接管理系统数据库，<font color=red><b>如非必须请勿更改</b></font>，更改后可能导致系统崩溃！
+Back#后
+BACKUP your ITDB FIRST!#请先备份您的 ITDB！
+Barcode Size#条码尺寸
+Blank passwords prohibit login#禁止空密码登录
+Border Color#边框颜色
+Bottom Margin#下边距
+Box#盒
+Browse Data#浏览数据
+Browse#浏览
+Building Name#建筑名称
+Buyer#采购者
+Buyer is missing#缺少采购者
+Buyers#采购者
+Cannot add log entries to unsaved items.#不能为未保存的设备添加日志记录。
+cannot be deleted or changed#无法被删除或修改
+cannot delete#无法删除
+Cannot delete type: it has existing subtypes#无法删除类型:其存在子类型
+Cannot delete type '%s': There are %d existing files associated with this type#无法删除类型 '%s'：存在 %d 个与此类型关联的文件
+Cannot delete: This employee has assigned items, please unbind first.#无法删除：该员工已有分配的设备，请先解绑。
+Cannot upload the file#无法上传文件
+Cannot upload files to unsaved items.#不能为未保存的设备上传文件。
+Card Basic Info#卡片基本信息
+Card Data & Link#数据与链接
+Changes are saved immediately.<br>Removing tags removes associations not Tags. Use the Tags menu for that.#更改将立即保存。<br>可以使用Tag标签菜单删除未关联的Tag标签。
+Chart Type#图表类型
+Choose translation language from the list below#从下面的列表中选择翻译语言
+Click here if not redirected#如果未重定向请点击此处
+Click "Make Item Labels"#点击“创建设备Label标签”
+Click on Item count column on the left to display associated items#点击左侧的设备数量列来显示关联的设备
+Click on Software count column on the left to display associated software#点击左侧的软件数量列来显示关联的软件
+Click 'Show Labels'#点击'显示Label标签'
+Clone#克隆
+Clone Mode: Data not saved yet#克隆模式：数据尚未保存
+Cntrl+Click to select multiple roles for an agent <br><br><u>Vendor &amp; Buyer</u>: will be listed in invoices &amp; Contracts <br><br><u>H/W Manuf.</u>: will be listed in items editing <br><br><u>S/W Manuf.</u>: will be listed in software editing <br><br><u>Contractor</u>: will be listed in contracts#按住 Ctrl 键并单击以选择代理的多个角色。 <br><br><u>供应商 & 采购者</u>: 该代理将出现在发票和合同列表中。 <br><u>设备厂商</u>: 该代理将出现在设备/设备编辑列表中。 <br><u>软件厂商</u>: 该代理将出现在软件编辑列表中。 <br><u>承包商</u>: 该代理将出现在合同列表中。
+Cntrl+Click to select multiple roles for an agent#按住 Ctrl 键并单击以选择代理的多个角色
+cols: %s<br>#列：%s<br>
+Color#颜色
+Color is missing#颜色不能为空。
+Columns#列
+Comma separated. E.g. Enter "2, 0.6" for 1x2T+1x600G#用逗号分隔。例如，输入“2, 0.6”表示1x2T+1x600G
+Comments#注释
+Company Title#公司名称
+Configure contract types#配置合同类型
+Configure File Types#配置文件类型
+Configure Item Types#配置设备类型
+Configure Status Types#配置状态类型
+Connected To#连接到
+Contact Info#合同信息
+Contacts#联系人
+Contr. Types#合同类型
+Contract#合同
+Contract Associations#关联合同
+Contract Data#合同数据
+Contract Description#合同描述
+Contract Event History#合同事件历史记录
+Contract number is missing.#缺少合同编号
+Contract Properties#合同属性
+Contract Title is missing.#缺少合同名称。
+Contract Type is missing.#缺少合同类型。
+Contract Type already exists:#合同类型已经存在：
+Contract Types#合同类型
+Contractor is missing.#缺少承包商。
+Contractor#承包商
+Contracts#合同
+CONTRACTS#合同
+Copied#已复制
+copied from LDAP (read only)#从LDAP复制来（只读）
+Core#核
+Cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
+Cores/CPU#核数/CPU
+Could not open#无法打开
+Count SQL#统计SQL
+CPU Model#CPU型号
+Create new empty translation#创建新的空翻译
+Created Time#创建时间
+Currency#货币
+Current End Date of contract is missing.#缺少合同当前结束日期。
+Current EndDate#当前结束日期
+Current Value#现值
+d#天
+Dashboard Cards#卡片
+Dashboard Card#卡片
+Dashboard Card Selection#选择卡片
+Database Manager#数据库管理
+Database Manager Password#数据库管理密码
+Database version=#数据库版本：
+Data Browser#数据浏览
+Date#日期
+Date Entered#进入日期
+Date Format#日期格式
+Date is missing#缺少日期
+Date of Purchase#采购日期
+Date of purhcase is missing#缺少采购日期
+Days#天
+Day/Month/Year#日/月/年
+DB log#数据库日志
+DB (SQLite)#数据库(SQLite)
+de-associated tag#取消关联Tag标签
+Defective#有缺陷的
+Delete Event#删除事件
+Delete Event?#删除事件？
+Delete failed#删除失败
+Delete ID#删除ID
+DELETED id:%s#已删除ID：%s
+Delete Row#删除行
+Delete successful#删除成功
+Delete this card?#确定删除该卡片？
+Delete#删除
+Delim: %s<br>#分隔符 %s<br>
+Delimiter#分隔符
+Demo mode, no save possible#演示模式，无法保存
+Department#部门
+Department/User#部门/使用人
+Departments#部门
+Departments List#部门列表
+Department Name#部门名称
+Department Name is missing#部门名称缺失
+Department Name is required.#部门名称缺失。
+Department not deleted: Employees are assigned. Please transfer them first.#部门未删除：部门下存在员工，请先处理这些员工。
+Department not deleted: Sub-departments exist. Please handle them first.#部门未删除：存在子部门，请先处理子部门。
+Department Properties#部门属性
+Department with the same name exists in another department. Are you sure to continue?#同名部门已存在于其他部门，确定要继续吗？
+Depth of rack occupation. (F)ront, (M)iddle, (B)ack#占用机柜深度。 (F)前, (M)中, (B)后
+Depth#深度
+describe the purpose of this item#描述该设备的用途
+Description#描述
+Description cannot be empty#描述不能为空
+Disabled#禁用
+DNS Name#DNS 名称
+DNS#DNS
+DnsName#Dns名称
+Dollar#美元
+Don't forget: press the <b>'UPLOAD'</b> button (not save) to complete the upload!#别忘了：请按下 <b>"上传"</b> 按钮（而非"保存"）以完成上传！
+do not run this script directly#请勿直接运行此脚本
+Do you really want to remove this row?#您确定要删除这一行么？
+Documents, Manuals, Offers, Licenses, ...#文档, 手册, 认购书, 授权书, ...
+Download &amp; print the resulting PDF#下载并打印生成的PDF
+Download a complete installation backup (much larger)#下载完全备份(非常大)
+Download DataBase file. Contains all data except uploaded files/documents#下载数据库文件。包含除上传到文件（文档）外的所有数据
+Download Database (SQLite)#下载数据库（SQLite）
+Download#下载
+Duplicate area name '%s' skipped.#已跳过重复的区域名称 '%s'。
+Duplicate location name '%s'. Save aborted.#地点名称“%s”已重复，保存已中止。
+Duplicate serial numbers within the same item#该设备下有相同的序列号
+Duplicate SN with item ID#重复的序列号位于设备ID：
+e.g. Intel E5450#例如 Intel E5450
+e.g. like donator, etc. Vendor info is best to be provided in the related invoice#诸如捐赠者、供应商之类信息最好在相关发票中录入
+e.g.: ldap.mydomain.com#例如：ldap.mydomain.com
+e.g.: ou=People,dc=mydomain,dc=com#例如：ou=People,dc=mydomain,dc=com
+e.g.: (&amp; (uid=*) (IsActive=TRUE))#例如：(&amp; (uid=*) (IsActive=TRUE))
+Edit Agent#编辑代理商
+Edit buyer (agent)#编辑采购员（代理商）
+Edit Contract#编辑合同
+Edit contract %s in new window#在新窗口中编辑合同 %s
+Edit Contract Types#编辑合同类型
+Edit Dashboard Card#编辑首页卡片
+Edit Department (ID: %d)#编辑部门（ID：%d）
+Edit Departments#编辑部门
+Edit Employee (ID: %d)#编辑员工（ID：%d）
+Edit Employees#编辑员工
+Edit Event#编辑事件
+Edit Files#编辑文件
+Edit File#编辑文件
+Edit File Types#编辑文件类型
+Edit Item#编辑设备
+Edit item %s in new window#在新窗口中编辑设备 %s
+Edit Item Status Types#编辑设备状态类型
+Edit Item Types#编辑设备类型
+Edit Invoice#编辑发票
+Edit Invoice %s in new window#在新窗口中编辑发票 %s
+Edit Location#编辑地点
+Edit Manufacturer (agent)#编辑厂商（代理商）
+Edit parent#编辑上级
+Edit Rack#编辑机柜
+Edit selected manufacturer (agent)#编辑选定的厂商（代理商）
+Edit Software#编辑软件
+Edit software %s in new window#在新窗口中编辑软件 %s
+Edit Status Types#编辑状态类型
+Edit Tags#编辑Tag标签
+Edit User#编辑用户
+Edit Vendor (agent)#编辑供应商（代理商）
+Edit#编辑
+edititem:missing arguments#编辑设备：缺少参数
+Effective date#有效日期
+Email#电子邮件
+Email already exists#电子邮件已存在
+Employee code already exists#工号已存在
+Employee code cannot be empty#工号不能为空
+Employee Information#员工信息
+Employee name cannot be empty#姓名不能为空
+Employees#员工
+Employees Code#工号
+Employees List#员工列表
+Enabled#启用
+End Date#结束日期
+End Date after#截止于该日期后
+End Date before#截止于该日期前
+End User#使用人
+End#结束
+End Date after#截止于该日期后
+End Date before#截止于该日期前
+enter text to filter listed items#输入文本以筛选设备
+enter contracts like support&amp;maintenance,leases etc. Contracts can be associated with Items and Software and have related documents and invoices. Contract events are also kept here.#在此处录入各类合同，例如技术支持与维护合同、租赁合同等。合同可以与“设备”及“软件”相关联，也可以上传相关的文档和发票。合同相关的事件记录（如到期提醒、续签记录等）也会保存在这里。
+Enter new language name (e.g. fr):#输入新语言的名字（如fr）：
+Entered By#登记人
+entries#条
+Entry Date#登记日期
+ERROR#错误
+Error: A department with the same name already exists under this parent.#错误：当前父部门下已存在同名部门。
+Error: cannot find added tag!<br>#错误：无法找到添加的Tag标签！<br>
+Error: cannot find requested tag for removal!<br>#错误：无法找到要删除的请求Tag标签！<br>
+Error: Cannot set a department as its own parent.#错误：不能将部门设置为自己的上级部门。
+Error ei0:#错误 ei0：
+Error: Item not saved, correct these errors:#错误：设备未保存，请修正以下错误：
+Error: Item not saved#错误：设备未保存
+ERROR:ID not defined#错误：未定义ID
+ERROR: non-existent ID#错误：ID不存在
+Error: Only CSV files are allowed.#错误：只允许上传CSV文件。
+Error writing translations/#编写翻译时出错/
+Euro#欧元
+Event End#事件结束
+Event History#事件历史
+Event Start#事件开始
+Event end date cannot be empty#事件结束时间不能为空
+Event start date cannot be empty#事件开始时间不能为空
+Expected format is CSV file with the following fields#要求的格式是包含以下字段的 CSV 文件
+Experimental import#导入（实验性）
+Expired#已过保
+Export to Excel#导出到Excel
+Failed to copy#复制失败
+cannot be empty.#不能为空。
+Folder doesn't exist.#文件夹不存在。
+Folder not writable.#文件夹不可写。
+For amount cards, start with <b>amount_</b>, e.g.: amount_total#金额卡片请以 <b>amount_</b> 开头，如：amount_total
+For user authentication.e.g.: ou=People,dc=mydomain,dc=com#用于用户身份验证。（例如：ou=People,dc=mydomain,dc=com）
+Form submission error, please check the following fields:#表单提交错误，请检查以下字段：
+Format: #格式：
+Forint#福林
+File not writable.#文件不可写。
+File is zero length#文件长度为0
+File Maintenance#文件维护
+File of related contract#相关合同的文件
+File of related invoice#相关发票的文件
+File Properties#文件属性
+File Title is missing#缺少文件名称
+File Type is missing#缺少文件类型
+File Type '%s' already exists. Please use a different name.#文件类型 '%s' 已存在。请使用不同的名称。
+File Types#文件类型
+File#文件
+Filename#文件名称
+Files#文件
+Filter#筛选
+Filtered from#筛选自
+Find#查找
+Find Item#查找设备
+Find Item2#查找设备2
+Finished.#已完成。
+Floor is missing#楼层缺失
+Floor Plan#建筑平面图
+Floor#楼层
+FontSize#字体大小
+First#首页
+First, add one or more Agents (vendors, S/W &amp; H/W manufacturers, contractors) by clicking the "+" next to the "Agents" on the left.#首先，点击左侧“代理商”旁边的“+”，添加一个或多个代理商（包括供应商、软硬件制造商、承包商）。
+Front#前
+Full Access#完全访问
+Full Backup#完全备份
+Full Name#姓名
+Function#功能
+GO#跳转
+Go back#点击返回
+Go here#点击这里
+H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+H/W Manufacturer#设备厂商
+H/W Manufacturers#软硬件厂商
+Hardware#设备
+here you may enter rack data + view rack layouts. Items are assigned to racks based on their rackmountable,rack and rack-position properties.#这里可以录入机柜数据并查看机柜布局。系统会根据设备的“是否可上架”、“所属机柜”以及“机柜位置”属性，自动将其分配到对应的机柜中。
+HDs (TB)#硬盘 (TB)
+Header (from conf.php)#标题 (from conf.php)
+Header Color#页头字体颜色
+Header FontSize#页头字体大小
+Header Image#页头图片
+Header Text#页头文字
+Header#页头
+Height (U)#高度 (U)
+Height#高度
+Higher number shows later#数字越大，显示越靠后
+Hire Date#入职日期
+History#历史
+History of Changes#变更历史
+Home#首页
+Horizontal Bar#横向条形图
+Horz. Pitch#水平间距
+Hour:Minute:Second#时:分:秒
+How is this item used. e.g.: Video Encoder#这个设备的用途。例如：视频编码器
+How many items are assigned to this rack#多少设备被分配到这个机柜
+How to add more languages:#如何添加更多语言：
+How to translate:#如何去翻译：
+Icon#图标
+Icon is missing#图标不能为空。
+ID#ID
+If you select a new file, it will replace the current one, <br>while keeping its associations.#如果您选择一个新文件，它将替换当前文件，<br>同时保留其原有的关联关系。
+Image Size (WxH)#图片大小(宽x高)
+Import#导入
+in a new window#在新窗口
+Inactive#离职
+Indian Rupee#印度卢比
+Installation version=%s#安装版本：%s
+Installed Into#安装到
+Installed on#安装于
+Installed#已安装
+Integration#综合
+Interface Language#界面语言
+Internal ID#内部ID
+Internal ID already exists#内部ID已经存在
+Internal Type#内部类型
+Inter-Item Associations#内部设备关联
+Intrinsic Properties#内在特性
+Invalid file format. Only CSV files are allowed.#无效的文件格式。只允许上传 CSV 文件。
+Invalid Status Types detected (will NOT be inserted to the DB)#检测到无效的状态类型（将不会将其插入数据库）
+invalid tagid#无效的Tag标签ID
+Invalid username#无效的用户名
+Invoice Data#发票数据
+Invoice Associations#关联发票
+Invoice Description / File(s)#发票描述 / 文件
+Invoice info#发票信息
+Invoice Properties#发票属性
+Invoice#发票
+INVOICES (buyer)#发票 (采购者)
+Invoices (buyers)#发票 (采购方)
+INVOICES (vendor)#发票 (供应商)
+Invoices (vendors)#发票 (供应方)
+Invoices#发票
+INVOICES#发票
+IP Addresses#IP地址
+IPv4#IPv4
+IPv6#IPv6
+Is Part#从属部件
+Issue Date#签署日期
+Issue Date is missing#缺少签发日期
+IT ITems DataBase#IT 设备数据库
+It seems that you have replaced the ITDB installation with an older version, but not the the database which is newer version than the software.This will probably lead to data corruption. Please update ITDB files to the newest version.#看起来你用旧版本的 ITDB 安装包覆盖了当前的安装，但你的数据库仍然是较新的版本（比软件版本新）。这极有可能导致数据损坏。请将 ITDB 文件更新到最新版本。
+ITDB Asset Management#ITDB设备管理
+ITDB Settings#ITDB 设置
+Item %s: #设备 %s:
+Item Associations#设备关联
+Item Count#设备数量
+Item Data#设备数据
+Item depreciation value 3 years#设备3年折旧价值
+Item depreciation value 5 years#设备5年折旧价值
+Item %s (ID:%s) exceeds rack boundaries!#设备 %s (ID:%s) 超出了机柜边界！
+Item list per location#按地点显示设备
+Item Log (Item %d)#设备日志（设备 %d）
+Item Log can be edited after inserting item#插入设备后，设备日志可进行编辑
+Item Management#设备管理
+Item Type#设备类型
+Item Types#设备类型
+Items can be associated with other items, and invoices. You may also add relevant files (manuals, offers, etc)#设备可以与其他设备或发票相关联。您也可以添加相关文件（如说明书、报价单等）。
+Items with warranty end date close to (before or after) today#今日前后授权过期的设备
+Items without invoices#无发票的设备
+Items without location#无地点的设备
+items#设备
+Item#设备
+Items#设备
+ITEMS#设备
+Just print the barcode, no text#仅打印条码，无文字
+Key Name#唯一标识
+Key Name is missing#唯一标识不能为空。
+Label properties#Label标签属性
+Label#Label标签
+labels#Label标签
+Labels#Label标签
+Language#语言
+Last#末页
+LBL#标签
+LDAP DN#LDAP 可辨名称
+LDAP Search for users#LDAP 用户搜索
+LDAP Server#LDAP 服务器
+LDAP User filter#LDAP 用户筛选器
+Left Margin#左边距
+Licencing Info#许可信息
+License Info#许可信息
+License Per#授权方式
+LINK#链接
+Link URL#跳转链接
+List#列表
+List Agents#代理商列表
+List Contracts#合同列表
+List Departments#部门列表
+List Employees#员工列表
+List Files#文件列表
+List Invoices#发票列表
+List items with defined IPv4 numbers#指定了 IPv4 的设备清单
+List Items#设备列表
+List Locations#地点列表
+List Software#软件列表
+List Users#用户列表
+List Racks#机柜列表
+Live Preview#实时预览
+Loading data from server#正在从服务器加载数据
+Location/locarea non existent: %s/%s<br>#地点/区域不存在：%s/%s<br>
+Location Name/Building Name#地点名称/建筑名称
+Location name is missing#地点名称缺失
+Location of items in this rack was updated to match rack location#已更新此机架内设备的位置信息，以匹配机架的位置
+Location Properties#地点属性
+Location#地点
+Locations#地点
+Log/Journal#日志
+Login#登录
+Logged on from another browser? Please re-login.#已在另一个浏览器登录？请重新登录。
+Logout#注销
+MACs#MAC地址
+Maint. End#维护结束
+maintenance end date#维护截至日期
+Maintenance Instructions#维护说明
+Manage Agents#管理代理
+Manage employee information#管理员工信息
+Manage item locations#管理设备地点
+Management system users, database management password, homepage card display, etc.#管理系统用户、数据库管理密码、首页卡片显示等
+Manage statistics cards#管理统计卡片
+Manage various parameters#管理各种参数
+Manage your contracts <br> Support, Licenses, Leases, etc#管理您的合同 <br> 维保, 许可, 租赁, 等等
+Manage your H/W items <br> PCs, Switches, Phones, etc#管理您的设备设备 <br> PC机, 交换机, 电话, 等等
+Manage your Invoices#管理您的发票
+Manage your software#管理您的软件
+Manufact.#厂商
+Manufacturer/Model#厂商/型号
+Manufacturer is missing#缺少厂商
+Manufacturer#厂商
+Manuf.-Model#厂商
+Manuf: %s <br>#厂商：%s <br>
+Make Item Labels#创建设备Label标签
+Menu help:#菜单帮助：
+Middle#中
+Misc#杂项
+Missing Item Type#缺失设备类型
+Missing manufacturer#缺失厂商
+Missing model#缺失型号
+Missing 'Part' classification#缺失“部件”分类
+Missing 'Rackmountable' classification#缺失“机架式”分类
+Missing 'Status' classification#缺失“状态”分类
+Missing User#缺失用户
+Model#型号
+Model: %s <br>#型号：%s <br>
+mon#个月
+Month/Day/Year#月/日/年
+Months#月
+More#更多
+More items assigned to this rack without position or u-size info#此机柜分配了更多缺少位置或U位尺寸信息的设备
+Name#名称
+Names#名称
+Name and type are missing.#缺失名称和类型。
+Network Ports#网络端口
+Network#网络
+Next#下一页
+New#新建
+New H/W Manufacturers detected (will be inserted to the DB)#检测到新的硬件制造商（将将其插入数据库）
+New Item Types detected (will be inserted to the DB)#检测到新的设备类型（将将其插入数据库）
+New Locations / Locarea detected (will be inserted to the DB)#检测到新的地点或区域（将将其插入数据库）
+New tag added successfully!#新标签添加成功！
+New Users detected (will be inserted to the DB)#检测到新用户（将将其插入数据库）
+No areas defined#未定义区域
+No colname specified#未指定列名
+No data available in table#表中无数据
+No date specified#未指定日期
+No employees#无员工
+No events#无事件信息
+No file specified#未指定文件
+No file uploaded#没有文件已上传
+No folder specified#未指定文件夹
+No items assigned#无已分配的设备
+No Location#无地点
+No matching records found#没有找到匹配的记录
+No racks in location#在该地点无机柜
+No sub-departments#无子部门
+No table specified#未指定表
+No Text#无文本
+No title specified#未指定标题
+No type specified#未指定类型
+No#否
+NOK#挪威克朗
+Non numeric id#非数字类型的 ID：
+none#无
+None (Timeless)#无（无时间）
+NOT deleted area id:%s, associated with %s items/racks#未删除区域ID：%s，关联了%s个设备/机柜
+Not Expired#未过保
+Not logged in#未登录
+Notes#说明
+Not Generated#未生成
+Number of cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
+Number of installed CPUs (used for licensing)#安装CPU的数量(授权时使用)
+Number of installed Software per Manufacturer (Agent)#每个厂商已安装的软件数量(代理商)
+Number of invoices per Vendor (Agent)#每个供应商的发票数量(代理商)
+Number of items per Manufacturer (Agent)#每个厂商的设备数量(代理商)
+Number of items per Status#每种状态的设备数量
+Number of Items under support#在保的设备数量
+Number of items/software/invoices/etc which reference this file#引用此文件的设备/软件/发票等的数量
+Number#数量
+Numbering#编号
+N/A#不适用
+Obsolete#已停用
+Occupation#占用
+of#共
+Old Interface#旧界面
+on#在
+Order By#排序
+Order No#订单编号
+Order Num#订单量
+Order Num is missing#缺少订单量
+order: status, department, item type, manufacturer#排序：状态，部门，设备类型，厂商
+order: status, id descending, item type, manufacturer#排序: 状态, ID（降序）, 设备类型, 厂商
+order: status, id, item type, manufacturer#排序: 状态, ID, 设备类型, 厂商
+order: status, internalid descending, item type, manufacturer#排序：状态，内部ID降序，设备类型，厂商
+order: status, internalid, item type, manufacturer#排序：状态，内部ID，设备类型，厂商
+order: status, item type, manufacturer,id#排序: 状态, 设备类型, 厂商, ID
+Organization & Users#组织与人员
+Organizational Structure of Management Departments and Sub-departments#管理部门、子部门组织架构
+Original Text#原文
+Other Info#其它信息
+Page#页码
+Paper Size#纸张大小
+Parent Department#上级部门
+Parent ID#上级ID
+Parent#上级
+Password#密码
+Password is missing#密码缺失
+Patch Panel Port#配线架端口
+Path To Switchmap#SwitchMap路径
+Phone#电话
+Phone numbers#电话号码
+phpinfo#PHP信息
+Pie Chart#饼形图
+Please check fields for consistency before submiting#请在提交前检查字段的一致性
+Please check if this item can be rackmounted#请检查该设备是否能够被放置于机柜内
+Please Login!#请登录！
+Please save the employee first to manage devices.#请先保存员工以管理设备。
+Please select a department#请选择一个部门
+Please select a file to upload#请选择一个要上传的文件
+Please select item type#请选择设备类型
+Please specify if this item is a part of another#请指定该设备是否其它设备的组成部分
+Please take a backup of your database if you haven't done so yet right now, by downloading the file:#如果你还没有备份数据库，请立即通过下载文件的方式进行备份：
+Populate list from the Item Types menu#根据设备类型分组
+Populated from H/W Manufacturers defined in agents menu#根据代理菜单中定义的设备厂商分组
+populated from items of type switch or router#根据交换机或路由器分组
+Position#职位
+Position conflict in row %s Back for items %s and %s#第 %s U后部发生冲突，设备 %s 和 %s
+Position conflict in row %s Front for items %s and %s#第 %s U前部发生冲突，设备 %s 和 %s
+Position conflict in row %s Middle for items %s and %s#第 %s U中部发生冲突，设备 %s 和 %s
+Pound#英镑
+Preset Name#预设名称
+Presets#预设
+Previous#上一页
+Proceed to ITDB#前往ITDB
+Processing...#数据处理中...
+Print Fields#打印字段
+Print Labels#打印Label标签
+proofs of purchase for hardware, software, contracts, etc. These are different from other files/documents (manuals, offers, etc) because they contain extra metadata like vendor, buyer, dates etc#设备、软件、合同等的购买凭证。它们与其它文件/文档（如说明书、报价单等）不同，因为它们包含额外的元数据，例如供应商、购买方、日期等。
+Property#属性
+Provide the full path to the switches directory within the SwitchMap directory.#请提供 SwitchMap 目录内 switches 目录的完整路径。
+Ptch.PnlPrt#配线架端口
+Purch. Date#采购日期
+Purchace Price (#采购价格(
+Purchase Price#采购价格
+Purchase Date#采购日期
+PurchaseDate#采购日期
+PurchPrice#采购价格
+QR Barcode#QR 条码
+QTY#数量
+Quantity#数量
+Rack depth is missing#缺少机柜深度
+Rack height is missing#缺少机柜高度
+Rack ID: %s - %s %s#机柜ID: %s - %s %s
+Rack label is missing#缺少机柜Label标签
+Rack location is missing#缺少机柜位置
+Rack Pos. (topmost)#机柜位置(最高所在U)
+Rack Properties#机柜属性
+Rack Row#机柜高度
+Rack Unit<br>1 RU=44.45mm#机柜U数<br>1 U = 44.45毫米
+Rack#机柜
+Rackmountable#机架式
+Racks#机柜
+RAM (GB)#内存 (GB)
+Read Only#只读
+Real Name#使用人名字
+Recent History#最近历史记录
+Regenerate Password#重新生成密码
+Rel#关联
+Related#关联
+RemAdmIP#远程管理IP
+Rem.Adm.IP#远程管理IP
+Remaining Days#剩余天数
+Remote Administration IP#远程管理IP
+Remove association. If file is orphaned (nothing links to it), it gets deleted.#移除关联。如果文件因此成为孤立文件（没有任何条目链接到它），则将其删除。
+Renewals#备件
+Replace File#替换文件
+Replace Floor Plan#更换建筑平面图
+Reports#报告
+results#结果
+Rial#里亚尔
+Right Margin#右边距
+Role#角色
+Rows#行
+RU#U位
+Rubel#卢布
+Rupee#卢比
+S/N 2#序列号 2
+S/N#序列号
+S/W#软件
+S/W Manufacturer is missing#缺少软件厂商
+S/W Manufacturer#软件厂商
+S/W Manufacturers#软件厂商
+Save Action Log#保存活动日志
+Save areas#保存区域
+Save as new Preset#另存为新预设
+Save new location first to define areas onto it#请先保存新位置，然后才能在其上定义区域
+Save Preset#保存预设
+Saved successfully#保存成功
+Save#保存
+Select & Print#选择并打印
+select and print labels for your items#保存并打印您的设备的Label标签
+Select Cores/CPU#选择 核数/CPU
+Select items from the list above#请先从上面选择设备
+Select items from the list first#请先从列表中选择设备
+Select Items#选择设备
+Select Label properties (manual or preset)#选择Label标签属性(手动或预设)
+Select Report#选择报告
+Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.#选择这个软件当前安装的目的系统。只有类型为“支持软件”的设备才可见。
+Select invoice(s) related to this item#选择与此设备相关的发票
+Select yes for parts/components#选择是表示为组件/部件
+Select yes if switchmap is installed on this server.#如果此服务器上已安装 Switchmap，请选择‘是’。
+Select 'YES' if software can be installed <b>on</b> this item.<br> Only items supporting software are listed when <br>performing software - item associations#若该资产支持安装软件，请选“是”。<br>此处仅显示支持软件安装的资产，以便进行软件关联。
+Select#选择
+Search#搜索
+Search ID / Internal ID / Label / Manufacturer...#可搜索ID/内部ID/Label标签/厂商……
+Session Expired#会话已过期
+server time = %s secs#服务器时间 = %s 秒
+Service Tag#服务标签
+set <b>"Page Scaling"</b> to <b>"None"</b>#将 <b>“页面缩放”</b> 设置为 <b>“无”</b>
+Settings#设置
+Shop/Origin#购买/自有
+Show#显示
+show all#显示所有
+show also this text on printable labels#在可打印的Label标签上也显示此文本
+Show more Columns#显示更多列
+Show in new window#在新窗口中显示
+Show Labels#显示Label标签
+Showing#显示
+Showing 0 to 0 of 0 entries#显示 0 到 0 共 0 条
+Sibling#同级
+SIDE VIEW#侧视图
+Size (U)#大小 (U)
+Skip#忽略
+Skip 1st row#跳过首行
+Skipping semi-empty line (%s)<br>#跳过半空行（%s）<br>
+Software Associations#软件关联
+Software Data#软件数据
+Software Properties#软件属性
+Software title is missing#缺少软件标题
+Software Version is missing#缺少软件版本
+Software#软件
+SOFTWARE#软件
+Some <span class='mandatory'> mandatory</span> fields are missing#有些<span class='mandatory'>必填项</span>缺失了
+Sort#排序
+Sort Order#排序序号
+Special maintenance instructions#特殊维护说明书
+Specify model#指定型号
+Specify user responsible for this item#指定该设备的负责人（已废，请在下面输入使用人）
+SQL Error#SQL错误
+Start date cannot be later than end date#开始时间不能晚于结束时间
+Start Date of contract is missing.#缺少合同开始日期。
+Start Date#开始日期
+Starting update process#开始更新过程
+Start#开始
+Statistics Overview#数据概览
+Status Types#状态类型
+Status#状态
+Stored#库存
+Sub-departments#子部门
+Subtypes of type #子类型
+Subtype '%s' already exists under type '%s'#子类型 '%s' 已经存在于类别'%s'下
+Success!#成功！
+Successfully added department: <a href='%s?action=%s&id=%d'>%s</a>#添加部门成功：<a href='%s?action=%s&id=%d'>%s</a>
+suggested resolution: 1024 pixels for A4 scans#建议分辨率: 1024像素A4幅面
+Support and Maintanance, Leases, ...#维保, 租赁, ...
+Supports<br>Software#是否支持软件
+Switch Port#交换机端口
+Switch#交换机
+SwitchMap Integration#SwitchMap集成
+System Settings#系统设置
+TAG#Tag标签
+Tags#Tag标签
+Tag '%s' already exists. Please use a different name.#标签 '%s' 已存在。请使用不同的名称。
+Tag '%s' cannot be deleted: internal tag#标签 '%s' 无法被删除：这是一个内部标签
+Tag deleted successfully!#标签删除成功！
+Tags, Dates, Currency,...#Tag标签, 日期, 货币,...
+taken from related invoice#从相关发票获取
+Text Padding#文字间距
+Text to prepend in QR barcode ID. <br>e.g. http://www.example.com/itdb/ ?action=edititem&id=#在二维码 ID 前添加的文本前缀。<br>例如：http://www.example.com/itdb/?action=edititem&id=
+Text to the right of barcode#文本在条码右侧
+Then, add Some item types (PC, Printer, Switch FC, etc) and optionally contract types (License, S&amp;M,...) using the "Item Types" menu#然后，使用“设备类型”菜单添加一些设备类型（如PC、打印机、任天堂FC等），并可选择性地添加合同类型（如License、S&M等）
+Then, you can start adding Items, Software and Contracts.#紧接着，你就可以开始添加设备、软件和合同了。
+There are <strong>error</strong>s in your form submission, please see below for details.#您的提交的表单存在<strong>错误</strong>，详情请参见下方。
+This project contains icons from:#这个项目包含来自以下来源的图标：
+Time#时间
+Time Format#时间格式
+Timezone (Abbreviation)#时区（缩写）
+Timezone based on 3 alpha abbreviation. (e.g. MST, EST, UTC, etc)#基于3个字母缩写（例如 MST, EST, UTC 等）的时区。
+Title#标题
+Title is missing#标题不能为空。
+Title/Ver.#标题/版本
+Title-Version#标题版本
+Tips for new users:#新手指南：
+Tip: After modifying department attributes, please check related employee information.#提示：修改部门属性后，请检查相关员工信息。
+Tip: Please fill in the department name and select the parent department.#提示：请填写部门名称并选择上级部门。
+to#到
+Tools & Reports#工具与报表
+Top Level Department#顶级部门
+Top Margin#上边距
+Total#总数
+total entries#条总记录
+Total Cost#总成本
+Total Count#总数
+Translations#翻译
+Translate the strings#翻译字符串
+Translated Text#译文
+Tree Explorer#树浏览器
+Type '%s' cannot be deleted: internal type#类型 '%s' 无法被删除：这是一个内部类型
+Type already exists: #类型已经存在：
+Type Names#类型名称
+Type#类型
+Type(s)#类型
+Unbind#解绑
+Unbind?#确定解绑么？
+Undefined#不明确
+Unknown#未知
+unknown id#未知的ID
+Updated by#更新人：
+Upload#上传
+Upload a File#上传文件
+Upload a Floor Plan#上传楼层平面图
+Upload file and inspect fields#上传文件并检查字段
+Upload Files#上传文件
+Uploaded#已上传
+Uploaded by#上传人
+Updated user from#已更新用户从
+URLs#链接
+Usage#使用
+Use LDAP#使用 LDAP
+Use the string 'service' on the description to display this url on the item edit page.#在描述中使用字符串“service”，以便在设备编辑页面上显示此 URL。
+use when the top labels have already been printed#当顶部Label标签已经被打印过时使用
+user admin has always full access#用户名admin已经获得所有权限
+User Authenticated#用户已通过身份验证
+User Description#用户描述
+User Properties#用户属性
+User#用户
+Username is missing#用户名缺失
+Username#用户名
+username#用户名
+Users are used for both web login and as item assignees#用户既用于网页登录，也用作设备的指派对象
+Users#用户
+Users, Tags#用户, Tag标签
+Valid until#有效期至
+Value#值
+Vendor#供应商
+Vendors#供应商
+Vendors/Buyers/ Manufacturers#供应商/采购者/厂商
+Vendor is missing#缺少供应商
+Version : %s#版本：%s
+Version Mismatch#版本不匹配
+Version#版本
+Vert. Pitch#垂直间距
+Vertical Bar#竖向条形图
+View FILE#查看文件
+View items by type, by user, by agent#按类型、用户、代理查看设备
+view rack#查看机柜
+View Reports#查看报告
+View#查看
+View/Edit Subtypes#查看/编辑 子类型
+Warning#警告
+Warning! All associations and orphaned files will be removed too. Write YES if you want to delete this : #⚠️警告！所有相关联的数据和孤立文件也将被一同删除。如果确认删除，请输入“YES”：
+Warning! There are %d contract(s) of this type registered. Type not deleted!⚠️警告！当前已注册 %d 个此类合同。类型未被删除！
+Warning! There are %d item(s) of this status registered. Type not deleted!⚠️警告！当前已注册 %d 个此类状态的项目。类型未被删除！
+Warning! There are %d item(s) of this type registered. Type not deleted!#⚠️警告！当前已注册 %d 个此类项目。类型未被删除！
+Warning! There are %s item(s) and %s software associated to this tag. Tag %d not deleted!#⚠️警告！有 %s 个设备和 %s 个软件关联到此标签。标签 %d 未被删除！
+Warning: %s - already exists#⚠️警告：%s - 已经存在
+Warr. Left#维保剩余
+Warr. Rem. days#维保剩余天数
+Warranty expiration in#维保剩余时间
+Warranty Info#维保信息
+Warranty Months#维保月数
+Warranty#维保
+Welcome back #欢迎回来
+When finished, click <button id='updtbtn' type=submit>update</button> to update the database to the latest version.#完成后，点击<button id='updtbtn' type=submit>更新</button>按钮，将数据库更新至最新版本。
+Width#宽度
+Won#韩元
+Write YES if you want to delete id #如果你想删除这些 ID，请输入 YES
+wrong arguments#错误的参数
+Wrong Password#密码错误
+Year-Month-Day#年/月/日
+Yen#日元
+Yes#是
+Ymd#年月日
+You forgot to select the file?#您忘记选择文件?
+You have updated your ITDB installation (files). To complete the upgrade, database to the same version.<br>#你已经更新了 ITDB 安装（文件）。为了完成升级，请将数据库更新到同一版本。<br>
+you may edit file data here for files that were previously uploaded through the Items, Software, Invoices or Contract file upload tabs. You may also upload new files (except invoices) and relate them to more Items, Software or Contracts.#你可以在这里编辑之前通过“设备”、“软件”、“发票”或“合同”的文件上传标签页上传的文件数据。你也可以上传新文件（发票除外），并将其关联到更多的“设备”、“软件”或“合同”上。
+yr#年
+Yuan#人民币

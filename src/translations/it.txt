@@ -1,0 +1,30 @@
+ : Folder doesn't exist.#：文件夹不存在。
+ : Folder not writable.#：文件夹不可写入。
+ : File not writable.#：文件不可写入。
+ %s Software listed#%s 个软件已列出
+ %s U occupied#已占用 %sU 空间
+ (field separator)#（字段分隔符）
+ (for authentication only, except user admin which is local)#（仅用于身份验证，但 admin 用户除外，它是本地用户）
+ (Optional) Internal Reference Number#（可选）内部参考编号
+[DNS: %s]# [DNS: %s]
+[id desc]#[ID降序]
+[id]#[ID]
+[ID: %s]#[ID: %s]
+[model]#[型号]
+[type]#[类型]
+<b>File not deleted: Please remove associations first for this file<br></b>#文件未被删除：请先移除该文件的关联关系。
+<b>location</b> of this item  different from location of associated item#<b>地点</b>与相关设备的地点不同
+<b>Not saved -- Username already exists</b>#未保存 - 用户名已存在
+<b>Rack not deleted: Please remove items first from this rack<br></b>\n#<br>机柜未被删除：请先从该机柜中移除设备<br></b>\n
+<b>status</b> of this item  different from status of associated item#<b>状态</b>与相关设备的状态不同
+<b>uncheck</b> "auto-rotate & center"</b>#<b>取消勾选</b> “自动旋转与居中”
+<b>Updating DB with %s</b>#正在使用 %s 更新数据库
+<b>user</b> of this item  different from user of associated item#<b>用户</b>与相关设备的地点不同
+<b><big>Error: field count in line %d is %d, %d is expected</big></b>#<b><big>错误：第 %d 行的字段数量是 %d，但系统预期应该是 %d</big></b>
+<b><big>Not saved: specity preset name!</big></b>#<b><big>未保存：请指定预设名称！</big></b>
+<br><br>In the PDF printing dialog, <br>set <b>'Page Scaling'</b> to <b>'None'</b>, <br>and <b>uncheck</b> 'auto-rotate & center'</b>#<br><br>在PDF打印对话框中，<br>将 <b>'页面缩放比例'</b> 设置为 <b>'无'</b>, <br>并 <b>取消勾选</b> '自动旋转与居中'</b>
+<br>-Files of type 'invoice' can be associated only with invoices and only using the 'invoice' menu #<br>类型为“发票”的文件，只能与“发票”相关联，并且只能通过“发票”菜单进行关联操作
+<br>In the PDF printing dialog,#<br>在打印PDF对话框,
+<br>Skipping first line<br>#<br>跳过首行<br>
+<b>Warning! There are %s item(s) and %s software associated to this tag. Tag %d not deleted!</b>#<b>警告！有 %s 硬件和 %s 软件关联到此标签。ID为 %d 的标签没有被删除！</b>
+_NL_ = newline#_NL_ 代表换行符
