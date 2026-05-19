@@ -17,19 +17,22 @@ CREATE TABLE item2file(itemid INTEGER,fileid INTEGER);
 CREATE TABLE "item2inv" (itemid integer,invid integer);
 CREATE TABLE item2soft (itemid INTEGER, softid INTEGER, instdate INTEGER);
 CREATE TABLE itemlink (itemid1, itemid2);
-CREATE TABLE items (id INTEGER primary key autoincrement,itemtypeid integer, function, manufacturerid integer,model,sn,sn2,sn3,origin,warrantymonths integer,purchasedate integer,purchprice,dnsname,maintenanceinfo,comments,ispart integer,hd,cpu,ram,locationid integer,userid integer,ipv4,ipv6,usize integer,rackmountable integer,macs,remadmip,panelport,ports integer,switchport,switchid integer,rackid integer,rackposition integer,label,status integer, cpuno INTEGER, corespercpu INTEGER, rackposdepth integer, warrinfo, locareaid number);
+CREATE TABLE items (id INTEGER primary key autoincrement,itemtypeid integer, function, manufacturerid integer,model,sn,sn2,sn3,origin,warrantymonths integer,purchasedate integer,purchprice,dnsname,maintenanceinfo,comments,ispart integer,hd,cpu,ram,locationid integer,userid integer,ipv4,ipv6,usize integer,rackmountable integer,macs,remadmip,panelport,ports integer,switchport,switchid integer,rackid integer,rackposition integer,label,status integer, cpuno INTEGER, corespercpu INTEGER, rackposdepth integer, warrinfo, locareaid number, internalid TEXT, custom_user INTEGER, custom_dept INTEGER)
 CREATE TABLE itemtypes (id INTEGER PRIMARY KEY AUTOINCREMENT, typeid, typedesc, hassoftware integer);
 CREATE TABLE labelpapers (id INTEGER PRIMARY KEY AUTOINCREMENT,rows integer, cols integer, lwidth real, lheight real,  vpitch real,  hpitch real,  tmargin real,  bmargin real,  lmargin real,  rmargin real, name, border, padding, headerfontsize, idfontsize, wantheadertext, wantheaderimage, headertext, fontsize, wantbarcode, barcodesize, image, imagewidth, imageheight, papersize);
 CREATE TABLE locareas(id  INTEGER PRIMARY KEY AUTOINCREMENT,locationid number,areaname,x1 number,y1 number,x2 number,y2 number);
 CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, name, floor, floorplanfn);
 CREATE TABLE racks (id INTEGER PRIMARY KEY AUTOINCREMENT, locationid integer, usize integer, depth integer, comments,model,label, revnums integer, locareaid number);
-CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone);
+CREATE TABLE settings(companytitle, dateformat, currency, lang, version, timezone, dbversion integer, useldap integer default 0, ldap_server, ldap_dn, ldap_getusers, ldap_getusers_filter, timeformat TEXT DEFAULT 'H:i:s')
 CREATE TABLE soft2inv(invid integer,softid integer);
 CREATE TABLE software (id INTEGER PRIMARY KEY autoincrement, invoiceid integer,slicenseinfo ,stype ,manufacturerid integer ,stitle ,sversion ,sinfo ,purchdate integer,licqty integer, lictype integer);
 CREATE TABLE software2file(softwareid INTEGER,fileid INTEGER);
-CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc);
+CREATE TABLE statustypes (id INTEGER PRIMARY KEY AUTOINCREMENT, statusdesc, color TEXT DEFAULT NULL)
 CREATE TABLE tag2item(itemid integer,tagid integer);
 CREATE TABLE tag2software (softwareid integer,tagid integer);
 CREATE TABLE tags  (id INTEGER PRIMARY KEY AUTOINCREMENT, name);
-CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username, userdesc, pass,cookie1, usertype integer);
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username, userdesc, pass,cookie1, usertype integer, dbpass TEXT DEFAULT NULL, dbpasstime TEXT DEFAULT NULL)
 CREATE TABLE viewhist(id INTEGER PRIMARY KEY AUTOINCREMENT, url,description);
+CREATE TABLE departments ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, parent_id INTEGER, sort_order INTEGER, description TEXT, created_time INTEGER )
+CREATE TABLE employees ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, employee_code TEXT, department_id INTEGER, position TEXT, email TEXT, phone TEXT, hire_date INTEGER, status INTEGER, created_time INTEGER, FOREIGN KEY (department_id) REFERENCES departments(id) )
+CREATE TABLE operate_log (id INTEGER PRIMARY KEY AUTOINCREMENT,module VARCHAR(30) NOT NULL,operate_type VARCHAR(30) NOT NULL,operate_user VARCHAR(50),user_id INTEGER DEFAULT 0,operate_time DATETIME DEFAULT (datetime('now','localtime')),ip VARCHAR(50),target_type VARCHAR(30) DEFAULT '',target_id INTEGER DEFAULT 0,old_value TEXT DEFAULT '',new_value TEXT DEFAULT '',content VARCHAR(255) NOT NULL,params TEXT DEFAULT '',status TINYINT DEFAULT 1,fail_reason TEXT DEFAULT '',request_url TEXT DEFAULT '',user_agent TEXT DEFAULT '')
