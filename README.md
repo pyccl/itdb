@@ -152,87 +152,87 @@ ITDB附带源代码，在GNU公共许可证下发布。
 
 如果您需要找到apache/php安装所使用的sqlite库，请浏览到itdb/phpinfo.php或按下itdb菜单左下方的蓝色小图标(I)。
 
-Upgrade
+升级
 -------
 
-Instructions are inside the 00-UPGRADE.txt file
+说明文件位于00-UPGRADE.txt中
 
-Release Notes
+发布说明
 -------------
 
-older CHANGELOG is [here](https://github.com/sivann/itdb/commits/master)  
-For newer releases, you may see the [commit log](https://github.com/sivann/itdb/commits/master)  
+较旧的 CHANGELOG 在 [这里](https://github.com/sivann/itdb/commits/master)  
+对于较新的版本，您可能会看到[提交日志](https://github.com/sivann/itdb/commits/master)  
 
 Copyright © 2008-2016 Spiros Ioannou - printmail('gmail.com','sivann');
-# Homepage 
+# 首页 
 http://www.sivann.gr/software/itdb/
 
-# Contributing
-Please consider that my free time is now extremely limited, and so even valid pull requests may not be addressed for a long time.
+# 贡献
+请考虑到我的空闲时间现在非常有限，因此即使是有效的拉取请求也可能在很长一段时间内无法得到解决。
 
-# Status
-As I no longer have enough time to improve ITDB, I can only provide bug fixes for newer PHP or browser versions. Please do not ask for new features.
+# 状态
+由于我没有足够的时间来改进ITDB，我只能为较新的PHP或浏览器版本提供错误修复。请不要要求新功能。
  
-# Security
-Do *NOT* expose ITDB to the public internet. It is not secure, it is aimed for intranets. If you need to do so, please configure an HTTP auth password on your web server so it will be hidden behind a password.
+# 安全
+请勿将ITDB暴露于公共互联网。它不安全，它是针对内联网的。如果你需要这样做，请在你的web服务器上配置一个HTTP身份验证密码，这样它就会隐藏在密码后面。
  
-## Scope of pull requests
-Thank you for your time to consider contributing. Please take into account ITDB is only an inventory software. It may offer some basic reporting by quering 
-its own data because it may have access to invoices, users and equipment.
-ITDB tries to adhere to the [do one thing](https://en.wikipedia.org/wiki/Unix_philosophy#Do_One_Thing_and_Do_It_Well) philisophy.
-ITDB does not and should not aim to provide the functionality of other software e.g. network monitoring tools, finance software or network diagnostics software. 
+## 拉取请求的范围
+感谢您抽出时间考虑捐款。请注意，ITDB只是一个库存软件。它可以通过查询提供一些基本的报告
+它自己的数据，因为它可以访问发票、用户和设备。
+ITDB试图坚持 [做一件事](https://en.wikipedia.org/wiki/Unix_philosophy#Do_One_Thing_and_Do_It_Well) 哲学。
+ITDB没有也不应该旨在提供其他软件的功能，例如网络监控工具、财务软件或网络诊断软件。
 
-## Extent of pull request 
-Pull requests should fix 1 and only 1 thing. Otherwise it is extremely difficult to test and review.
+## 拉取请求的程度 
+Pull请求应该修复1并且只修复1件事。否则，很难进行测试和审查。
 
-### Bug fixes
-Please take the time to consider the following when submitting a bug:
-* how does your fix handle non-us characters? (E.g. Chinese, Greek, etc)
-* how does your fix handle non-us locales ? (especially date manipulation fixes)
-* does your fix use strtotime ? (don't use it)
-* how does your fix handle older SQLite versions? 
-* how does your fix handle older/newer PHP versions? 
-* how does your fix work with Firefox/Chrome/IE ?
-* how does your fix scale with lots of items?
+### BUG修复
+提交bug时，请花时间考虑以下几点：
+* 你的补丁如何处理非美国字符？（例如中文、希腊文等）
+* 您的修复程序如何处理非美国地区？（尤其是日期操纵修复）
+* 你的修复程序使用strtotime吗？（不要使用它）
+* 你的修复程序如何处理旧的SQLite版本？ 
+* 您的修复程序如何处理较旧/较新的PHP版本？ 
+* 你的修复程序如何与Firefox/Chrome/EDGE/IE配合使用？
+* 你的补丁如何适应大量的项目？
 
 
-### New UI fields pull requests:
-Please take the time to consider the following when submitting a generic pull-request :
-* Is your new  field universally useful? Can you think of cases where it doesn't make sense?
-* Can your functionality be already addressed by the current fields?
-* Does  your field have specific search needs?
+### 新的UI字段拉取请求：
+在提交通用拉取请求时，请花时间考虑以下因素：
+* 你的新领域普遍有用吗？你能想到没有意义的情况吗？
+* 当前字段是否已经解决了您的功能？
+* 您的领域是否有特定的搜索需求？
 
-if the answer is no to at least one of the above then probably you don't need that field. ITDB has a lot of fields on the "no" category, let's not add any more.
+如果上述至少一项的答案为否，那么您可能不需要该字段。ITDB在“否”类别中有很多字段，我们不要再添加了。
 
-## Welcomed pull requests
-Any pull requests fixing the following would be welcome. Please open a discussion before starting to code.
+## 欢迎拉取请求
+欢迎任何修复以下问题的pull请求。请在开始编码之前展开讨论。
 
-### Major contributions
-* rewrite the DB requests using PDO (and prepared statements)
-* rewrite the item associations tables using datatables with server-side AJAX
-* update datatables to the most recent version
-* rewrite the front controller and auth using a framework (e.g. slim)
-* very simple ticketing
+### 主要贡献
+* 使用PDO（和准备好的语句）重写DB请求
+* 使用服务器端AJAX的数据表重写项目关联表
+* 将数据表更新为最新版本
+* 使用框架（例如slim）重写前端控制器和身份验证
+* 非常简单的票务
  
-### Minor contributions
+### 捐赠
 #### UI
-* item user selection and possibly others: instead of pull-down select, use jqueryui's autocomplete combobox
-* inplace edit/add itemtypes, agents, users. Configurable to allow edit/add for specific user and select for others.
-* design PC/server layout in Locations. Assign Items to x/y over imagemap
-* edit previous/next item functionality. E.g. from an item list of a search result. 
-* replace file uploader with a recent one also supporting drag&drop 
-* unify tab association code
+* 项目用户选择和其他可能的选择：使用jqueryui的自动补全组合框代替下拉选择
+* 就地编辑/添加项目类型、代理、用户。可配置为允许对特定用户进行编辑/添加，并为其他用户进行选择。
+* 在位置中设计PC/服务器布局。将项目分配给图像映射上的x/y
+* 编辑上一项/下一项功能。例如，从搜索结果的项目列表中。 
+* 将文件上传器替换为最近也支持拖放的文件上传器
+* 统一标签关联代码
 
-### Schema
-* add history (renewals) & events in software, like in items.
-* list of services and relations to items
-* virtual/non virtual item (e.g. VM). Parent (physical) item. Virtual may show as tooltip of rack position of parent. Also
-* add knowledge area, with connections to items & software (text)
-* software classes (types). E.g. O/S
-* add a cron notification sample script in contrib/ for contract/warranty expiration
-* license models: on inventory data:per installation, OEM and machine licensing. On external data sources: qualified desktop, CPU, user, named user, server, client access license (CAL), site, enterprise and user-defined models. TBD.
-* port connectivity management (TBD if needed)
-* power cable management (TBD if needed)
+### 模式
+* 在软件中添加历史记录（续订）和事件，就像在项目中一样。
+* 服务和项目关系列表
+* 虚拟/非虚拟项目（例如VM）。父（物理）项。虚拟可能会显示为家长机架位置的工具提示。此外
+* 添加知识区域，与项目和软件（文本）连接
+* 软件类（类型）。例如O/S
+* 在contrib/中添加一个cron通知示例脚本，用于合同/保修到期
+* 许可证型号：库存数据：每次安装、OEM和机器许可。外部数据源：合格的桌面、CPU、用户、命名用户、服务器、客户端访问许可证（CAL）、站点、企业和用户定义模型。TBD。
+* 端口连接管理（如果需要，待定）
+* 电源线管理（如果需要，待定）
 
 
-Thank you!
+感谢！
