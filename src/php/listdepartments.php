@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript">
 $(function () {
     $('table#contlisttbl').dataTable({
@@ -43,10 +49,6 @@ $(function () {
 </SCRIPT>
 
 <?php
-if (!isset($initok)) {
-    echo t("do not run this script directly");
-    exit;
-}
 
 /* 部门列表页面 */
 // 1. 获取所有数据
@@ -140,7 +142,7 @@ flattenTree($tree);
 ?>
 
 <h1>
-    <?php te("Departments List");?>
+    <?php te("Departments");?>
     <a title='<?php te("Add new Department");?>' href='<?php echo $scriptname?>?action=editdepartments&amp;id=new'>
         <img border=0 src='images/add.png' >
     </a>

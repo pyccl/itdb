@@ -1,3 +1,10 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
+
 <script>
   function ajaxify(response, status, xhr, form){
     //alert('ajaxifying');
@@ -11,7 +18,6 @@
   });
 </script>
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 // 日志字段定义
 $loc_formvars = array('name','floor','floorplanfn');

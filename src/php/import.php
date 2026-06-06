@@ -1,6 +1,10 @@
-<?php 
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 $tmpdir= sys_get_temp_dir ();
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 if (!isset($_POST['nextstep']))
 	$nextstep=0;

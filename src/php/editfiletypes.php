@@ -1,5 +1,9 @@
-<?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 //echo "<pre>"; print_r($_GET); print_r($_POST);
 $internaltypes="10";
@@ -205,10 +209,10 @@ $i++;
     echo "\n<tr><td title='".t("Delete")." [".t("ID").": ".$dbid."]'><a href='javascript:delconfirm(\"[ID: {$dbid}] $dbtypedesc\",\"$scriptname?action=$action&amp;deltype=$dbid\");'>".
          "<img src='images/delete.png' border=0></a></td><td>$dbid</td>";
   else
-    echo "\n\n<tr><td title='".t("Internal Type")." ($dbid), ".t("cannot be deleted or changed").".'></td><td>$dbid</td>";
+    echo "\n\n<tr><td title='".t("Internal Type")." ($dbid), ".t("Cannot delete").".'></td><td>$dbid</td>";
   echo "<td nowrap><input type=hidden name='id[]' value='".$r['id']."' readonly size=3>\n";
-  if ($dbid<=$internaltypes) echo "<input size=15 maxlen=20 type=text name='typedesc[]' readonly value=\"".$r['typedesc']."\"></td>\n";
-  if ($dbid>$internaltypes) echo "<input size=15 maxlen=20 type=text name='typedesc[]' value=\"".$r['typedesc']."\"></td>\n";
+  //if ($dbid<=$internaltypes) echo "<input size=15 maxlen=20 type=text name='typedesc[]' readonly value=\"".$r['typedesc']."\"></td>\n";
+  echo "<input size=15 maxlen=20 type=text name='typedesc[]' value=\"".$r['typedesc']."\"></td>\n";
   echo "</tr>\n\n";
 }
 //empty line to add new items at bottom

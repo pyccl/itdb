@@ -1,4 +1,48 @@
 <?php
+
+function format_date($datetime, $settings, $show_date = true, $show_time = true) {
+    $fmt     = isset($settings['dateformat']) ? $settings['dateformat'] : 'ymd';
+    $timefmt = isset($settings['timeformat']) ? $settings['timeformat'] : '';
+
+    $ts = is_numeric($datetime) ? intval($datetime) : strtotime($datetime);
+    if ($ts === false || $ts <= 0) {
+        return '-';
+    }
+
+    // 日期部分
+    $date = '';
+    if ($show_date) {
+        switch ($fmt) {
+            case 'dmy':       $date = date('d/m/Y', $ts); break;
+            case 'mdy':       $date = date('m/d/Y', $ts); break;
+            case 'ymd':       $date = date('Y-m-d', $ts); break;
+            case 'ymd_no':    $date = date('Ymd', $ts); break;
+            case 'dmy_dot':   $date = date('d.m.Y', $ts); break;
+            case 'mdy_dot':   $date = date('m.d.Y', $ts); break;
+            case 'cn_date':   $date = date('Y年m月d日', $ts); break;
+            case 'ymd_short': $date = date('y-m-d', $ts); break;
+            case 'dmy_short': $date = date('d/m/y', $ts); break;
+            default:          $date = date('Y-m-d', $ts);
+        }
+    }
+
+    // 时间部分：系统设置不为空 且 页面允许显示 才输出
+    $time = '';
+    if ($show_time && $timefmt !== '') {
+        switch ($timefmt) {
+            case 'H:i:s':     $time = date('H:i:s', $ts); break;
+            case 'H:i':       $time = date('H:i', $ts); break;
+            case 'h:i:s A':   $time = date('h:i:s A', $ts); break;
+            case 'h:i A':     $time = date('h:i A', $ts); break;
+            default:          $time = '';
+        }
+    }
+
+    $ret = trim($date . ' ' . $time);
+    return $ret === '' ? '-' : $ret;
+}
+
+
 // 获取所有可用卡片
 function getDashboardCards($dbh){
     if(!$dbh) return array();
@@ -100,7 +144,7 @@ function addOperateLog(
     $lang_str_sql      = strenc($lang_str);
     $fail_reason_sql   = strenc($fail_reason);
     $request_url_sql    = strenc($request_url);
-    $user_agent_sql    = strenc($user_agent_sql);
+    $user_agent_sql    = strenc($user_agent);
 
     // 👇 重点：old_value / new_value / params_json 不做 strenc
     $sql = "INSERT INTO operate_log (
@@ -206,7 +250,9 @@ function validfn($s) {
   $t =preg_split('//u', 'ABGDEZHUIKLMNJOPRSSTYFXCVIUOUVAEUabgdezhuiklmnjoprsstyfxcviiiuouvaeu');
   $s=str_replace($f,$t,$s);
   $reserved = preg_quote('\/:*?"<>|', '/');
-  $s=preg_replace("/([-\\x00-\\x20\\x7f-\\xff{$reserved}])/e", "", $s); 
+	  $s = preg_replace_callback("/([-\\x00-\\x20\\x7f-\\xff{$reserved}])/u", function() {
+	    return '';
+	  }, $s); 
   $s=strtolower($s);
   return $s;
 }

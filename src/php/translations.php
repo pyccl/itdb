@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 
 $(document).ready(function() {
@@ -20,8 +26,6 @@ $(document).ready(function() {
 </SCRIPT>
 <?php 
 
-
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
 if (isset($_POST['dosave'])&&$_POST['dosave']==1) { //if we came from a post (save), save translation 
@@ -42,13 +46,20 @@ elseif (isset($_POST['newlang'])&& strlen($_POST['newlang'])) {
   $newfile=validfn($newfile);
 
   if (file_exists("translations/$newfile")) {
-      echo "<b>$newfile ".t("already exists, not overwritten!")."</b>";
+      echo sprintf(t('<b>%s already exists, not overwritten!</b>'), $newfile);
   }
-  elseif (!copy("translations/new.txt", "translations/$newfile")) {
-      echo "<br>".t("Failed to copy")." $newfile ".t("to")." $scriptdir/translations/$newfile\n";
-  }
-  else
-	  echo "<b><br>".t("Copied")."  $newfile ".t("to")." $scriptdir/translations/$newfile\n</b>";
+	else {
+	    $src = "translations/new.txt";
+	    $dst = "translations/$newfile";
+	
+	    if (!file_exists($src)) {
+	        echo sprintf(t('<b>Error: Template file %s not found, cannot create language.</b>'), 'new.txt');
+	    } elseif (!copy($src, $dst)) {
+	        echo sprintf(t('<b>Failed to copy %s to %s</b>'), $newfile, $dst);
+	    } else {
+	        echo sprintf(t('<b>Copied %s to %s successfully.</b>'), $newfile, $dst);
+	    }
+	}
 
 }
 

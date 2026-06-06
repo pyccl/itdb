@@ -1,8 +1,12 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 
 $(document).ready(function() {
-
-
 
 <?php
 if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to show new language
@@ -14,7 +18,6 @@ if (isset($_POST['dateformat']) ) { //if we came from a post (save), refresh to 
 </SCRIPT>
 <?php 
 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 if(!isset($userdata) || $userdata[0]['usertype'] == 1) { echo "You must have Admin (Full Access) to access this page";exit;}
 
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
@@ -54,34 +57,50 @@ echo "\n<h1>".t("Settings")."</h1>\n";
     <tr><td colspan=2><h3><?php te("Settings"); ?></h3></td></tr>
     <tr><td class="tdt"><?php te("Company Title");?>:</td> 
         <td><input  class='input2 ' size=20 type=text name='companytitle' value="<?php echo $settings['companytitle']?>"></td></tr>
-    <tr><td class="tdt"><?php te("Date Format")?></td><td>
-    <select  name='dateformat'>
-      <?php if ($settings['dateformat']=="dmy") $s="SELECTED"; else $s="" ?>
-      <option <?php echo $s?> value='dmy'><?php te("Day/Month/Year");?></option>
-      <?php if ($settings['dateformat']=="mdy") $s="SELECTED"; else $s="" ?>
-      <option <?php echo $s?> value='mdy'><?php te("Month/Day/Year");?></option>
-      <?php if ($settings['dateformat']=="ymd") $s="SELECTED"; else $s="" ?>
-      <option <?php echo $s?> value='ymd'><?php te("Year-Month-Day");?></option>
-    </select>
-    </td>
-    </tr>
-	<tr><td class="tdt"><?php te("Time Format")?></td><td> 
-	    <select name='timeformat'> 
-	        <?php 
-	        // 检查是否为 24小时制
-	        if ($settings['timeformat'] == "H:i:s") { 
-	            $s1 = "SELECTED"; 
-	            $s2 = ""; 
-	        } else { 
-	            $s1 = ""; 
-	            $s2 = "SELECTED"; // 默认如果数据库不是 H:i:s，就选中 "无时间"
-	        } 
-	        ?> 
-	        <option <?php echo $s1?> value='H:i:s'><?php te("Hour:Minute:Second"); ?> (15:30:45)</option> 
-	        <option <?php echo $s2?> value=''><?php te("None (Timeless)"); ?></option> 
-	    </select> 
+	<tr><td class="tdt"><?php te("Date Format")?></td><td>
+	<select name="dateformat">
+	  <?php
+	  $df = $settings['dateformat'];
+	  $date_formats = [
+	    'dmy'       => '02/06/2026',
+	    'mdy'       => '06/02/2026',
+	    'ymd'       => '2026-06-02',
+	    'ymd_no'    => '20260602',
+	    'dmy_dot'   => '02.06.2026',
+	    'mdy_dot'   => '06.02.2026',
+	    'cn_date'   => '2026年06月02日',
+	    'ymd_short' => '26-06-02',
+	    'dmy_short' => '02/06/26',
+	  ];
+	  foreach ($date_formats as $key => $label) {
+	    $selected = ($df == $key) ? 'SELECTED' : '';
+	    echo "<option $selected value='$key'>$label</option>";
+	  }
+	  ?>
+	</select>
 	</td></tr>
 
+<tr><td class="tdt"><?php te("Time Format");?></td><td>
+<select name='timeformat'>
+<?php
+$cur_tf = $settings['timeformat'];
+
+// 这里直接写死文字，不再套 te()，避免空白
+$time_opts = array(
+    'H:i:s'     => '24H (15:30:45)',
+    'H:i'       => '24H (15:30)',
+    'h:i:s A'   => '12H (03:30:45 PM)',
+    'h:i A'     => '12H (03:30 PM)',
+    ''          => t('None (Timeless)')
+);
+
+foreach ($time_opts as $val => $txt) {
+    $selected = ($cur_tf === $val) ? 'SELECTED' : '';
+    echo "<option $selected value=\"".htmlspecialchars($val, ENT_QUOTES)."\">".htmlspecialchars($txt)."</option>\n";
+}
+?>
+</select>
+</td></tr>
 
 
     <tr><td class="tdt"><?php te("Currency")?></td><td>

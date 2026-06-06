@@ -1,8 +1,8 @@
 <?php
-if (file_exists('init.php'))
-    require_once("init.php");
-else
-    require_once("../init.php");
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 
 $err_msg = '';
 

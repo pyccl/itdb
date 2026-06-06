@@ -1,6 +1,15 @@
 <?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
+$disperr = '';
+$warr = '';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 // ===================== 机架式=否 → 强制清空位置字段（最顶部优先执行） =====================
 if (isset($_POST['rackmountable']) && $_POST['rackmountable'] === '0') {
@@ -98,6 +107,17 @@ if (isset($_POST['itemtypeid']) && $_GET['id']!="new" && isvalidfrm()) {
     $myid = intval($_GET['id']);
     $item_id = $myid;
     $set="";
+    $curr_user = isset($_COOKIE['itdbuser']) ? trim($_COOKIE['itdbuser']) : '';
+		if ($curr_user) {
+		    $sth = $dbh->prepare("SELECT id FROM users WHERE username = ?");
+		    $sth->execute(array($curr_user));
+		    $u = $sth->fetch(PDO::FETCH_ASSOC);
+		    $uid = $u ? intval($u['id']) : 9999;
+		} else {
+		    $uid = 9999;
+		}
+		$_POST['userid'] = $uid;
+
     foreach ($formvars as $formvar) {
         if (isset($_POST[$formvar])) {
             $$formvar = trim($_POST[$formvar]);
@@ -265,6 +285,17 @@ addOperateLog(
 
 /* add new item */
 elseif (isset($_POST['itemtypeid']) && $_GET['id']=="new" && isvalidfrm()) {
+	$curr_user = isset($_COOKIE['itdbuser']) ? trim($_COOKIE['itdbuser']) : '';
+	if ($curr_user) {
+	    $sth = $dbh->prepare("SELECT id FROM users WHERE username = ?");
+	    $sth->execute(array($curr_user));
+	    $u = $sth->fetch(PDO::FETCH_ASSOC);
+	    $uid = $u ? intval($u['id']) : 9999;
+	} else {
+	    $uid = 9999;
+	}
+	$_POST['userid'] = $uid;
+	
     foreach($_POST as $k => $v) {
         if (!is_array($v)) {
             ${$k} = trim($v);
@@ -286,7 +317,6 @@ elseif (isset($_POST['itemtypeid']) && $_GET['id']=="new" && isvalidfrm()) {
     $locareaid      = empty($locareaid)      ? 'NULL' : intval($locareaid);
     $rackid         = empty($rackid)         ? 'NULL' : intval($rackid);
     $rackposition   = empty($rackposition)   ? 'NULL' : intval($rackposition);
-    $userid         = empty($userid)         ? 'NULL' : intval($userid);
     $warrantymonths = empty($warrantymonths) ? 'NULL' : intval($warrantymonths);
     $itlnk    = isset($_POST['itlnk'])    ? $_POST['itlnk']    : array();
     $invlnk   = isset($_POST['invlnk'])   ? $_POST['invlnk']   : array();
@@ -300,8 +330,12 @@ elseif (isset($_POST['itemtypeid']) && $_GET['id']=="new" && isvalidfrm()) {
     hd,cpu,cpuno,corespercpu,ram,panelport,switchid,switchport,ports,internalid)
     VALUES ('$label','$itemtypeid','$function','$manufacturerid',
     '$warrinfo','$model','$sn','$sn2','$sn3','$origin',$warrantymonths,'$purchasedate2','$purchprice',
-    '$dnsname',$userid,'$custom_user','$custom_dept',$locationid,$locareaid,'$maintenanceinfo',
-    '".htmlspecialchars($comments,ENT_QUOTES,'UTF-8')."','$ispart',$rackid,$rackposition,$rackposdepth,'$rackmountable',
+    '$dnsname',".intval($_POST['userid']).",'$custom_user','$custom_dept',$locationid,$locareaid,'$maintenanceinfo',
+    '".htmlspecialchars($comments,ENT_QUOTES,'UTF-8')."','$ispart',
+	".($rackid?$rackid:'NULL').",
+	".($rackposition?$rackposition:'NULL').",
+	".($rackposdepth?$rackposdepth:'NULL').",
+	'$rackmountable',
     $usize,'$status','$macs','$ipv4','$ipv6','$remadmip',
     '$hd','$cpu','$cpuno','$corespercpu','$ram','$panelport',$switchid,'$switchport','$ports','$internalid')";
     db_exec($dbh,$sql);
@@ -368,7 +402,8 @@ elseif (isset($_POST['itemtypeid']) && $_GET['id']=="new" && isvalidfrm()) {
         $cid = intval($cid);
         db_exec($dbh,"INSERT INTO contract2item (itemid,contractid) VALUES ($lastid,$cid)");
     }
-    echo "<script>window.location='$scriptname?action=edititem&id=$lastid'</script>";
+	echo "<script>window.location='$scriptname?action=edititem&id=$lastid'</script>";
+
 }
 
 // ===================== 机架式=否 → 强制清空位置字段 =====================
@@ -380,13 +415,12 @@ if (isset($_POST['rackmountable']) && $_POST['rackmountable'] == '0') {
     $_POST['rackposdepth']  = '';
 }
 
-// ===================== 内部ID重复验证（SQLite兼容，正式版）=====================
 // ===================== 内部ID+序列号校验（最终完美版·全国际化）=====================
 function isvalidfrm() {
-    global $dbh,$disperr,$err,$_POST,$scriptname;
-    $err="";
+    global $dbh, $disperr, $err, $_POST, $scriptname;
+    $err = "";
 
-    // 内部ID唯一校验
+    // 内部ID重复校验
     $internalid = trim($_POST['internalid']);
     if (!empty($internalid)) {
         $myid = $_GET['id'];
@@ -402,70 +436,61 @@ function isvalidfrm() {
         }
     }
 
-    // 必填项校验
-    if ($_POST['itemtypeid']=="") $err.=t("Missing Item Type")."<br>";
-    if ($_POST['userid']=="") $err.=t("Missing User")."<br>";
-    if ($_POST['manufacturerid']=="") $err.=t("Missing manufacturer")."<br>";
-    if (!isset($_POST['rackmountable'])) $err.=t("Missing Rackmountable")."<br>";
-    if (!isset($_POST['ispart'])) $err.=t("Missing Part")."<br>";
-    if (!isset($_POST['status'])) $err.=t("Missing Status")."<br>";
-    if ($_POST['model']=="") $err.=t("Missing model")."<br>";
+    // 必填项
+    if ($_POST['itemtypeid'] == "") $err .= t("Missing Item Type") . "<br>";
+    if ($_POST['manufacturerid'] == "") $err .= t("Missing manufacturer") . "<br>";
+    if (!isset($_POST['rackmountable'])) $err .= t("Missing Rackmountable") . "<br>";
+    if (!isset($_POST['ispart'])) $err .= t("Missing Part") . "<br>";
+    if (!isset($_POST['status'])) $err .= t("Missing Status") . "<br>";
+    if ($_POST['model'] == "") $err .= t("Missing model") . "<br>";
 
-    // ——————————————————————————————————————————————————————————
-    // 序列号1、2、3 统一校验（内部重复 + 库内重复）
-    // ——————————————————————————————————————————————————————————
+    // SN 重复校验
     $myid    = $_GET['id'];
     $sn      = trim($_POST['sn']);
     $sn2     = trim($_POST['sn2']);
     $sn3     = trim($_POST['sn3']);
-    $all_sn  = array_filter([$sn, $sn2, $sn3]);
+    $all_sn  = array_filter(array($sn, $sn2, $sn3));
 
-    // 1. 自身内部重复校验
-    $check_self = [];
-    if (!empty($sn))  $check_self[] = $sn;
+    // 自身SN重复
+    $check_self = array();
+    if (!empty($sn)) $check_self[] = $sn;
     if (!empty($sn2)) $check_self[] = $sn2;
     if (!empty($sn3)) $check_self[] = $sn3;
-
     if (count($check_self) != count(array_unique($check_self))) {
         $err .= t("Duplicate serial numbers within the same item") . "<br>";
     }
 
-    // 2. 与数据库其他设备重复校验
+    // 库内SN重复
     if (!empty($all_sn)) {
-        $cond = [];
+        $cond = array();
         foreach ($all_sn as $s) {
             $q = $dbh->quote($s);
             $cond[] = "sn = $q";
             $cond[] = "sn2 = $q";
             $cond[] = "sn3 = $q";
         }
-
         $sql = "SELECT id FROM items WHERE (" . implode(" OR ", $cond) . ")";
-
-        // 编辑时排除自身
-        if ($myid !== 'new' && is_numeric($myid)) {
+        if ($myid !== "new" && is_numeric($myid)) {
             $sql .= " AND id != " . intval($myid);
         }
-
         $sql .= " LIMIT 1";
         $sth = db_execute($dbh, $sql);
         $dup = $sth->fetch(PDO::FETCH_ASSOC);
-
         if ($dup) {
             $err .= t("Duplicate SN with item ID") . " " . $dup['id'] . "<br>";
         }
     }
 
-    // 错误输出
+    // 关键：有错误就赋值并返回0
     if ($err) {
-        $disperr="<div class='ui-state-error ui-corner-all' style='padding:0 .7em;width:300px;margin-bottom:3px;'>
-                     <p><span class='ui-icon ui-icon-alert' style='float:left;margin-right:.3em;'></span>
-                     <strong>".t("Error: Item not saved")."</strong><br>$err</p></div>";
+        $disperr = "<div class='ui-state-error ui-corner-all' style='padding:8px; margin:10px 0;'>
+            <p><span class='ui-icon ui-icon-alert' style='float:left; margin-right:5px;'></span>
+            <strong>" . t("Error: Item not saved") . "</strong><br>$err</p></div>";
         return 0;
     }
+
     return 1;
 }
-
-
+echo $disperr; // 输出错误提示（关键修复）
 require('itemform.php');
 ?>

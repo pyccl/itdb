@@ -18,14 +18,14 @@ if (isset($_POST['addtag']) && strlen($_POST['addtag'])) {
     if (!is_numeric($tagid)) { //new tag, add it
       $sql="INSERT INTO tags (name) values ('$addtag')";
       $sth=db_execute($dbh,$sql);
-      $result.=t("added new tag").": $addtag<br>";
+      $result.=t("Added new Tag").": $addtag<br>";
       $tagid=tagname2id($addtag); //re-get id
     }
     //make association
     if (is_numeric($tagid)) { //make association
       $sql="INSERT INTO tag2software (tagid,softwareid) values ($tagid,$softwareid)";
       $sth=db_execute($dbh,$sql);
-      $result.=t("associated tag").": $addtag<br>";
+      $result.=t("Associated Tag").": $addtag<br>";
     }
     else 
       $result.= t("Error: cannot find added tag!<br>");

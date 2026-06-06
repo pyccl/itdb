@@ -402,7 +402,7 @@ function deluser($userid,$dbh) {
 
 function showfiles($f,$class="fileslist",$wantdel=1,$divtitle='') {
 // f: array with data from "files" table (from fetchall)
-global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
+global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh,$settings; //新增$settings
 
   $flnk="";
   for ($lnk="",$c=0;$c<count($f);$c++) {
@@ -410,7 +410,8 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
    $ftitle=$f[$c]['title'];
    $fid=$f[$c]['id'];
    $ftype=$f[$c]['type'];
-   $fdate=empty($f[$c]['date'])?"":date($dateparam,$f[$c]['date']);
+   //原：$fdate=empty($f[$c]['date'])?"":date($dateparam,$f[$c]['date']);
+   $fdate = (!empty($f[$c]['date']) && $f[$c]['date']>0) ? format_date($f[$c]['date'],$settings,true,false) : '';
    $ftypestr=ftype2str($ftype,$dbh);
    if (strlen($ftitle)) $t="<br>".t("Title").":$ftitle"; else $t="";
 
@@ -428,8 +429,8 @@ global $dateparam,$scriptname,$action,$id,$uploaddirwww,$dbh;
   }
 
   return $flnk;
-
 }
+
 function calcremdays($purchdate_ts,$warrantymonths) {
 	if (!strlen($warrantymonths))
 		return array('string'=>'','days'=>'');
@@ -704,18 +705,22 @@ function getagenturlbytag($agenturl,$tagstr) {
   $sth=db_execute($dbh,$sql);
   $r=$sth->fetch(PDO::FETCH_ASSOC);
   $sth->closeCursor();
-  $urls=$r['urls'];
+  $urls = isset($r['urls']) ? $r['urls'] : '';
 
   $allurls=explode("|",$urls);
   for ($i=0;$i<count($allurls);$i++) {
     $row=explode("#",$allurls[$i]);
-    $description=$row[0];
-    $url=urldecode($row[1]);
-    if (stristr($description,$tagstr))
-    return $url;
+    // 加 isset 判断，解决 Undefined offset: 1
+    $description = isset($row[0]) ? $row[0] : '';
+    $url         = isset($row[1]) ? urldecode($row[1]) : '';
+
+    if (stristr($description, $tagstr)) {
+        return $url;
+    }
   }
   return "";
 }
+
 
 
 function dbversion() {

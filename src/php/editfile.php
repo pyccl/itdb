@@ -1,7 +1,14 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 $(document).ready(function() {
   $("#tabs").tabs();
   $("#tabs").show();
+  $("#date").datepicker("option", "maxDate", 0);
   $(function () {
    $('input#itemsfilter').quicksearch('table#itemslisttbl tbody tr');
    $('input#softwarefilter').quicksearch('table#softwarelisttbl tbody tr');
@@ -11,7 +18,6 @@ $(document).ready(function() {
 });
 </SCRIPT>
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 $sql="SELECT * FROM filetypes order by typedesc";
 $sth=db_execute($dbh,$sql);
@@ -339,7 +345,7 @@ else
     <tr><td class="tdt"><?php te("Filename");?>:</td><td><a target=_blank href="<?php  echo $uploaddirwww.$r['fname'] ?>"><?php echo $r['fname']?></a></td></tr>
     <tr><td title='<?php te("Number of items/software/invoices/etc which reference this file");?>'
             class="tdt"><?php te("Associations");?>:</td> <td><b><?php  echo countfileidlinks($_GET['id'],$dbh);?></b></td></tr>
-    <tr><td class="tdt"><?php te("Uploaded by");?>:</td> <td><?php echo $r['uploader']?> <?php te("on");?> <?php  if (!empty($r['uploaddate'])) echo date($dateparam." H:i",$r['uploaddate'])?></td></tr>
+    <tr><td class="tdt"><?php te("Uploaded by");?>:</td> <td><?php echo $r['uploader']?> <?php te("on");?> <?php if (!empty($r['uploaddate'])) echo format_date($r['date'],$settings,true,true) ?></td></tr>
     <?php endif; ?>
     </table>
 </td>
@@ -468,78 +474,122 @@ else
 <li><a href="#tab4"><?php te("Invoices");?></a></li>
 </ul>
 <div id="tab1" class="tab_content"><!-- item associations -->
-<?php   if (($id!="new") && ($mytype!="invoice")) { ?>
-      <table border='0' class=tbl2 style='width:100%;border-bottom:1px solid #cecece'><!-- connect to other items -->
-	<tr><td colspan=2 ><?php te("Associate file with the following items");?>:
-           <input class='filter' style='color:#909090' id="itemsfilter" 
-               name="itemsfilter" value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20"><br>
-	</td></tr>
-	<tr><td colspan=2>
-	  <div class='scrltblcontainer' style='height:30em'>
-	  <table width='100%' class='sortable brdr' id='itemslisttbl'>
-	  <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manuf.-Model");?></th>
-                     <th><?php te("Label");?></th><th>DNS</th><th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
-	  <tbody>
-	  <?php 
-	  // 设备专用临时表，不与其他模块混用
-	  $dbh->exec("CREATE TEMPORARY TABLE IF NOT EXISTS tt_items (id INTEGER PRIMARY KEY)");
-	  $dbh->exec("DELETE FROM tt_items");
-	  if (is_numeric($id)) {
-	      $dbh->exec("INSERT INTO tt_items SELECT itemid FROM item2file WHERE fileid = $id");
-	  }
-	  // 已关联
-	  $sql="SELECT items.id,manufacturerid,model,itemtypeid,sn||' '||sn2||' '||sn3 as sn,label,dnsname,users.username AS username,
-	             typedesc, agents.title AS agtitle
-	        FROM items
-	        JOIN users ON items.userid = users.id
-	        JOIN itemtypes ON items.itemtypeid = itemtypes.id
-	        JOIN agents ON items.manufacturerid = agents.id
-	        WHERE items.id IN (SELECT id FROM tt_items)
-	        ORDER BY itemtypeid, items.id DESC, manufacturerid, model, dnsname";
-	  $sth=db_execute($dbh,$sql);
-	  while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-	    echo "\n <tr><td><input name='itlnk[]' value='".$r['id']."' checked type='checkbox' /></td>".
-	     "<td class='bld' style='white-space:nowrap'><a target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit.png'>".$r['id']."</a></td>".
-	     "<td class='bld'>".$r['typedesc']."</td>".
-	     "<td class='bld'>".$r['agtitle']."&nbsp;".$r['model']."</td>".
-	     "<td class='bld'>".$r['label']."</td>".
-	     "<td class='bld'>".$r['dnsname']."</td>".
-	     "<td class='bld'>".$r['username']."</td>".
-	     "<td class='bld'>".$r['sn']."</td></tr>";
-	  }
-	  // 未关联
-	  $sql="SELECT items.id,manufacturerid,model,itemtypeid,sn||' '||sn2||' '||sn3 as sn,label,dnsname,users.username AS username,
-	             typedesc, agents.title AS agtitle
-	        FROM items
-	        JOIN users ON items.userid = users.id
-	        JOIN itemtypes ON items.itemtypeid = itemtypes.id
-	        JOIN agents ON items.manufacturerid = agents.id
-	        WHERE items.id NOT IN (SELECT id FROM tt_items)
-	        ORDER BY itemtypeid, items.id DESC, manufacturerid, model, dnsname";
-	  $sth=db_execute($dbh,$sql);
-	  while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-	    echo "\n <tr><td><input name='itlnk[]' value='".$r['id']."' type='checkbox' /></td>".
-	     "<td style='white-space:nowrap'><a target=_blank href='$scriptname?action=edititem&id=".$r['id']."'><img src='images/edit.png'>".$r['id']."</a></td>".
-	     "<td>".$r['typedesc']."</td>".
-	     "<td>".$r['agtitle']."&nbsp;".$r['model']."</td>".
-	     "<td>".$r['label']."</td>".
-	     "<td>".$r['dnsname']."</td>".
-	     "<td>".$r['username']."</td>".
-	     "<td>".$r['sn']."</td></tr>";
-	  }
-	?>
-	</tbody>
-	</table>
-	</div>
-	</td>
-	</tr>
-      </table>
-<?php  } 
-  elseif (($id!="new") && ($mytype=="invoice")) { 
-     echo t("<br>-Files of type 'invoice' can be associated only with invoices and only using the 'invoice' menu ");
-  }
+<?php if (($id!="new") && ($mytype!="invoice")) { ?>
+<table border='0' class=tbl2 style='width:100%;border-bottom:1px solid #cecece'>
+<tr><td colspan=2 ><?php te("Associate file with the following items");?>:
+<input class='filter' style='color:#909090' id="itemsfilter" name="itemsfilter" value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20"><br>
+</td></tr>
+<tr><td colspan=2>
+<div class='scrltblcontainer' style='height:30em'>
+<table width='100%' class='sortable brdr' id='itemslisttbl'>
+<thead>
+<tr>
+	<th><?php te("Rel");?></th>
+	<th><?php te("ID");?></th>
+	<th><?php te("Internal ID");?></th>
+	<th><?php te("Type");?></th>
+	<th><?php te("Manuf.-Model");?></th>
+	<th><?php te("Label");?></th>
+	<th><?php te("Department");?></th>
+	<th><?php te("End User");?></th>
+	<th><?php te("S/N");?></th>
+</tr>
+</thead>
+<tbody>
+<?php
+$dbh->exec("CREATE TEMPORARY TABLE IF NOT EXISTS tt_items (id INTEGER PRIMARY KEY)");
+$dbh->exec("DELETE FROM tt_items");
+if (is_numeric($id)) {
+    $dbh->exec("INSERT INTO tt_items SELECT itemid FROM item2file WHERE fileid = $id");
+}
+
+// 已关联
+$sql="SELECT 
+items.id,
+items.internalid,
+items.status,
+items.manufacturerid,
+items.model,
+items.itemtypeid,
+items.sn || ' ' || items.sn2 || ' ' || items.sn3 AS sn,
+items.label,
+employees.name AS custom_user_name,
+departments.name AS custom_dept_name,
+typedesc, 
+agents.title AS agtitle
+FROM items
+LEFT JOIN employees ON employees.id = items.custom_user
+LEFT JOIN departments ON departments.id = items.custom_dept
+JOIN itemtypes ON itemtypes.id = items.itemtypeid
+JOIN agents ON agents.id = items.manufacturerid
+WHERE items.id IN (SELECT id FROM tt_items)
+ORDER BY itemtypeid, items.id DESC, manufacturerid, model";
+
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 ?>
+<tr>
+	<td><input name='itlnk[]' value='<?php echo $r['id']?>' checked type='checkbox' /></td>
+	<td class='bld' style='white-space:nowrap'><a target=_blank href='<?php echo $scriptname?>?action=edititem&id=<?php echo $r['id']?>'><img src='images/edit.png'><?php echo $r['id']?></a></td>
+	<td class='bld'><?php echo $r['internalid']?></td>
+	<td class='bld'><?php echo $r['typedesc']?></td>
+	<td class='bld'><?php echo $r['agtitle']?>&nbsp;<?php echo $r['model']?></td>
+	<td class='bld'><?php echo $r['label']?></td>
+	<td class='bld'><?php echo $r['custom_dept_name']?></td>
+	<td class='bld'><?php echo $r['custom_user_name']?></td>
+	<td class='bld'><?php echo $r['sn']?></td>
+</tr>
+<?php } ?>
+
+<?php
+// 未关联
+$sql="SELECT 
+items.id,
+items.internalid,
+items.status,
+items.manufacturerid,
+items.model,
+items.itemtypeid,
+items.sn || ' ' || items.sn2 || ' ' || items.sn3 AS sn,
+items.label,
+employees.name AS custom_user_name,
+departments.name AS custom_dept_name,
+typedesc, 
+agents.title AS agtitle
+FROM items
+LEFT JOIN employees ON employees.id = items.custom_user
+LEFT JOIN departments ON departments.id = items.custom_dept
+JOIN itemtypes ON itemtypes.id = items.itemtypeid
+JOIN agents ON agents.id = items.manufacturerid
+WHERE items.id NOT IN (SELECT id FROM tt_items)
+ORDER BY itemtypeid, items.id DESC, manufacturerid, model";
+
+$sth=db_execute($dbh,$sql);
+while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
+?>
+<tr>
+	<td><input name='itlnk[]' value='<?php echo $r['id']?>' type='checkbox' /></td>
+	<td style='white-space:nowrap'><a target=_blank href='<?php echo $scriptname?>?action=edititem&id=<?php echo $r['id']?>'><img src='images/edit.png'><?php echo $r['id']?></a></td>
+	<td><?php echo $r['internalid']?></td>
+	<td><?php echo $r['typedesc']?></td>
+	<td><?php echo $r['agtitle']?>&nbsp;<?php echo $r['model']?></td>
+	<td><?php echo $r['label']?></td>
+	<td><?php echo $r['custom_dept_name']?></td>
+	<td><?php echo $r['custom_user_name']?></td>
+	<td><?php echo $r['sn']?></td>
+</tr>
+<?php } ?>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</table>
+<?php } elseif (($id!="new") && ($mytype=="invoice")) { 
+echo t("<br>-Files of type 'invoice' can be associated only with invoices and only using the 'invoice' menu ");
+} ?>
 </div><!-- item associations -->
+
 
 <div id="tab2" class="tab_content"><!-- software associations -->
 <?php   if (($id!="new") && ($mytype!="invoice")) { ?>

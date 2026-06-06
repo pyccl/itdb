@@ -1,7 +1,7 @@
 <?php
 if (!isset($initok)) {
-    echo t("do not run this script directly");
-    exit;
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
 }
 
 // 状态切换置顶执行
@@ -27,92 +27,124 @@ $currency = isset($setting_curr['currency']) ? $setting_curr['currency'] : '';
 <meta charset="utf-8">
 <title><?php te("Dashboard Cards"); ?></title>
 <style>
-* {box-sizing:border-box; margin:0; padding:0;}
-body {font-family:Arial; background:#f5f7fa; padding:20px;}
-.page-header {
-  display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:20px;
-}
-.page-title {font-size:22px; font-weight:bold;}
-.btn-add {
-  background:#009688; color:#fff; padding:8px 14px; border-radius:6px;
-  text-decoration:none;
-}
+/* 只控制卡片，不污染全局、不影响左侧菜单 */
 .stats-grid {
-  display:flex; flex-wrap:wrap; gap:15px; padding:10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px 0;
 }
-/* 🔥 卡片统一大小：宽度固定 + 高度固定 */
 .stat-card {
-  background:#fff; border-radius:8px; padding:20px;
-  width: 180px;         /* 统一宽度 */
-  height: 140px;        /* 统一高度 */
-  min-width: 180px;
-  max-width: 180px;
-  min-height: 140px;
-  max-height: 140px;
-  text-align:center;
-  box-shadow:0 2px 5px rgba(0,0,0,0.05);
-  border-top:4px solid; cursor:pointer;
-  position:relative; transition:all 0.2s;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px; /* 减小内边距 → 卡片变回原来大小 */
+  width: 160px;
+  height: 120px;
+  min-width: 160px;
+  max-width: 160px;
+  min-height: 120px;
+  max-height: 120px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-top: 4px solid;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .stat-card:hover {
-  transform:scale(1.03); box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .stat-icon {
-  font-size:28px;
-  margin-bottom:8px;
+  font-size: 24px;
+  margin-bottom: 4px;
   line-height: 1;
 }
-/* 日期、数字统一居中、自动换行、不撑大卡片 */
 .stat-number {
-  font-size:22px;
-  font-weight:bold;
-  line-height:1.3;
-  min-height: auto;
-  margin-bottom:4px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 4px;
 }
 .stat-label {
-  font-size:12px;
-  color:#777;
-  text-transform:uppercase;
-  line-height: 1.2;
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
 }
-/* 开关样式 禁用红色 启用绿色 */
+
+/* 开关 */
 .switch-box {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  position: absolute;
+  top: 6px;
+  right: 6px;
 }
 .switch {
-  position:relative; display:inline-block; width:40px; height:22px;
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
 }
-.switch input {opacity:0; width:0; height:0;}
-/* 默认禁用状态红色 */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 .slider {
-  position:absolute; top:0; left:0; right:0; bottom:0;
-  background-color:#F56C6C;
-  transition:.3s; border-radius:22px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #F56C6C;
+  transition: .3s;
+  border-radius: 20px;
 }
 .slider:before {
-  position:absolute; content:""; height:16px; width:16px;
-  left:3px; bottom:3px; background-color:white;
-  transition:.3s; border-radius:50%;
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
 }
-/* 选中启用状态绿色 */
-input:checked + .slider {background-color:#009688;}
-input:checked + .slider:before {transform:translateX(18px);}
-.empty {padding:40px; text-align:center; color:#999;}
+input:checked + .slider {
+  background-color: #009688;
+}
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.page-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.btn-add {
+  background: #009688;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.empty {
+  padding: 30px 0;
+  text-align: center;
+  color: #999;
+}
 </style>
+
 
 </head>
 <body>
@@ -185,8 +217,11 @@ onclick="location.href='<?php echo $scriptname?>?action=editdashboardcard&id=<?p
 <?php } ?>
 
 <?php if (!$has) { ?>
-<div class="empty"><?php te("No data available"); ?></div>
+<div class="empty" style="width:100%;text-align:center;padding:20px;color:#666;font-size:14px;">
+<?php echo sprintf(t('No dashboard cards, please <a href="%s">add cards</a> first.'), '?action=editdashboardcard&id=new'); ?>
+</div>
 <?php } ?>
+
 </div>
 
 <script>

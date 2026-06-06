@@ -1,14 +1,20 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 $(document).ready(function() {
   $("#tabs").tabs();
   $("#tabs").show();
+  $("#date").datepicker("option", "maxDate", 0);
   $('input#itemsfilter').quicksearch('table#itemslisttbl tbody tr');
   $('input#softfilter').quicksearch('table#softlisttbl tbody tr');
   $('input#contrfilter').quicksearch('table#contrlisttbl tbody tr');
 });
 </script>
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
@@ -123,7 +129,9 @@ if (isset($_POST['id'])) {
         exit;
     }
 
-    $d = ymd2sec($date);
+    //把页面输入的日期转为unix时间戳入库
+	$tmpTs = strtotime($date);
+	$d = $tmpTs > 0 ? $tmpTs : '';
 
     // 关联数据
     $itlnk    = isset($_POST['itlnk'])    ? $_POST['itlnk']    : array();
@@ -557,58 +565,81 @@ else
         </tr>
         </table>
     </div>
-
-    <div id="tab2" class="tab_content">
-        <h2>
-            <input id="itemsfilter" name="itemsfilter" class='filter' value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
-        </h2>
-        <?php 
-        $sql=" SELECT COALESCE((SELECT itemid FROM item2inv WHERE invid='$id' AND itemid=items.id ),0) islinked , 
-             items.id,status,manufacturerid,model,itemtypeid,typedesc,sn || ' '||sn2 ||' ' || sn3 as sn,dnsname,users.username ,label 
-             FROM items,itemtypes,users  
-             WHERE items.itemtypeid=itemtypes.id 
-             AND users.id=userid 
-             order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
-        $sth=db_execute($dbh,$sql);
-        ?>
-        <div class='scrltblcontainer2'>
-            <table width='100%' class='brdr sortable' id='itemslisttbl'>
-                <thead>
-                    <tr>
-                        <th width='5%'><?php te("Associate");?></th>
-                        <th style="width:65px"><?php te("ID");?></th>
-                        <th><?php te("Type");?></th>
-                        <th><?php te("Manufacturer");?></th>
-                        <th><?php te("Model");?></th>
-                        <th><?php te("Label");?></th>
-                        <th><?php te("DNS");?></th>
-                        <th><?php te("User");?></th>
-                        <th><?php te("S/N");?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
-                    $cls = $ir['islinked'] ? "class='bld'" : "";
-                    $x = attrofstatus((int)$ir['status'],$dbh);
-                    $attr = $x[0];
-
-                    echo "<tr>
-                    <td><input name='itlnk[]' value='{$ir['id']}' ".($ir['islinked'] ? 'checked' : '')." type='checkbox'></td>
-                    <td nowrap $cls><span $attr>&nbsp;</span><a target='_blank' href='$scriptname?action=edititem&id={$ir['id']}'><div class='editid'>{$ir['id']}</div></a></td>
-                    <td $cls>{$ir['typedesc']}</td>
-                    <td $cls>{$agents[$ir['manufacturerid']]['title']}</td>
-                    <td $cls>{$ir['model']}</td>
-                    <td $cls>{$ir['label']}</td>
-                    <td $cls>{$ir['dnsname']}</td>
-                    <td $cls>{$ir['username']}</td>
-                    <td $cls>{$ir['sn']}</td></tr>";
-                }
-                ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+	
+	<div id="tab2" class="tab_content">
+	    <h2>
+	        <input id="itemsfilter" name="itemsfilter" class='filter' value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
+	    </h2>
+	    <?php 
+	    $dbh->exec("CREATE TEMPORARY TABLE IF NOT EXISTS tt_inv_items (id INTEGER PRIMARY KEY)");
+	    $dbh->exec("DELETE FROM tt_inv_items");
+	    if (is_numeric($id)) {
+	        $dbh->exec("INSERT INTO tt_inv_items SELECT itemid FROM item2inv WHERE invid = $id");
+	    }
+	
+	    // 已关联 + 未关联 合并查询
+	    $sql="SELECT 
+	    items.id,
+	    items.internalid,
+	    items.status,
+	    items.manufacturerid,
+	    items.model,
+	    items.itemtypeid,
+	    items.sn || ' ' || items.sn2 || ' ' || items.sn3 AS sn,
+	    items.label,
+	    employees.name AS empname,
+	    departments.name AS deptname,
+	    typedesc, 
+	    agents.title AS agtitle,
+	    CASE WHEN items.id IN (SELECT id FROM tt_inv_items) THEN 1 ELSE 0 END AS islinked
+	    FROM items
+	    LEFT JOIN employees ON employees.id = items.custom_user
+	    LEFT JOIN departments ON departments.id = items.custom_dept
+	    JOIN itemtypes ON itemtypes.id = items.itemtypeid
+	    JOIN agents ON agents.id = items.manufacturerid
+	    ORDER BY islinked DESC, itemtypeid, items.id DESC, manufacturerid, model";
+	
+	    $sth=db_execute($dbh,$sql);
+	    ?>
+	    <div class='scrltblcontainer2'>
+	        <table width='100%' class='brdr sortable' id='itemslisttbl'>
+	            <thead>
+	                <tr>
+	                    <th width='5%'><?php te("Associate");?></th>
+	                    <th style="width:65px"><?php te("ID");?></th>
+	                    <th><?php te("Internal ID");?></th>
+	                    <th><?php te("Type");?></th>
+	                    <th><?php te("Manufacturer");?></th>
+	                    <th><?php te("Model");?></th>
+	                    <th><?php te("Label");?></th>
+	                    <th><?php te("Department");?></th>
+	                    <th><?php te("End User");?></th>
+	                    <th><?php te("S/N");?></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            <?php 
+	            while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
+	                $cls = $ir['islinked'] ? "class='bld'" : "";
+	                $x = attrofstatus((int)$ir['status'],$dbh);
+	                $attr = $x[0];
+	                echo "<tr>
+	                <td><input name='itlnk[]' value='{$ir['id']}' ".($ir['islinked'] ? 'checked' : '')." type='checkbox'></td>
+	                <td nowrap $cls><span $attr>&nbsp;</span><a target='_blank' href='$scriptname?action=edititem&id={$ir['id']}'><div class='editid'>{$ir['id']}</div></a></td>
+	                <td $cls>{$ir['internalid']}</td>
+	                <td $cls>{$ir['typedesc']}</td>
+	                <td $cls>{$ir['agtitle']}</td>
+	                <td $cls>{$ir['model']}</td>
+	                <td $cls>{$ir['label']}</td>
+	                <td $cls>{$ir['deptname']}</td>
+	                <td $cls>{$ir['empname']}</td>
+	                <td $cls>{$ir['sn']}</td></tr>";
+	            }
+	            ?>
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
 
     <div id="tab3" class="tab_content">
         <h2>

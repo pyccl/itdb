@@ -1,7 +1,8 @@
-<?php 
-
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
-
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
 /// get item types
@@ -73,7 +74,7 @@ if ($export)  {
 if ($export) 
   echo "\n<table border='1'>\n";
 else {
-  echo "<h1>".t("Items")." <sup>2</sup> <a title='".t("Add new item")."' href='$scriptname?action=edititem&amp;id=new'>".
+  echo "<h1>".t("Items")." <sup>2</sup> <a title='".t("Add new Item")."' href='$scriptname?action=edititem&amp;id=new'>".
        "<img border=0 src='images/add.png'></a></h1>\n";
   echo "<form name='frm'>\n";
   echo "\n<table class='brdr'>\n";
@@ -321,7 +322,12 @@ $currow++;
   $software=$sthsoft->fetchAll(PDO::FETCH_ASSOC);
 
   //2seconds
-  $d=strlen($r['purchasedate'])?date($dateparam,$r['purchasedate']):"-"; 
+	// 读取设置
+	$sth_setting = $dbh->query("SELECT dateformat,timeformat FROM settings LIMIT 1");
+	$settings = $sth_setting->fetch(PDO::FETCH_ASSOC);
+	// 格式化采购日期（只显示日期）
+	$d = !empty($r['purchasedate']) ? format_date($r['purchasedate'], $settings, true, false) : "-";
+	
 
 
   if (isset($locations[$r['locationid']])) {
@@ -388,7 +394,12 @@ $currow++;
   $x=attrofstatus((int)$r['status'],$dbh);
   $attr=$x[0];
   $statustxt=$x[1];
-
+	// PDO 获取状态背景色
+	$sth_status = $dbh->prepare("SELECT color FROM statustypes WHERE id=?");
+	$sth_status->execute([(int)$r['status']]);
+	$status_color = $sth_status->fetchColumn();
+	
+	$text_color = getAutoTextColor($status_color);
 
 //table row - 强制使用 CSS 控制颜色，移除 PHP 奇偶判断
 echo "\n<tr class='item-row'>". "<td nowrap><span $attr>&nbsp;</span><a class='editid' title='".t("Edit")."' href='$fscriptname?action=edititem&amp;id=".$r['id']."'>". $r['id']."</a>";
@@ -409,7 +420,7 @@ echo "\n<tr class='item-row'>". "<td nowrap><span $attr>&nbsp;</span><a class='e
        "\n  <td>$remw</td>".
 		"\n  <td>".$r['user_name']."</td>".
 		"\n  <td>".$r['dept_name']."</td>".
-       "\n  <td>$statustxt</td>".
+       "\n  <td style=\"background-color:{$status_color}; color:{$text_color}; padding:2px 4px; font-weight:bold; border-radius:2px;\">$statustxt</td>".
        "\n  <td>$loc</td>";
 
 

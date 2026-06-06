@@ -1,4 +1,9 @@
 <?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 // 从卡片商城读取用户可用卡片
 $my_cards = array();
 $selected_ids = array();
@@ -113,60 +118,43 @@ foreach($all_cards as $c){
 }
 </style>
 
-<span class="divider-title"><b>📊 <?php te("Statistics Overview"); ?></b></span>
-<div class="stats-grid">
 <?php
-// 直接用 ITDB 已登录状态 + Cookie 用户名（绝对不报错）
-global $authstatus;
-$selected_ids = [];
+global $authstatus, $dbh;
+$selected_ids = array();
+$show_cards = array();
 
 if ($authstatus) {
-    // 从 Cookie 取登录用户名（ITDB 原生、永远有效）
     $username = isset($_COOKIE['itdbuser']) ? trim($_COOKIE['itdbuser']) : '';
-    
     if ($username) {
-        $sql = "SELECT dashboard_cards FROM users WHERE username = '$username'";
-        $sth = db_execute($dbh, $sql);
-        $u = $sth->fetch(PDO::FETCH_ASSOC);
-        $str = $u['dashboard_cards'];
-        
-        if (!empty($str)) {
-            $selected_ids = array_map('intval', explode(',', $str));
+        $safe_user = addslashes($username);
+        $sql = "SELECT dashboard_cards FROM users WHERE username = '$safe_user' LIMIT 1";
+        $sth = $dbh->query($sql);
+        if ($sth) {
+            $u = $sth->fetch(PDO::FETCH_ASSOC);
+            $str = is_array($u) && isset($u['dashboard_cards']) ? trim($u['dashboard_cards']) : '';
+            if (!empty($str)) {
+                $selected_ids = array_map('intval', explode(',', $str));
+            }
         }
     }
 }
 
 $all_cards = getDashboardCards($dbh);
-$show_cards = [];
-
-// 有选中 → 显示选中；没选中 → 随机5个
-if (!empty($selected_ids)) {
-    foreach ($all_cards as $c) {
-        if (in_array((int)$c['id'], $selected_ids)) {
-            $show_cards[] = $c;
-        }
+foreach ($all_cards as $c) {
+    if (in_array((int)$c['id'], $selected_ids)) {
+        $show_cards[] = $c;
     }
-} else {
-    $show_cards = $all_cards;
-    // 先随机打乱
-    shuffle($show_cards);
-    // 取前5个
-    $show_cards = array_slice($show_cards, 0, 5);
-    // 再对这5个按 sort 正序排序
-    usort($show_cards, function($a, $b) {
-        $sort_a = isset($a['sort']) ? intval($a['sort']) : 99999;
-        $sort_b = isset($b['sort']) ? intval($b['sort']) : 99999;
-        return $sort_a - $sort_b;
-    });
 }
 
-
-// 输出卡片
+if (!empty($show_cards)): ?>
+<span class="divider-title"><b>📊 <?php te("Statistics Overview"); ?></b></span>
+<div class="stats-grid">
+<?php
 foreach ($show_cards as $c):
-    $num = isset($counts[$c['key_name']]) ? $counts[$c['key_name']] : 0;
-    $link = trim($c['link_url']);
+    $num   = isset($counts[$c['key_name']]) ? $counts[$c['key_name']] : 0;
+    $link  = trim($c['link_url']);
     $color = htmlspecialchars($c['color']);
-    $icon = htmlspecialchars($c['icon']);
+    $icon  = htmlspecialchars($c['icon']);
     $title = htmlspecialchars($c['title']);
 ?>
     <?php if (!empty($link)): ?>
@@ -174,34 +162,29 @@ foreach ($show_cards as $c):
     <?php else: ?>
     <div class="stat-card" style="border-top-color:<?php echo $color; ?>;cursor:default;">
     <?php endif; ?>
-
         <span class="stat-icon"><?php echo $icon; ?></span>
-		<span class="stat-number">
-		<?php
-		$key = $c['key_name'];
-		if (is_numeric($num)) {
-		    // 千分位格式化，不改变小数位数（原样输出）
-		    $formatted = number_format($num, strlen(substr(strrchr($num, '.'), 1)));
-		    if (substr($key, 0, 7) === 'amount_') {
-		        echo $currency . $formatted;
-		    } else {
-		        echo $formatted;
-		    }
-		} else {
-		    echo $num;
-		}
-		?>
-		</span>
+        <span class="stat-number">
+        <?php
+        $key = $c['key_name'];
+        if (is_numeric($num)) {
+            $decimal = strpos($num, '.') !== false ? strlen(substr(strrchr($num, '.'), 1)) : 0;
+            $formatted = number_format($num, $decimal);
+            echo substr($key, 0, 7) === 'amount_' ? $currency.$formatted : $formatted;
+        } else {
+            echo $num;
+        }
+        ?>
+        </span>
         <span class="stat-label"><?php echo $title; ?></span>
-
     <?php if (!empty($link)): ?>
     </a>
     <?php else: ?>
     </div>
     <?php endif; ?>
 <?php endforeach; ?>
-
 </div>
+<?php endif; ?>
+
 
 <span class="divider-title"><b>📦 <?php te("Asset Management"); ?></b></span>
 <div class='bigblock'>
@@ -218,7 +201,7 @@ foreach ($show_cards as $c):
     </div>
     <div class='bigblockdesc'>
       <div class='bigblocktitle'><?php te("Hardware");?></div>
-      <?php te("Manage your H/W items <br> PCs, Switches, Phones, etc");?>
+      <?php te("Manage your H/W items <br> Servers, PCs, Switches, etc");?>
     </div>
 </div>
 
@@ -284,7 +267,7 @@ foreach ($show_cards as $c):
     <div class='bigblockdesc'>
       <div class='bigblocktitle'><?php te("Agents");?></div>
       <?php te("Manage Agents");?><br>
-      <?php te("H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors");?></div>
+      <?php te("H/W & S/W Manufacturers & Vendors, Buyers, Contractors");?></div>
 </div>
 
 <div class='bigblock'>

@@ -1,4 +1,9 @@
-
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <script type="text/javascript">
 $(function () {
   $('table#histtbl').dataTable({
@@ -39,7 +44,6 @@ $(function () {
 </script>
 
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
@@ -50,9 +54,10 @@ else {
  $sqlsrch="";
  $where="";
 }
-
+$sth_setting = $dbh->query("SELECT dateformat,timeformat FROM settings LIMIT 1");
+$settings = $sth_setting->fetch(PDO::FETCH_ASSOC);
 ?>
-<h1><?php te("History of Changes");?></h1>
+<h1><?php te("DB log");?></h1>
 <table class='display' width='100%' id='histtbl'>
 <thead>
 <tr><th><?php te("ID");?></th>
@@ -79,8 +84,14 @@ $sth=db_execute($dbh,$sql);
 // display results
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
     // 2seconds
-    $fullformat = $dateparam . $timeparam;
-    $d=strlen($r['date'])?date($fullformat,$r['date']):"-";
+
+	// 读取系统设置（已在init.php加载，直接用）
+	$sth_setting = $dbh->query("SELECT dateformat,timeformat FROM settings LIMIT 1");
+	$settings = $sth_setting->fetch(PDO::FETCH_ASSOC);
+	
+	// 使用你function.php里的统一格式化函数
+
+	$d = !empty($r['date']) ? format_date($r['date'], $settings, true, true) : '-';
 
     // --- 核心修改部分：处理 SQL 字段 ---
     $full_sql = $r['sql']; // 先不转义，留给下面统一处理

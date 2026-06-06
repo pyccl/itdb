@@ -84,7 +84,7 @@ if (isset($_POST['description'])) {
       $old = $dbh->query("SELECT description,invoiceinfo,actiondate FROM actions WHERE id=$action_id")->fetch(PDO::FETCH_ASSOC);
       $old_desc = trim($old['description']);
       $old_inv  = trim($old['invoiceinfo']);
-      $old_actd = date($dateparam, $old['actiondate']);
+      $old_actd = format_date($old['actiondate'],$settings,true,false);
 
       // 判断：是否真的修改
       $changed = false;
@@ -155,8 +155,8 @@ echo "\n<tr><th>&nbsp;</th><th>".t("Action Date")."</th><th>".t("Description")."
 $i=0;
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 $i++;
-    $d=strlen($r['actiondate'])?date($dateparam,$r['actiondate']):"-";
-    $ed=strlen($r['entrydate'])?date($dateparam,$r['entrydate']):"-";
+    $d=!empty($r['actiondate'])?format_date($r['actiondate'],$settings,true,false):"-";
+    $ed=!empty($r['entrydate'])?format_date($r['entrydate'],$settings,true,false):"-";
 
   if ($r['isauto']) {
     echo "\n<tr>\n";

@@ -1,5 +1,9 @@
 <?php
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 $internaltypes=1;
 // --- 处理删除主类型 ---

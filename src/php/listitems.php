@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <script>
 var oTable;
 
@@ -114,7 +120,7 @@ $(document).ready(function() {
 
 <h1>
 <?php te("Items");?> <a title='<?php te("Old Interface");?>' style='font-size:0.5em' href="?action=listitems2">2</a>
-<a title='<?php te("Add new item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a>
+<a title='<?php te("Add new Item");?>' href='<?php echo $scriptname;?>?action=edititem&amp;id=new'><img border=0 src='images/add.png'></a>
 <button style='margin-left:15px;font-weight:normal' class='filterbtn' id='togglefilter' style='font-weight:normal;font-size:1em'><?te("Filter")?></button> 
 </h1>
 
@@ -162,7 +168,7 @@ $(document).ready(function() {
 	<th class='colhead'><?php te("Item Type");?></th>
 	<th class='colhead'><?php te("Manufacturer");?></th>
 	<th class='colhead'><?php te("Model");?></th>
-	<th class='colhead'><?php te("DnsName");?></th>
+	<th class='colhead'><?php te("DNS Name");?></th>
 	<th class='colhead'><?php te("S/N");?></th>
 	<th class='colhead'><?php te("PurchaseDate");?></th>
 	<th class='colhead'><?php te("Warr. Rem. days");?></th>

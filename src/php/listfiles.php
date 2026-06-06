@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 $(function () {
  //$('input#fileslistfilter').quicksearch('table#fileslisttbl tbody tr');
@@ -37,8 +43,6 @@ $(function () {
 
 </SCRIPT>
 <?php 
-
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 /* Spiros Ioannou 2010 , sivann _at_ gmail.com */
 

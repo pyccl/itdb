@@ -1,3 +1,13 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+$sql_set = "SELECT * FROM settings";
+$sth_set = db_execute($dbh,$sql_set);
+$settings = $sth_set->fetch(PDO::FETCH_ASSOC);
+
+?>
 <!-- Spiros Ioannou 2009 , sivann _at_ gmail.com -->
 <SCRIPT LANGUAGE="JavaScript"> 
 $(document).ready(function() {
@@ -19,30 +29,45 @@ $(document).ready(function() {
 		}
 	}
 
-	// ===================== 软件实时切换（终极精准版） =====================
-	function refreshSoftwareTab() {
-		var itemtypeid = $("select[name='itemtypeid']").val();
+// ===================== 软件自动显隐（动态读取hassoftware·最终版） =====================
+function refreshSoftwareTab() {
+    var itemtypeid = $("select[name='itemtypeid']").val();
 
-		$.ajax({
-			url: "php/itemtype_hassoftware_ajax.php",
-			type: "POST",
-			data: { itemtypeid: itemtypeid },
-			dataType: "json",
-			success: function(res) {
-				var showSoftware = (res.hassoftware == 1);
+    // 先全部隐藏
+    $("a[href='#tab5']").parent().hide();
+    $("#tab5").hide();
+    $("#softwareTabTitle").hide();
+    $("#softwareOverviewList").hide();
 
-				// 1. 上方软件选项卡
-				$("a[href='#tab5']").parent().toggle(showSoftware);
-				$("#tab5").toggle(showSoftware);
+    if (!itemtypeid) {
+        $("#tabs").tabs("refresh");
+        return;
+    }
 
-				// 2. 下方概览的「软件」标题（靠ID精准控制）
-				$("#softwareTabTitle").toggle(showSoftware);
+    $.ajax({
+        url: "php/itemtype_hassoftware_ajax.php",
+        type: "POST",
+        data: { itemtypeid: itemtypeid },
+        dataType: "json",
+        async: true,
+        success: function(res) {
+            var showSoftware = !!(res && res.hassoftware === 1);
 
-				// 3. 下方软件列表（靠ID精准控制，绝对不碰其他）
-				$("#softwareOverviewList").toggle(showSoftware);
-			}
-		});
-	}
+            if (showSoftware) {
+                $("a[href='#tab5']").parent().show();
+                $("#tab5").show();
+                $("#softwareTabTitle").show();
+                $("#softwareOverviewList").show();
+            }
+            $("#tabs").tabs("refresh");
+        },
+        error: function() {
+            $("#tabs").tabs("refresh");
+        }
+    });
+}
+
+
 
 	// 初始化执行
 	refreshRackFields();
@@ -60,7 +85,9 @@ $(document).ready(function() {
 
 	$("#tabs").tabs();
 	$("#tabs").show();
-
+	// 限制购买日期：不能选今天以后的日期
+	$("#aa0").datepicker("option", "maxDate", 0);
+	
 	$("#locationid").change(function() {
 		var locationid = $(this).val();
 		var dataString = 'locationid='+ locationid;
@@ -89,8 +116,8 @@ $(document).ready(function() {
 
 <?php 
 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
-
+$disperr = '';
+$warr = '';
 // 初始化 internalid 变量
 $internalid = "";
 // 如果是从表单POST回来的数据，使用POST的值
@@ -176,7 +203,7 @@ $netitems=$sth->fetchAll(PDO::FETCH_ASSOC);
 
 // === 修改：处理新建和克隆模式的初始化 ===
 if ($id == "new") { 
-    $caption = t("Add New Item"); 
+    $caption = t("Add new Item"); 
     
     // 检查是否是克隆模式（URL 中带有 sourceid）
     $is_cloning = isset($_GET['sourceid']) && is_numeric($_GET['sourceid']);
@@ -227,8 +254,6 @@ else if ($action=="edititem") {
 		<li><label for="rackmountable" class="error"><?php te("Please check if this item can be rackmounted");?></label></li>
 		<li><label for="manufacturerid" class="error"><?php te("Manufacturer is missing");?></label></li>
 		<li><label for="model" class="error"><?php te("Specify model");?></label></li>
-		<li><label for="userid" class="error"><?php te("Specify user responsible for this item");?></label></li>
-		<li><label for="custom_user" class="error"><?php te("Specify user responsible for this item");?></label></li>
 	</ol>
 </div>
 
@@ -252,7 +277,7 @@ else if ($action=="edititem") {
   <tr>
   <td class='tdtop'>
     <table border='0' class=tbl2>
-    <tr><td colspan=2><h3><?php te("Intrinsic Properties");?></h3></td></tr>
+    <tr><td colspan=2><h3><?php te("Basic Info");?></h3></td></tr>
 
 	<!-- === 新增：内部编号字段 === -->
 	<tr>
@@ -418,27 +443,6 @@ else if ($action=="edititem") {
       </select>
 	</td>
 	</tr>
-
-      <?php 
-      //user
-      ?>
-
-      <tr>
-      <td class='tdt'><?php te("User");?><sup class='red'>*</sup>:</td><td>
-      <select validate='required:true' class='mandatory' name='userid'>
-      <option value=''><?php te("Select User");?></option>
-      <?php 
-      for ($i=0;$i<count($userlist);$i++) {
-	$dbid=$userlist[$i]['id']; $itype=$userlist[$i]['username']; $s="";
-	if ($userid==$dbid) $s=" SELECTED ";
-	//echo "<option $s value='$dbid'>".sprintf("%02d",$dbid)."-$itype</option>\n";
-	echo "<option $s value='$dbid'>$itype</option>\n";
-      }
-      ?>
-
-      </select>
-      </td>
-      </tr>
 		<!-- 自定义使用人与部门 Start -->
 		<?php
 		// 读取部门（和编辑部门页面完全一样）
@@ -696,7 +700,7 @@ else if ($action=="edititem") {
       </tr>
 
       <tr>
-	<td class='tdt' title='<?php te("describe the purpose of this item");?>'><?php te("Function");?>:</td>
+	<td class='tdt' title='<?php te("Describe the purpose of this item");?>'><?php te("Function");?>:</td>
 	<td title='<?php te("How is this item used. e.g.: Video Encoder");?>'><input type=text size=15 value="<?php echo $function?>" name='function'></td> 
       </tr>
 
@@ -725,7 +729,7 @@ else if ($action=="edititem") {
       <tr> <td class='tdt'><?php te("Warranty Months");?>:</td><td><input type=text size=15 value='<?php echo $warrantymonths?>' name='warrantymonths'></td> </tr>
       <tr><td class="tdt"><?php te("Warranty Info");?>:</td> <td><input  size=12 type=text name='warrinfo' value="<?php echo $warrinfo?>"></td></tr>
       <tr><tr><td colspan=2 style='padding-top:10px'><h3><?php te("Misc");?></h3></td> </tr>
-      <tr><td class='tdt'><?php te("HDs (TB)");?></td><td  title="<?php te('Comma separated. E.g. Enter "2, 0.6" for 1x2T+1x600G');?>"><input type=text size=15 value='<?php echo $hd?>' name='hd'></td> </tr>
+      <tr><td class='tdt'><?php te("HDs (TB)");?>:</td><td  title="<?php te('Comma separated. E.g. Enter "2, 0.6" for 1x2T+1x600G');?>"><input type=text size=15 value='<?php echo $hd?>' name='hd'></td> </tr>
       <tr><td class='tdt' class='tdt'><?php te("RAM (GB)");?>:</td><td><input type=text size=15 value='<?php echo $ram?>' name='ram'></td> </tr>
       <tr><td class='tdt' class='tdt'><?php te("CPU Model");?>:</td><td title='<?php te("e.g. Intel E5450");?>'><input type=text size=15 value='<?php echo $cpu?>' name='cpu'></td> </tr>
 
@@ -837,50 +841,56 @@ else if ($action=="edititem") {
 
       <div class="scrltblcontainer4" style='height:13em'>
 
-      <div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
-      <?php 
-      if (is_numeric($id)) {
-	$sql="SELECT items.id, agents.title || ' ' || items.model || ' [' || itemtypes.typedesc || ', ID:' || items.id || ']' as txt ".
-	     "FROM agents,items,itemtypes WHERE ".
-	     " agents.id=items.manufacturerid AND items.itemtypeid=itemtypes.id AND ".
-	     " items.id IN ".
-	     "  (SELECT itemid1 FROM itemlink WHERE itemid2=$id UNION SELECT itemid2 FROM itemlink WHERE itemid1=$id)";
+	<div id='items' class='relatedlist'><?php te("ITEMS");?></div>
+	<?php 
+	if (is_numeric($id)) {
+	$sql="SELECT 
+	items.id,
+	items.internalid,
+	agents.title as manuf_name,
+	items.model,
+	itemtypes.typedesc,
+	departments.name AS dept_name,
+	employees.name AS emp_name
+	FROM items
+	LEFT JOIN agents ON agents.id=items.manufacturerid
+	LEFT JOIN itemtypes ON itemtypes.id=items.itemtypeid
+	LEFT JOIN departments ON departments.id=items.custom_dept
+	LEFT JOIN employees ON employees.id=items.custom_user
+	WHERE items.id IN 
+	(SELECT itemid1 FROM itemlink WHERE itemid2=$id UNION SELECT itemid2 FROM itemlink WHERE itemid1=$id)";
+	
 	$sthi=db_execute($dbh,$sql);
 	$ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
 	$nitems=count($ri);
 	$institems="";
+	
 	for ($i=0;$i<$nitems;$i++) {
-	  $x=($i+1).": ".$ri[$i]['txt'];
-	  if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
-	  $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
-		      "<a href='$scriptname?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
+		// 只显示：内部编号 + 厂商型号
+		$show = htmlspecialchars($ri[$i]['internalid'], ENT_QUOTES)
+		      . ' ' 
+		      . htmlspecialchars($ri[$i]['manuf_name'], ENT_QUOTES)
+		      . ' '
+		      . htmlspecialchars($ri[$i]['model'], ENT_QUOTES);
+	
+		// 悬停提示：内部编号、类型、部门、使用人
+		$tip = t('Internal ID').': '.$ri[$i]['internalid']."\n"
+		     . t('Type').': '.$ri[$i]['typedesc']."\n"
+		     . t('Department').': '.($ri[$i]['dept_name'] ?: '-')."\n"
+		     . t('End User').': '.($ri[$i]['emp_name'] ?: '-');
+		$tip = htmlspecialchars($tip, ENT_QUOTES);
+	
+		$x = ($i+1).': '.$show;
+		$bcolor = $i%2 ? "#D9E3F6" : "#ffffff";
+	
+		$institems.="<div style='margin:0;padding:2px;background-color:$bcolor;white-space:nowrap;'>
+		<a href='$scriptname?action=edititem&amp;id={$ri[$i]['id']}' title=\"$tip\">$x</a></div>";
 	}
+	
 	echo $institems;
-      }
-      ?>
-<div id="softwareOverviewList">
-      <div  id='software' class='relatedlist'><?php te("SOFTWARE");?></div>
-      <?php 
-      if (is_numeric($id)) {
-	//print a table row
+	}
+	?>
 
-	$sql="SELECT software.id, agents.title || ' ' || software.stitle ||' '|| software.sversion || ' [ID:' || software.id || ']' as txt ".
-	     "FROM agents,software,item2soft WHERE ".
-	     " agents.id=software.manufacturerid AND item2soft.softid=software.id AND item2soft.itemid='$id'";
-	$sthi=db_execute($dbh,$sql);
-	$ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
-	$nitems=count($ri);
-	$institems="";
-	for ($i=0;$i<$nitems;$i++) {
-	  $x=($i+1).": ".$ri[$i]['txt'];
-	  if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
-	  $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>".
-		      "<a href='$scriptname?action=editsoftware&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
-	}
-	echo $institems;
-      }
-      ?>
-</div>
      <div id='invoices1' class='relatedlist'><?php te("INVOICES");?></div>
       <?php 
       if (is_numeric($id)) {
@@ -972,8 +982,8 @@ else if ($action=="edititem") {
       while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 	if ($status!=$r['status'])
 	  $warr.= "<li>".t("<b>status</b> of this item  different from status of associated item").
-	  " <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
-	  "({$r['statusdesc']})</li>";
+	  "[".t("ID").": <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
+	  "({$r['statusdesc']})]</li>";
       }
 
       //check for different location of linked items
@@ -985,8 +995,8 @@ else if ($action=="edititem") {
       while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 	if ($locationid!=$r['locationid'])
 	  $warr.= "<li>".t("<b>location</b> of this item  different from location of associated item").
-	  " <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
-	  "({$r['name']})</li>";
+	  "[".t("ID").":  <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
+	  "({$r['name']})]</li>";
       }
 
       //check for different user of linked items
@@ -998,8 +1008,8 @@ else if ($action=="edititem") {
       while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
 	if ($userid!=$r['userid'])
 	  $warr.= "<li>".t("<b>user</b> of this item  different from user of associated item").
-	  " <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
-	  "({$r['username']})</li>";
+	  "[".t("ID").":  <a href='$scriptname?action=edititem&amp;id={$r['id']}'>{$r['id']}</a> ".
+	  "({$r['username']})]</li>";
       }
 
       if (strlen($warr)) {
@@ -1030,7 +1040,7 @@ else if ($action=="edititem") {
       <div class='scrltblcontainer'>
       <table width='100%' class='sortable brdr' id='itemslisttbl'>
       <thead><tr><th><?php te("Rel");?></th><th><?php te("ID");?></th><th><?php te("Type");?></th><th><?php te("Manufacturer");?></th>
-                 <th><?php te("Model");?></th><th><?php te("Label");?></th><th><?php te("DNS");?></th>
+                 <th><?php te("Model");?></th><th><?php te("Label");?></th><th><?php te("DNS Name");?></th>
                  <th><?php te("Users");?></th><th><?php te("S/N");?></th></tr></thead>
       <tbody>
 <?php 
@@ -1143,7 +1153,7 @@ $sql="SELECT i.id,i.vendorid, i.date,i.number,i.description,   group_concat(fnam
   $sth=db_execute($dbh,$sql);
 
   while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-    $d=strlen($r['date'])?date($dateparam,$r['date']):"";
+    $d=!empty($r['date'])?format_date($r['date'],$settings,true,false):"";
     echo "\n <tr><td class='bld'><input name='invlnk[]' value='".$r['id'].
      "' checked type='checkbox' /></td>".  
      "<td class='bld'><a href='$scriptname?action=editinvoice&amp;id={$r['id']}' class='editid'>".$r['id']."</a></td>".  
@@ -1177,7 +1187,7 @@ $sql="SELECT i.id,i.vendorid, i.date,i.number,i.description,   group_concat(fnam
 $sth=db_execute($dbh,$sql);
 
 while ($r=$sth->fetch(PDO::FETCH_ASSOC)) {
-  $d=strlen($r['date'])?date($dateparam,$r['date']):"";
+  $d=!empty($r['date'])?format_date($r['date'],$settings,true,false):"";
   echo "\n <tr><td><input name='invlnk[]' value='".$r['id'].
    "' type='checkbox' /></td>".  
    "<td><a class='editid' href='$scriptname?action=editinvoice&amp;id={$r['id']}'>".$r['id']."</a></td>".  

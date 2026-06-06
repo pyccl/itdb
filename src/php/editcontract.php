@@ -1,5 +1,8 @@
 <?php
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 $sql="SELECT * FROM contracttypes";
 $sth=$dbh->query($sql);
 $contracttypes=$sth->fetchAll(PDO::FETCH_ASSOC);
@@ -310,6 +313,21 @@ $(document).ready(function() {
     });
     $("#tabs").tabs();
     $("#tabs").show();
+	// ==============================
+	// 主合同日期：开始 ≤ 结束（稳定不弹）
+	// ==============================
+	$("#startdate").datepicker();
+	$("#currentenddate").datepicker();
+	
+	$("#startdate").bind("change", function(){
+	    var d = $(this).val();
+	    if(d) $("#currentenddate").datepicker("option","minDate", d);
+	});
+	$("#currentenddate").bind("change", function(){
+	    var d = $(this).val();
+	    if(d) $("#startdate").datepicker("option","maxDate", d);
+	});
+ 
     $('input#itemsfilter').quicksearch('table#itemslisttbl tbody tr');
     $('input#softfilter').quicksearch('table#softlisttbl tbody tr');
     $('input#invfilter').quicksearch('table#invlisttbl tbody tr');
@@ -660,47 +678,93 @@ else
   </div>
   <button type=button id='rownew' value=lala onclick="$('#ev_dialog').data('rowid','new').dialog('open')"><?php te("Add");?></button>
 </div>
-<div id="tab3" class="tab_content">
-  <h2>
-      <input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
-             value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
-  </h2>
-  <?php 
-  $sql=" SELECT COALESCE((SELECT itemid FROM contract2item WHERE contractid='$id' AND itemid=items.id ),0) islinked , 
-       items.id,status,manufacturerid,model,itemtypeid,typedesc,sn || ' '||sn2 ||' ' || sn3 as sn,dnsname,users.username ,label 
-       FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND users.id=userid 
-       order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
-  $sth=db_execute($dbh,$sql);
-  ?>
-  <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
-     <table width='100%' class='brdr sortable'  id='itemslisttbl'>
-       <thead>
-          <tr><th width='5%'><?php te("Associated");?></th><th style='width:65px;'><?php te("ID");?></th><th><?php te("Type");?></th>
-                  <th><?php te("Manufacturer");?></th><th><?php te("Model");?></th>
-                   <th><?php te("Label");?></th><th>DNS</th><th><?php te("User");?></th><th><?php te("S/N");?></th>
-          </tr>
-        </thead>
-        <tbody>
-  <?php 
-  while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
+	<div id='tab3' class='tab_content'>
+<table style="width:100%;">
+<tr>
+<td colspan="3"><h2> <?php te("Associated Items");?>
+<input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
+value='<?php te("Filter");?>' onclick='this.style.color="#000"; this.value=""' size="20">
+</h2></td></tr>
+<tr><td colspan="3" class='tdc'>
+
+<?php
+// 类型名称（自带，不用你加顶部）
+$typeid2name = array();
+$_ts = db_execute($dbh, "SELECT id, typedesc FROM itemtypes");
+while ($_t = $_ts->fetch(PDO::FETCH_ASSOC)) {
+    $typeid2name[$_t['id']] = $_t['typedesc'];
+}
+
+// 正确表：contract2item
+$sql="SELECT COALESCE((SELECT itemid FROM contract2item WHERE contractid='$id' AND itemid=items.id),0) islinked,
+items.id,
+items.internalid,
+items.status,
+items.manufacturerid,
+items.model,
+items.itemtypeid,
+items.sn,items.sn2,items.sn3,
+items.label,
+employees.name AS custom_user_name,
+departments.name AS custom_dept_name
+FROM items
+LEFT JOIN employees ON employees.id=items.custom_user
+LEFT JOIN departments ON departments.id=items.custom_dept
+JOIN itemtypes ON itemtypes.id=items.itemtypeid
+ORDER BY islinked DESC, itemtypeid, items.id DESC, manufacturerid, model";
+
+$sth=db_execute($dbh,$sql);
+?>
+
+<!-- 宽度还原：去掉多余约束，恢复原来全屏宽 -->
+<div class="scrltblcontainer2" style="width:100%;">
+<table class='sortable brdr' id="itemslisttbl" style="width:100%;table-layout:fixed;">
+<thead>
+<tr>
+    <th style="width:5%;"><?php te("Associate");?></th>
+    <th style="width:70px;"><?php te("ID");?></th>
+    <th><?php te("Type");?></th>
+    <th><?php te("Manufacturer");?></th>
+    <th><?php te("Model");?></th>
+    <th><?php te("Label");?></th>
+    <th><?php te("Internal ID");?></th>
+    <th><?php te("Department");?></th>
+    <th><?php te("End User");?></th>
+    <th><?php te("S/N");?></th>
+</tr>
+</thead>
+<tbody>
+<?php 
+while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
     $cls = $ir['islinked'] ? "class='bld'" : "";
-    $x=attrofstatus((int)$ir['status'],$dbh);
-    $attr=$x[0];
-    echo "<tr><td><input name='itlnk[]' value='".$ir['id']."' ".($ir['islinked']?" checked":"")." type='checkbox'></td>".
-     "<td nowrap $cls><span $attr>&nbsp;</span><a title='Edit item {$ir['id']}' target=_blank href='$scriptname?action=edititem&id={$ir['id']}'><div class='editid'>{$ir['id']}</div></a></td>".
-     "<td $cls>".$ir['typedesc']."</td>".
-     "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
-     "<td $cls>".$ir['model'].  "&nbsp;</td>".
-     "<td $cls>".$ir['label']."&nbsp;</td>".
-     "<td $cls>".$ir['dnsname']."&nbsp;</td>".
-     "<td $cls>".$ir['username']."&nbsp;</td>".
-     "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
-  }
-  ?>
-  </tbody>
-  </table>
-  </div>
+    $x = attrofstatus((int)$ir['status'],$dbh);
+    $attr = $x[0];
+    $sn_full = trim($ir['sn'].' '.$ir['sn2'].' '.$ir['sn3']);
+?>
+<tr>
+    <td><input name='itlnk[]' value='<?php echo $ir['id'] ?>' <?php echo $ir['islinked'] ? 'checked' : '' ?> type='checkbox'></td>
+    <td nowrap <?php echo $cls ?>><span <?php echo $attr ?>>&nbsp;</span>
+        <a target=_blank href='<?php echo $scriptname?>?action=edititem&id=<?php echo $ir['id']?>'>
+        <div class='editid'><?php echo $ir['id']?></div></a>
+    </td>
+    <td <?php echo $cls ?>><?php echo $typeid2name[$ir['itemtypeid']]?></td>
+    <td <?php echo $cls ?>><?php echo $agents[$ir['manufacturerid']]['title']?></td>
+    <td <?php echo $cls ?>><?php echo $ir['model']?></td>
+    <td <?php echo $cls ?>><?php echo $ir['label']?></td>
+    <td <?php echo $cls ?>><?php echo $ir['internalid']?></td>
+    <td <?php echo $cls ?>><?php echo $ir['custom_dept_name']?></td>
+    <td <?php echo $cls ?>><?php echo $ir['custom_user_name']?></td>
+    <td <?php echo $cls ?>><?php echo $sn_full?></td>
+</tr>
+<?php } ?>
+</tbody>
+</table>
 </div>
+</td></tr>
+</table>
+</div>
+
+
 <div id="tab4" class="tab_content">
   <h2>
       <input style='color:#909090' id="softfilter" name="softfilter" class='filter' 

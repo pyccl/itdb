@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 $(function () {
 
@@ -38,7 +44,6 @@ $(function () {
 </SCRIPT>
 
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 
@@ -55,7 +60,7 @@ $sql="SELECT software.*,agents.id as agid ,agents.type as agtype, agents.title a
 $sth=db_execute($dbh,$sql);
 ?>
 
-<h1><?php te("Software");?> <a  title='<?php te("Add new software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=new'><img border=0 src='images/add.png'></a> </h1>
+<h1><?php te("Software");?> <a  title='<?php te("Add new Software");?>' href='<?php echo $scriptname?>?action=editsoftware&amp;id=new'><img border=0 src='images/add.png'></a> </h1>
 
 <div class='scrtblcontainerlist'>
 

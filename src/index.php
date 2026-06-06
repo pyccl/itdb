@@ -50,7 +50,7 @@ else  {
 
 switch ($_GET['action']) {
   case "listitems2": 
-    $title=t("Find Item2");
+    $title=t("Find Item")."2";
     break;
   case "listitems": 
     $title=t("Find Item");
@@ -377,7 +377,7 @@ if ($authstatus) {
 }
 else {
   if (isset($_COOKIE["itdbuser"])) $itdbuser=$_COOKIE["itdbuser"]; 
-  else $itdbuser=t("username");
+  else $itdbuser=t("Username");
 
 	// 登录失败日志
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['authusername']) && !$authstatus) {
@@ -499,7 +499,7 @@ if ($authstatus) {
 ?>
   <a title='<?php te("Download DataBase file. Contains all data except uploaded files/documents");?>' class='ahdr' href='getdb.php'><img src='images/database_save.png'><?php te("DB (SQLite)");?></a><br>
   <a title='<?php te("Download a complete installation backup (much larger)");?>' class='ahdr' href='gettar.php'><img src='images/backup.gif' width=20><?php te("Full Backup");?></a><br>
-  <a title='<?php te("Download a complete installation backup (much larger)");?>' class='ahdr' href='php/db_manager.php'><img src='images/database_save.png'><?php te("Database Manager");?></a><br>
+  <a class='ahdr' href='php/db_manager.php'><img src='images/database_save.png'><?php te("Database Manager");?></a><br>
 <?php 
 }
 

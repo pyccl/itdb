@@ -1,6 +1,8 @@
 <?php
-/* display areas of specific location on select list*/
-include('../init.php');
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 
 if(is_numeric($_POST['locationid'])) {
   $id=$_POST['locationid'];

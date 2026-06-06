@@ -19,6 +19,10 @@ if (empty($wantbarcode)) {
     $wantraligntext = 0;
 }
 
+// 跳过标签数量（PHP5.6兼容）
+$labelskip = isset($_POST['labelskip']) ? intval($_POST['labelskip']) : 0;
+$labelskip = $labelskip < 0 ? 0 : $labelskip;
+
 $ids = "";
 for ($i=0;$i<count($selitems);$i++)  {
   $ids .= "'".$selitems[$i]."'";

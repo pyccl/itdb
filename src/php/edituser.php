@@ -1,5 +1,9 @@
-<?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 
 // 用户字段（用于对比）
@@ -377,30 +381,40 @@ else
 	}
 	</style>
 	
-	<div style="width: 100%;">
-	  <h3 style="margin:0 0 10px 0; font-size:16px;"><?php te("Dashboard Card Selection");?></h3>
-	  <div class="dashboard-card-selector">
-	    <?php
-	    $card_list = getDashboardCards($dbh);
-	    $selected_ids = [];
-	    if (!empty($r['dashboard_cards'])) {
-	        $selected_ids = explode(',', $r['dashboard_cards']);
-	    }
-	    foreach($card_list as $card):
-	        $c_id    = $card['id'];
-	        $checked = in_array($c_id, $selected_ids);
-	        $color   = htmlspecialchars($card['color']);
-	        $icon    = htmlspecialchars($card['icon']);
-	        $title   = htmlspecialchars($card['title']);
-	    ?>
-	    <label class="card-select-item <?php echo $checked ? 'checked' : ''; ?>" style="border-top-color:<?php echo $color; ?>;">
-	        <input type="checkbox" class="card-select-checkbox" formnovalidate name="dashboard_card_ids[]" value="<?php echo $c_id; ?>" <?php echo $checked ? 'checked' : ''; ?>>
-	        <span class="card-select-icon" style="color:<?php echo $color; ?>"><?php echo $icon; ?></span>
-	        <span class="card-select-title"><?php echo $title; ?></span>
-	    </label>
-	    <?php endforeach; ?>
-	  </div>
-	</div>
+		<div style="width: 100%;">
+		  <h3 style="margin:0 0 10px 0; font-size:16px;"><?php te("Dashboard Card Selection");?></h3>
+		  <div class="dashboard-card-selector">
+		    <?php
+		    $card_list = getDashboardCards($dbh);
+		    $selected_ids = [];
+		    if (!empty($r['dashboard_cards'])) {
+		        $selected_ids = explode(',', $r['dashboard_cards']);
+		    }
+		    // 无卡片提示 单t() + sprintf 无参数错误
+		    if (empty($card_list)) {
+		        echo sprintf(
+		            t('No dashboard cards, please <a href="%s">add cards</a> first.'),
+		            '?action=editdashboardcard&id=new'
+		        );
+		    } else {
+		        foreach($card_list as $card):
+		            $c_id    = $card['id'];
+		            $checked = in_array($c_id, $selected_ids);
+		            $color   = htmlspecialchars($card['color']);
+		            $icon    = htmlspecialchars($card['icon']);
+		            $title   = htmlspecialchars($card['title']);
+		    ?>
+		    <label class="card-select-item <?php echo $checked ? 'checked' : ''; ?>" style="border-top-color:<?php echo $color; ?>;">
+		        <input type="checkbox" class="card-select-checkbox" formnovalidate name="dashboard_card_ids[]" value="<?php echo $c_id; ?>" <?php echo $checked ? 'checked' : ''; ?>>
+		        <span class="card-select-icon" style="color:<?php echo $color; ?>"><?php echo $icon; ?></span>
+		        <span class="card-select-title"><?php echo $title; ?></span>
+		    </label>
+		    <?php
+		        endforeach;
+		    }
+		    ?>
+		  </div>
+		</div>
 	</td>
 </tr>
 <tr>

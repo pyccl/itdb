@@ -1,10 +1,10 @@
-<?php 
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
-
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
-
-
 $id=$_GET['id'];
 
 	// --- 第一步：查询机柜信息 (Racks) ---

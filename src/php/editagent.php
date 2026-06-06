@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 function confirm_filled($row)
 {
@@ -31,7 +37,6 @@ $(document).ready(function() {
 });
 </SCRIPT>
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 $agent_formvars = array(
 	'type','title','contactinfo','contacts','urls'
@@ -305,18 +310,38 @@ echo $disperr;
 	<div  id='items' class='relatedlist'><?php te("ITEMS");?></div>
 	<?php 
 	if (is_numeric($id)) {
-		$sql="SELECT items.id, items.model, items.dnsname FROM items WHERE manufacturerid='$id'";
-		$sthi=db_execute($dbh,$sql);
-		$ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
-		$nitems=count($ri);
-		$institems="";
-		for ($i=0;$i<$nitems;$i++) {
-			$x=($i+1).": ({$ri[$i]['id']}) ".$ri[$i]['model']." ".$ri[$i]['dnsname'];
-			if ($i%2) $bcolor="#D9E3F6"; else $bcolor="#ffffff";
-			$institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>
-						<a href='$scriptname?action=edititem&amp;id={$ri[$i]['id']}'>$x</a></div>\n";
-		}
-		echo $institems;
+		$sql="SELECT 
+	items.id, 
+	items.internalid,
+	items.label,
+	agents.title as manuf_name,
+	items.model,
+	departments.name AS dept_name,
+	employees.name AS emp_name
+	FROM items 
+	LEFT JOIN agents ON agents.id = items.manufacturerid
+	LEFT JOIN departments ON departments.id = items.custom_dept
+	LEFT JOIN employees ON employees.id = items.custom_user
+	WHERE items.manufacturerid='$id'";
+	$sthi=db_execute($dbh,$sql);
+	$ri=$sthi->fetchAll(PDO::FETCH_ASSOC);
+	$nitems=count($ri);
+	$institems="";
+	for ($i=0;$i<$nitems;$i++) {
+	    $tip = t("Label").": {$ri[$i]['label']}\n"
+	         . t("Manufacturer").": {$ri[$i]['manuf_name']}\n"
+	         . t("Model").": {$ri[$i]['model']}\n"
+	         . t("Department").": {$ri[$i]['dept_name']}\n"
+	         . t("End User").": {$ri[$i]['emp_name']}";
+	    $tip = htmlspecialchars($tip, ENT_QUOTES);
+	
+	    $x = ($i+1).": ({$ri[$i]['id']}) {$ri[$i]['internalid']}";
+	    
+	    $bcolor = $i%2 ? "#D9E3F6" : "#ffffff";
+	    $institems.="\t<div style='margin:0;padding:0;background-color:$bcolor'>
+	                <a href='$scriptname?action=edititem&amp;id={$ri[$i]['id']}' title=\"$tip\">$x</a></div>\n";
+	}
+	echo $institems;
 	}
 	?>
 	<div  id='software' class='relatedlist'><?php te("SOFTWARE");?></div>

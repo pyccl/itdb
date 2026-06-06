@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript">
 $(function () {
     $('table#contlisttbl').dataTable({
@@ -64,11 +70,6 @@ $(function () {
 </SCRIPT>
 
 <?php
-if (!isset($initok)) {
-    echo t("do not run this script directly");
-    exit;
-}
-
 /* 
     员工列表页面
     作者: [你的名字]
@@ -97,7 +98,7 @@ $sth = db_execute($dbh, $sql);
 ?>
 
 <h1>
-    <?php te("Employees List");?> 
+    <?php te("Employees");?> 
     <a title='<?php te("Add new Employee");?>' href='<?php echo $scriptname?>?action=editemployees&amp;id=new'>
         <img border=0 src='images/add.png' >
     </a>

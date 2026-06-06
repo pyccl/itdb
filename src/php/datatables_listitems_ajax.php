@@ -1,4 +1,9 @@
 <?php
+	include( '../init.php');
+	// 读取系统日期时间设置
+	$sth_setting = $dbh->query("SELECT dateformat,timeformat FROM settings LIMIT 1");
+	$settings = $sth_setting->fetch(PDO::FETCH_ASSOC);
+	
 	/* sivann
 	 * How to debug:
 	 * 1. Firebug, Net, XHR (prefered)
@@ -13,7 +18,7 @@
 	'remdays','user_name','dept_name','statusdesc','locationname','areaname','rackinfo','purchprice','macs','ipv4','ipv6',
 	'remadmip','taginfo','softinfo');
 
-	include( '../init.php');
+
 
 	/* Indexed column (used for fast and accurate table cardinality) */
 	$sIndexColumn = "id";
@@ -238,10 +243,12 @@
 			}
 
 			elseif ( $aColumns[$i] == "purchasedate" ) {
-				if (strlen($aRow[$aColumns[$i]]))
-				  $row[] = "<span title='{$aRow[$aColumns[$i]]}'>".date($dateparam,(int)$aRow[$aColumns[$i]])."</span>";
-				else 
-				  $row[] = "<span title='0'></span>";
+				if (strlen($aRow[$aColumns[$i]])) {
+					$pd = format_date($aRow[$aColumns[$i]], $settings, true, false);
+					$row[] = "<span title='{$aRow[$aColumns[$i]]}'>$pd</span>";
+				} else {
+					$row[] = "<span title='0'></span>";
+				}
 			}
 
 			elseif ( $aColumns[$i] == "softinfo" )
@@ -255,14 +262,22 @@
 
 				$w2=implode("",$arr);
 				if (strlen($w2)) $w2.="...";
-				
-
 				$row[] = "<small><div title='$w'>". $w2. "</div></small>";
 			}
-			else if ( $aColumns[$i] != ' ' )
-			{
-				/* General output */
-				$row[] = $aRow[ $aColumns[$i] ];
+			elseif ($aColumns[$i] == "statusdesc") {
+			    $statusid = getstatusidofitem($aRow['itemid'], $dbh);
+			    $s = $dbh->prepare("SELECT color FROM statustypes WHERE id = ?");
+			    $s->execute([$statusid]);
+			    $bg = $s->fetchColumn();
+			    if (!$bg) $bg = '#cccccc';
+			
+			    $fg = getAutoTextColor($bg);
+			
+			    $style = "background-color:$bg; color:$fg; font-weight:bold; padding:2px 6px; border-radius:2px;";
+			    $row[] = "<span style='$style'>{$aRow['statusdesc']}</span>";
+			}
+			else {
+			    $row[] = isset($aRow[$aColumns[$i]]) ? $aRow[$aColumns[$i]] : '';
 			}
 		}
 		$output['aaData'][] = $row;

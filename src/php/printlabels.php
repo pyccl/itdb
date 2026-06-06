@@ -1,5 +1,8 @@
 <?php
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
 
 // 👇 只在这里安全增加重名检测，其余代码完全原版不动
 if (isset($_POST['labelaction']) && $_POST['labelaction']=="savepreset") {
@@ -38,14 +41,14 @@ if (isset($_POST['labelaction']) && $_POST['labelaction']=="savepreset") {
         $print_fields_str = implode(',', $print_fields);
         $custom_w = isset($_POST['custom_w']) ? intval($_POST['custom_w']) : 40;
         $custom_h = isset($_POST['custom_h']) ? intval($_POST['custom_h']) : 30;
-        
+        $labelskip = isset($_POST['labelskip']) ? max(0, intval($_POST['labelskip'])) : 0;
         $sql="INSERT INTO labelpapers ".
         "(rows,cols,lwidth,lheight,vpitch,hpitch,tmargin,bmargin,lmargin,rmargin,name,
         border,padding,fontsize,headerfontsize,barcodesize,idfontsize,wantbarcode,wantheadertext,wantheaderimage,
-        headertext,image,imagewidth,imageheight,papersize,qrtext,wantnotext,wantraligntext,print_fields,custom_w,custom_h) ".
+        headertext,image,imagewidth,imageheight,papersize,qrtext,wantnotext,wantraligntext,print_fields,custom_w,custom_h,labelskip) ".
         "values ($rows,$cols,$lwidth,$lheight,$vpitch,$hpitch,$tmargin,$bmargin,$lmargin,$rmargin,'".addslashes($name)."',
         $border,$padding,$fontsize,$headerfontsize,$barcodesize,'".addslashes($idfontsize)."',$wantbarcode,$wantheadertext,$wantheaderimage,
-        '".addslashes($headertext)."','".addslashes($image)."',$imagewidth,$imageheight,'".addslashes($papersize)."','".addslashes($qrtext)."',$wantnotext,$wantraligntext,'".addslashes($print_fields_str)."',$custom_w,$custom_h)";
+        '".addslashes($headertext)."','".addslashes($image)."',$imagewidth,$imageheight,'".addslashes($papersize)."','".addslashes($qrtext)."',$wantnotext,$wantraligntext,'".addslashes($print_fields_str)."',$custom_w,$custom_h,$labelskip)";
         
         db_execute($dbh,$sql);
         $msg = t("<b><big>Preset saved!</big></b>");
@@ -64,52 +67,61 @@ if (isset($_POST['labelaction']) && $_POST['labelaction']=="savepreset") {
 	  document.getElementById('custom_size_div').style.display = (v == 'Custom') ? 'block' : 'none';
 	}
 	window.onload = function() { toggleCustomSize(); };
-function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmargin, rmargin,name,
-               border,padding,fontsize, headerfontsize,barcodesize, idfontsize,wantbarcode,wantheadertext,wantheaderimage,
-               headertext,image,imageheight,imagewidth,papersize,qrtext,wantnotext,wantraligntext,print_fields,custom_w,custom_h)
-{
-  document.selitemsfrm.lwidth.value=lwidth;
-  document.selitemsfrm.lheight.value=lheight;
-  document.selitemsfrm.vpitch.value=vpitch;
-  document.selitemsfrm.hpitch.value=hpitch;
-  document.selitemsfrm.tmargin.value=tmargin;
-  document.selitemsfrm.bmargin.value=bmargin;
-  document.selitemsfrm.lmargin.value=lmargin;
-  document.selitemsfrm.rmargin.value=rmargin;
-  document.selitemsfrm.name.value=name;
-  document.selitemsfrm.oldname.value=name;
-  document.selitemsfrm.border.value=border;
-  document.selitemsfrm.padding.value=padding;
-  document.selitemsfrm.headerfontsize.value=headerfontsize;
-  document.selitemsfrm.barcodesize.value=barcodesize;
-  document.selitemsfrm.idfontsize.value = idfontsize || '#000000';
-  document.selitemsfrm.fontsize.value=fontsize;
-  document.selitemsfrm.image.value=image;
-  document.selitemsfrm.imagewidth.value=imagewidth;
-  document.selitemsfrm.imageheight.value=imageheight;
-  document.selitemsfrm.qrtext.value=qrtext;
-  $("#wantbarcode").prop("checked", wantbarcode);
-  $("#wantheadertext").prop("checked", wantheadertext);
-  $("#wantheaderimage").prop("checked", wantheaderimage);
-  $("#wantnotext").prop("checked", 1*wantnotext);
-  $("#wantraligntext").prop("checked", 1*wantraligntext);
-  document.selitemsfrm.headertext.value=headertext;
-  document.selitemsfrm.rows.selectedIndex = rows-1;
-  document.selitemsfrm.cols.selectedIndex = cols-1;
-  $("#pn_"+papersize).attr("selected", "selected");
-  $('#theimage').attr('src',$('#iimage').val());
-  $("input[name='print_fields[]']").prop('checked', false);
-  if(print_fields){
-    var arr = print_fields.split(',');
-    for(var i=0; i<arr.length; i++){
-      $("input[name='print_fields[]'][value='"+arr[i]+"']").prop('checked', true);
-    }
-  }
-  document.selitemsfrm.custom_w.value = custom_w;
-  document.selitemsfrm.custom_h.value = custom_h;
-  toggleCustomSize(); 
-}
-
+	function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmargin, rmargin,name,
+	               border,padding,fontsize, headerfontsize,barcodesize, idfontsize,wantbarcode,wantheadertext,wantheaderimage,
+	               headertext,image,imageheight,imagewidth,papersize,qrtext,wantnotext,wantraligntext,print_fields,custom_w,custom_h,labelskip)
+	{
+	  // 最后一层保险：全部转数字
+	  rows            = parseInt(rows) || 1;
+	  cols            = parseInt(cols) || 1;
+	  wantnotext      = parseInt(wantnotext) || 0;
+	  wantraligntext  = parseInt(wantraligntext) || 0;
+	  custom_w        = parseInt(custom_w) || 40;
+	  custom_h        = parseInt(custom_h) || 30;
+	
+	  document.selitemsfrm.lwidth.value = lwidth;
+	  document.selitemsfrm.lheight.value = lheight;
+	  document.selitemsfrm.vpitch.value = vpitch;
+	  document.selitemsfrm.hpitch.value = hpitch;
+	  document.selitemsfrm.tmargin.value = tmargin;
+	  document.selitemsfrm.bmargin.value = bmargin;
+	  document.selitemsfrm.lmargin.value = lmargin;
+	  document.selitemsfrm.rmargin.value = rmargin;
+	  document.selitemsfrm.name.value = name;
+	  document.selitemsfrm.oldname.value = name;
+	  document.selitemsfrm.border.value = border;
+	  document.selitemsfrm.padding.value = padding;
+	  document.selitemsfrm.headerfontsize.value = headerfontsize;
+	  document.selitemsfrm.barcodesize.value = barcodesize;
+	  document.selitemsfrm.idfontsize.value = idfontsize || '#000000';
+	  document.selitemsfrm.fontsize.value = fontsize;
+	  document.selitemsfrm.image.value = image;
+	  document.selitemsfrm.imagewidth.value = imagewidth;
+	  document.selitemsfrm.imageheight.value = imageheight;
+	  document.selitemsfrm.qrtext.value = qrtext;
+	  $("#wantbarcode").prop("checked", !!wantbarcode);
+	  $("#wantheadertext").prop("checked", !!wantheadertext);
+	  $("#wantheaderimage").prop("checked", !!wantheaderimage);
+	  $("#wantnotext").prop("checked", !!wantnotext);
+	  $("#wantraligntext").prop("checked", !!wantraligntext);
+	  document.selitemsfrm.headertext.value = headertext;
+	  document.selitemsfrm.rows.selectedIndex = rows - 1;
+	  document.selitemsfrm.cols.selectedIndex = cols - 1;
+	  $("#pn_"+papersize).prop("selected", true);
+	  $('#theimage').attr('src', image);
+	  $("input[name='print_fields[]']").prop('checked', false);
+	  if(print_fields){
+	    var arr = print_fields.split(',');
+	    for(var i=0; i<arr.length; i++){
+	      $("input[name='print_fields[]'][value='"+arr[i]+"']").prop('checked', true);
+	    }
+	  }
+	  document.selitemsfrm.custom_w.value = custom_w;
+	  document.selitemsfrm.custom_h.value = custom_h;
+	  document.selitemsfrm.labelskip.value = labelskip || 0;
+	  toggleCustomSize();
+	}
+	
 	// 👇 完全删除所有禁用代码，原版原样
 	function refreshLabelUI() {}
 	
@@ -124,7 +136,7 @@ function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmarg
 	
 	    if (filter === '') {
 	        $("#selitems2 option").clone().appendTo('#selitems');
-	        $("#filter-count").text('0 <?php te("items");?>');
+	        $("#filter-count").text('0 <?php te("Items");?>');
 	        return;
 	    }
 	
@@ -150,7 +162,7 @@ function ldata(rows,cols,lwidth,lheight, vpitch, hpitch, tmargin, bmargin, lmarg
 	        }
 	    });
 	
-	    $("#filter-count").text(count + ' <?php te("items");?>');
+	    $("#filter-count").text(count + ' <?php te("Items");?>');
 	});
 
 
@@ -342,7 +354,7 @@ else
       <?php echo t("<br>In the PDF printing dialog,");?>
       <ul>
 	  <li><?php te('set <b>"Page Scaling"</b> to <b>"None"</b>');?></li>
-	  <li><?php te('<b>uncheck</b> "auto-rotate &amp; center"</b>');?></li>
+	  <li><?php te('<b>uncheck</b> "auto-rotate & center"');?></li>
       </ul>
     </div>
   </div>
@@ -360,10 +372,47 @@ else
 if (isset($labelpapers))
 foreach ($labelpapers as $lp) {
   $pf_esc = htmlspecialchars($lp['print_fields']);
-  echo "\n<a href='javascript:ldata({$lp['rows']}, {$lp['cols']}, ".
-       "{$lp['lwidth']},{$lp['lheight']}, {$lp['vpitch']}, {$lp['hpitch']}, ".
-       "{$lp['tmargin']}, {$lp['bmargin']}, {$lp['lmargin']}, ".
-       "{$lp['rmargin']},\"{$lp['name']}\",{$lp['border']},{$lp['padding']},{$lp['fontsize']},{$lp['headerfontsize']},{$lp['barcodesize']},\"{$lp['idfontsize']}\",{$lp['wantbarcode']},{$lp['wantheadertext']},{$lp['wantheaderimage']},\"{$lp['headertext']}\",\"{$lp['image']}\",\"{$lp['imageheight']}\",\"{$lp['imagewidth']}\",\"{$lp['papersize']}\",\"{$lp['qrtext']}\",{$lp['wantnotext']},{$lp['wantraligntext']},\"{$pf_esc}\",{$lp['custom_w']},{$lp['custom_h']})'>{$lp['name']}</a>";
+// 强制所有空值转 0，从源头杜绝 JS 报错
+$_wantnotext      = !empty($lp['wantnotext'])      ? intval($lp['wantnotext'])      : 0;
+$_wantraligntext  = !empty($lp['wantraligntext'])  ? intval($lp['wantraligntext'])  : 0;
+$_custom_w        = !empty($lp['custom_w'])        ? intval($lp['custom_w'])        : 40;
+$_custom_h        = !empty($lp['custom_h'])        ? intval($lp['custom_h'])        : 30;
+
+echo "\n<a href='javascript:ldata(
+{$lp['rows']},
+{$lp['cols']},
+{$lp['lwidth']},
+{$lp['lheight']},
+{$lp['vpitch']},
+{$lp['hpitch']},
+{$lp['tmargin']},
+{$lp['bmargin']},
+{$lp['lmargin']},
+{$lp['rmargin']},
+\"".addslashes($lp['name'])."\",
+{$lp['border']},
+{$lp['padding']},
+{$lp['fontsize']},
+{$lp['headerfontsize']},
+{$lp['barcodesize']},
+\"".addslashes($lp['idfontsize'])."\",
+{$lp['wantbarcode']},
+{$lp['wantheadertext']},
+{$lp['wantheaderimage']},
+\"".addslashes($lp['headertext'])."\",
+\"".addslashes($lp['image'])."\",
+{$lp['imageheight']},
+{$lp['imagewidth']},
+\"".addslashes($lp['papersize'])."\",
+\"".addslashes($lp['qrtext'])."\",
+$_wantnotext,
+$_wantraligntext,
+\"".addslashes($pf_esc)."\",
+$_custom_w,
+$_custom_h,
+{$lp['labelskip']}
+);'>{$lp['name']}</a>";
+
   echo " <a href='javascript:delconfirm(\"{$lp['id']}\",\"$scriptname?action=$action&amp;delpaperid={$lp['id']}\");'><img src='images/delete.png'></a><br>\n";
 }
 ?>
@@ -385,7 +434,7 @@ foreach ($labelpapers as $lp) {
 	echo '
 	<div id="custom_size_div" style="margin-top:6px;display:none;">
 	  '.t("Width").': <input size="4" name="custom_w" id="custom_w" value="40"> mm
-	  &nbsp;&nbsp;
+	  <br>
 	  '.t("Height").': <input size="4" name="custom_h" id="custom_h" value="30"> mm
 	</div>
 	';
@@ -449,7 +498,22 @@ echo "</select></td></tr>";
 <tr><td class='tdt'><?php te("Header Image");?>:</td><td><input id='wantheaderimage' type=checkbox <?php if($wantheaderimage) echo "CHECKED"; ?> name=wantheaderimage></td></tr>
 <tr><td class='tdt'><?php te("No Text");?>:</td><td><input id='wantnotext' type=checkbox <?php if($wantnotext) echo "CHECKED"; ?> name=wantnotext></td></tr>
 <tr><td class='tdt'><?php te("Text to the right of barcode");?>:</td><td><input id='wantraligntext' type=checkbox <?php if($wantraligntext) echo "CHECKED"; ?> name=wantraligntext></td></tr>
-<tr><td class='tdt'><?php te("Skip");?>:</td><td><input size=4 value='<?php echo $labelskip?>' name=labelskip> <?php te("labels");?></td></tr>
+<tr>
+  <td class='tdt'><?php te("Skip");?>:</td>
+  <td>
+    <input 
+      size="4" 
+      min="0" 
+      step="1" 
+      name="labelskip" 
+      value="<?php echo isset($labelskip) ? max(0, intval($labelskip)) : 0; ?>"
+      oninput="if(this.value<0||isNaN(this.value))this.value=0;"
+      onkeydown="if(event.key==='-')event.preventDefault();"
+    >
+    <?php te("labels");?>
+  </td>
+</tr>
+
 </table>
 </div>
 </form>

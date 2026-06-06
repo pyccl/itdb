@@ -1,13 +1,14 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
+
 <h1><?php te("Data Browser");?></h1>
 <script type="text/javascript">
 
 </script>
-
-<?php 
-
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
-?>
-
 
 <script>
 $(function () {

@@ -1,3 +1,9 @@
+<?php
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+?>
 <SCRIPT LANGUAGE="JavaScript"> 
 $(document).ready(function() {
     $('input#itemsfilter').quicksearch('table#itemslisttbl tbody tr');
@@ -5,10 +11,11 @@ $(document).ready(function() {
     $('input#contrfilter').quicksearch('table#contrlisttbl tbody tr');
     $("#tabs").tabs();
     $("#tabs").show();
+    // 限制购买日期：不能选今天以后的日期
+	$("#purchdate").datepicker("option", "maxDate", 0);
 });
 </SCRIPT>
 <?php 
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
 
 /* Spiros Ioannou 2009-2010 , sivann _at_ gmail.com */
 $sql="SELECT id,title,type FROM agents";
@@ -544,66 +551,88 @@ else
   </table>
 </div>
 
-<div id='tab2' class='tab_content'>
-  <table>
-  <tr>
-    <td colspan=3><h2> <?php te("Installed Into");?><sup>1</sup>
+	<div id='tab2' class='tab_content'>
+	<table style="width:100%;">
+	<tr>
+	<td colspan=3><h2> <?php te("Installed Into");?><sup>1</sup>
 	<input style='color:#909090' id="itemsfilter" name="itemsfilter" class='filter' 
 	       value='<?php te('Filter');?>' onclick='this.style.color="#000"; this.value=""' size="20">
-	 <span style='font-weight:normal;' class='nres'></span>
-    </h2>
-    </td></tr>
-    <tr><td colspan=3 class='tdc' >
-    <?php 
-    $sql=" SELECT COALESCE((SELECT itemid from item2soft where softid='$id'  AND itemid=items.id ),0) islinked , 
-     items.id,status,manufacturerid,model,itemtypeid,sn || ' '||sn2 ||' ' || sn3 as sn,dnsname,users.username ,label 
-     FROM items,itemtypes,users  WHERE items.itemtypeid=itemtypes.id AND itemtypes.hassoftware=1 AND users.id=userid 
-     order by islinked desc,itemtypeid,items.id desc, manufacturerid,model, dnsname ";
-    $sth=db_execute($dbh,$sql);
-    ?>
-    <div style='margin-left:auto;margin-right:auto;' class='scrltblcontainer2'>
-       <table width='100%' class='sortable'  id='itemslisttbl'>
-	 <thead>
-	    <tr><th><?php te("Installed");?></th><th style='width:70px'><?php te("ID");?></th><th><?php te("Type");?></th>
-                <th><?php te("Manufacturer");?></th><th><?php te("Model");?></th>
-	        <th><?php te("Label");?></th><th><?php te("DNS");?></th><th><?php te("User");?></th><th><?php te("S/N");?></th>
-	    </tr>
-	  </thead>
-	  <tbody>
-    <?php 
-    while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
-      if ($ir['islinked']) {
-	$cls="class='bld'";
-      } else {
-	$cls="";
-      }
-      $x=attrofstatus((int)$ir['status'],$dbh);
-      $attr=$x[0];
-      $statustxt=$x[1];
-      echo "\n <tr><td><input name='softlnk[]' value='".$ir['id']."' ";
-      if ($ir['islinked']) echo " checked ";
-      echo  " type='checkbox' /></td>".
-       "<td nowrap $cls style='white-space: nowrap;'><span $attr>&nbsp;</span>
-       <a title='".sprintf(t("Edit item %s in new window"),$ir['id'])."' 
-       target=_blank href='$scriptname?action=edititem&id=".$ir['id']."'><div class='editid'>".
-       $ir['id'].
-       "</div></a></td>";
-       echo "<td $cls>".$typeid2name[$ir['itemtypeid']].
-       "<td $cls>".$agents[$ir['manufacturerid']]['title']. "&nbsp;</td>".
-       "<td $cls>".$ir['model'].  "&nbsp;</td>".
-       "<td $cls>".$ir['label']."&nbsp;</td>".
-       "<td $cls>".$ir['dnsname']."&nbsp;</td>".
-       "<td $cls>".$ir['username']."&nbsp;</td>".
-       "<td $cls>".$ir['sn']."&nbsp;</td></tr>\n";
-    }
-    echo "\n</tbody></table>\n";
-    echo "</div>\n";
-    ?>
-    <sup>1</sup><?php te("Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.");?>
-    </td>
-  </tr>
-  </table>
-</div>
+		 <span style='font-weight:normal;' class='nres'></span>
+	</h2>
+	</td></tr>
+	<tr><td colspan=3 class='tdc' >
+	<?php 
+	$sql="SELECT COALESCE((SELECT itemid from item2soft where softid='$id' AND itemid=items.id ),0) islinked , 
+	 items.id,
+	 items.internalid,
+	 items.status,
+	 items.manufacturerid,
+	 items.model,
+	 items.itemtypeid,
+	 items.sn,
+	 items.sn2,
+	 items.sn3,
+	 items.dnsname,
+	 items.label,
+	 employees.name AS custom_user_name,
+	 departments.name AS custom_dept_name
+	 FROM items
+	 LEFT JOIN employees ON employees.id = items.custom_user
+	 LEFT JOIN departments ON departments.id = items.custom_dept
+	 JOIN itemtypes ON itemtypes.id = items.itemtypeid
+	 WHERE itemtypes.hassoftware=1
+	 ORDER BY islinked DESC, itemtypeid, items.id DESC, manufacturerid, model, dnsname";
+	$sth=db_execute($dbh,$sql);
+	?>
+	<div class='scrltblcontainer2' style="width:100%;">
+	   <table width='100%' class='sortable brdr' id='itemslisttbl' style="width:100%;table-layout:fixed;">
+		 <thead>
+		    <tr>
+	            <th style="width:5%;"><?php te("Installed");?></th>
+	            <th style="width:70px;"><?php te("ID");?></th>
+	            <th><?php te("Type");?></th>
+	            <th><?php te("Manufacturer");?></th>
+	            <th><?php te("Model");?></th>
+	            <th><?php te("Label");?></th>
+	            <th><?php te("Internal ID");?></th>
+	            <th><?php te("Department");?></th>
+	            <th><?php te("End User");?></th>
+	            <th><?php te("S/N");?></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+	<?php 
+	while ($ir=$sth->fetch(PDO::FETCH_ASSOC)) {
+	  $cls = $ir['islinked'] ? "class='bld'" : "";
+	  $x = attrofstatus((int)$ir['status'],$dbh);
+	  $attr = $x[0];
+	  $sn_full = trim($ir['sn'].' '.$ir['sn2'].' '.$ir['sn3']);
+	?>
+	      <tr>
+	        <td><input name='softlnk[]' value='<?php echo $ir['id'] ?>' <?php echo $ir['islinked'] ? 'checked' : '' ?> type='checkbox' /></td>
+	        <td nowrap <?php echo $cls ?> style='white-space:nowrap;'>
+	          <span <?php echo $attr ?>>&nbsp;</span>
+	          <a target=_blank href='<?php echo $scriptname ?>?action=edititem&id=<?php echo $ir['id'] ?>'>
+	            <div class='editid'><?php echo $ir['id'] ?></div>
+	          </a>
+	        </td>
+	        <td <?php echo $cls ?>><?php echo $typeid2name[$ir['itemtypeid']] ?></td>
+	        <td <?php echo $cls ?>><?php echo $agents[$ir['manufacturerid']]['title'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $ir['model'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $ir['label'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $ir['internalid'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $ir['custom_dept_name'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $ir['custom_user_name'] ?>&nbsp;</td>
+	        <td <?php echo $cls ?>><?php echo $sn_full ?>&nbsp;</td>
+	      </tr>
+	<?php } ?>
+	</tbody></table>
+	</div>
+	<sup>1</sup><?php te("Select systems where this software is currently installed. Only items with 'software support' in their item type are shown.");?>
+	</td>
+	</tr>
+	</table>
+	</div>
 
 <div id='tab3' class='tab_content'>
   <h2>

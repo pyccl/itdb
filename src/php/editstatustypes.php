@@ -1,5 +1,9 @@
 <?php
-if (!isset($initok)) {echo t("do not run this script directly");exit;}
+if (!isset($initok)) {
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
+}
+
 /* Spiros Ioannou 2009 , sivann _at_ gmail.com */
 //echo "<pre>"; print_r($_GET); print_r($_POST);
 $internaltypes="4";
@@ -175,7 +179,7 @@ $i++;
         echo "\n<tr><td title='".t("Delete")."'><a href='javascript:delconfirm(\"$itype\",\"$scriptname?action=$action&amp;deltype=$dbid\");'>".
              "<img src='images/delete.png' border=0></a></td>";
     else
-        echo "\n\n<tr><td title='".t("Internal Type")." ($dbid), ".t("cannot delete")."'></td>";
+        echo "\n\n<tr><td title='".t("Internal Type")." ($dbid), ".t("Cannot delete").".'></td>";
     $x=attrofstatus($dbid,$dbh);
     $attr=$x[0];
     $statustxt=$x[1];

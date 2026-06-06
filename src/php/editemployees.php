@@ -1,8 +1,9 @@
 <?php
 if (!isset($initok)) {
-    echo t("Do not run this script directly");
-    exit;
+    require_once __DIR__ . '/../init.php';
+    exit("<b><font color=red>".t("ERROR : Do not run this script directly.")."</font></b>");
 }
+
 
 // 先加载员工数据（必须放最前面！）
 if (!isset($_REQUEST['id'])) {

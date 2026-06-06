@@ -10,14 +10,18 @@
 (Optional) Internal Reference Number#（可选）内部编号
 [DNS: %s]# [DNS: %s]
 [ID: %s]#[ID: %s]
-<b>File not deleted: Please remove associations first for this file<br></b>#文件未被删除：请先移除该文件的关联关系。
+<b>Copied %s to %s successfully.</b>#<b>已成功将%s复制到%s。</b>
+<b>Error: Template file %s not found, cannot create language.</b>#<b>错误:找不到模板文件%s，无法创建语言。</b>
+<b>Failed to copy %s to %s</b>#<b>无法将%s复制到%s</b>
+<b>File not deleted: Please remove associations first for this file<br></b>#<b>文件未被删除：请先移除该文件的关联关系。</b>
 <b>location</b> of this item  different from location of associated item#<b>地点</b>与相关设备的地点不同
-<b>Not saved -- Username already exists</b>#未保存 - 用户名已存在
-<b>Rack not deleted: Please remove items first from this rack<br></b>\n#<br>机柜未被删除：请先从该机柜中移除设备<br></b>\n
+<b>Not saved -- Username already exists</b>#<b>未保存 - 用户名已存在</b>
+<b>Rack not deleted: Please remove items first from this rack<br></b>\n#<b>机柜未被删除：请先从该机柜中移除设备<br></b>\n
 <b>status</b> of this item  different from status of associated item#<b>状态</b>与相关设备的状态不同
-<b>uncheck</b> "auto-rotate &amp; center"</b>#<b>取消勾选</b> “自动旋转与居中”
-<b>user</b> of this item  different from user of associated item#<b>用户</b>与相关设备的地点不同
-<b><big>Error: field count in line %d is %d, %d is expected</big></b>#错误：第 %d 行的字段数量是 %d，但预期应该是 %d。
+<b>%s already exists, not overwritten!</b>#%s已经存在，没有被覆盖！
+<b>uncheck</b> "auto-rotate & center"#<b>取消勾选</b> “自动旋转与居中”
+<b>user</b> of this item  different from user of associated item#<b>用户</b>与相关设备的用户不同
+<b><big>Error: field count in line %d is %d, %d is expected</big></b>#<b><big>错误：第 %d 行的字段数量是 %d，但预期应该是 %d。</big></b>
 <b><big>ERROR：Preset name already exists！</big></b>#<b><big>错误：预设名称已经存在！</big></b>
 <b><big>Not saved: specify preset name!</big></b>#<b><big>未保存：请指定预设名称！</big></b>
 <b><big>Preset saved!</big></b>#<b><big>预设已保存！</big></b>
@@ -48,16 +52,14 @@ Add Location#添加地点
 Add more manufacturers at the "Agents" menu#在“代理商”菜单中添加更多厂商
 Add new Agent#添加新代理
 Add new Contract#添加新合同
+Add new Dashboard Card#添加新卡片
 Add new Department#添加新部门
 Add new Employee#添加新员工
 Add new File#添加新文件
 Add new Invoice#添加新发票
-Add new item#添加新设备
 Add new Item#添加新设备
-Add New Item#添加新设备
 Add new Location#添加新地点
 Add new Rack#添加新机柜
-Add new software#添加新软件
 Add new Software#添加新软件
 Add new User#添加新用户
 Add Rack#添加机柜
@@ -67,15 +69,9 @@ Add User#添加用户
 Add#添加
 Add/View#添加/查看
 Added by#添加人：
-Added Contract#已添加的合同
 Added File#已添加的文件
-Added item#已添加的设备
-Added Location#已添加新地点
-added new tag#已添加新Tag标签
+Added new Tag#已添加新Tag标签
 Added Rack#已添加的机柜
-Added Software#已添加的软件
-Added Invoice#已添加的发票
-Added user#已添加的用户
 Address, Phone number, other info, etc#地址，电话号码，其余信息
 Agent of Type Contractor#承包商类型的代理商
 Agent Properties#代理商属性
@@ -87,7 +83,6 @@ agents are entities like Vendors, S/W Manufacturers, H/W Manufacturers, Contract
 All#全部
 all physical assets. PCs, printers, servers, phones, tape libraries, video players, etc.#所有物理资产。例如：个人电脑、打印机、服务器、电话、磁带库、视频播放器等。
 all software metadata. You may associate software with items in this menu (e.g. assign a software to multiple PCs)#所有的软件元数据。您可以在该菜单中将软件与设备进行关联（例如，将某软件分配给多台电脑）。
-already exists, not overwritten!#已经存在，不会被覆盖！
 Are you sure you want to clone item id #您确定要克隆
 Are you sure you want to delete id #您确定要删除
 Are you sure you want to delete this area?#您确定要删除该区域吗？
@@ -112,7 +107,7 @@ Associated Employees#关联员工
 Associated Files#关联文件
 Associated Items#关联设备
 Associated Software#关联软件
-associated tag#关联Tag标签
+Associated Tag#关联Tag标签
 Associated#关联
 Associations (items/racks)#关联（设备/机柜）
 Associations Overview#关联概览
@@ -121,6 +116,7 @@ Attention: The database management password is valid only for today (until 23:59
 Back#后
 BACKUP your ITDB FIRST!#请先备份您的 ITDB！
 Barcode Size#条码尺寸
+Basic Info#基本信息
 Blank passwords prohibit login#禁止空密码登录
 Border Color#边框颜色
 Bottom Margin#下边距
@@ -132,8 +128,7 @@ Buyer#采购者
 Buyer is missing#缺少采购者
 Buyers#采购者
 Cannot add log entries to unsaved items.#不能为未保存的设备添加日志记录。
-cannot be deleted or changed#无法被删除或修改
-cannot delete#无法删除
+Cannot delete#无法删除
 Cannot delete type: it has existing subtypes#无法删除类型:其存在子类型
 Cannot delete type '%s': There are %d existing files associated with this type#无法删除类型 '%s'：存在 %d 个与此类型关联的文件
 Cannot delete: This employee has assigned items, please unbind first.#无法删除：该员工已有分配的设备，请先解绑。
@@ -183,7 +178,6 @@ Contractor is missing.#缺少承包商。
 Contractor#承包商
 Contracts#合同
 CONTRACTS#合同
-Copied#已复制
 copied from LDAP (read only)#从LDAP复制来（只读）
 Core#核
 Cores per CPU (used for licensing)#单颗CPU核数(授权时使用)
@@ -194,9 +188,10 @@ CPU Model#CPU型号
 Create new empty translation#创建新的空翻译
 Created Time#创建时间
 Currency#货币
-Current End Date of contract is missing.#缺少合同当前结束日期。
-Current EndDate#当前结束日期
+Current End Date of contract is missing.#缺少合同结束日期。
+Current EndDate#结束日期
 Current Value#现值
+Custom Size#自定义大小
 d#天
 Dashboard Cards#卡片
 Dashboard Card#卡片
@@ -206,7 +201,7 @@ Database Manager Password#数据库管理密码
 Database version=#数据库版本：
 Data Browser#数据浏览
 Date#日期
-Date Entered#进入日期
+Date Entered#登记日期
 Date Format#日期格式
 Date is missing#缺少日期
 Date of Purchase#采购日期
@@ -232,26 +227,21 @@ Demo mode, no save possible#演示模式，无法保存
 Department#部门
 Department/User#部门/使用人
 Departments#部门
-Departments List#部门列表
 Department Name#部门名称
 Department Name is missing#部门名称缺失
-Department Name is required.#部门名称缺失。
 Department not deleted: Employees are assigned. Please transfer them first.#部门未删除：部门下存在员工，请先处理这些员工。
 Department not deleted: Sub-departments exist. Please handle them first.#部门未删除：存在子部门，请先处理子部门。
 Department Properties#部门属性
 Department with the same name exists in another department. Are you sure to continue?#同名部门已存在于其他部门，确定要继续吗？
 Depth of rack occupation. (F)ront, (M)iddle, (B)ack#占用机柜深度。 (F)前, (M)中, (B)后
 Depth#深度
-describe the purpose of this item#描述该设备的用途
+Describe the purpose of this item#描述该设备的用途
 Description#描述
 Description cannot be empty#描述不能为空
 Disabled#禁用
 DNS Name#DNS 名称
-DNS#DNS
-DnsName#Dns名称
 Dollar#美元
 Don't forget: press the <b>'UPLOAD'</b> button (not save) to complete the upload!#别忘了：请按下 <b>"上传"</b> 按钮（而非"保存"）以完成上传！
-do not run this script directly#请勿直接运行此脚本
 Do you really want to remove this row?#您确定要删除这一行么？
 Documents, Manuals, Offers, Licenses, ...#文档, 手册, 认购书, 授权书, ...
 Download &amp; print the resulting PDF#下载并打印生成的PDF
@@ -301,7 +291,7 @@ Edit User#编辑用户
 Edit Vendor (agent)#编辑供应商（代理商）
 Edit#编辑
 edititem:missing arguments#编辑设备：缺少参数
-Effective date#有效日期
+Effective date#生效日期
 Email#电子邮件
 Email already exists#电子邮件已存在
 Employee code already exists#工号已存在
@@ -310,15 +300,12 @@ Employee Information#员工信息
 Employee name cannot be empty#姓名不能为空
 Employees#员工
 Employees Code#工号
-Employees List#员工列表
 Enabled#启用
 End Date#结束日期
-End Date after#截止于该日期后
-End Date before#截止于该日期前
+End Date after#新到期日
+End Date before#原到期日
 End User#使用人
 End#结束
-End Date after#截止于该日期后
-End Date before#截止于该日期前
 enter text to filter listed items#输入文本以筛选设备
 enter contracts like support&amp;maintenance,leases etc. Contracts can be associated with Items and Software and have related documents and invoices. Contract events are also kept here.#在此处录入各类合同，例如技术支持与维护合同、租赁合同等。合同可以与“设备”及“软件”相关联，也可以上传相关的文档和发票。合同相关的事件记录（如到期提醒、续签记录等）也会保存在这里。
 Enter new language name (e.g. fr):#输入新语言的名字（如fr）：
@@ -330,6 +317,7 @@ Error: A department with the same name already exists under this parent.#错误�
 Error: cannot find added tag!<br>#错误：无法找到添加的Tag标签！<br>
 Error: cannot find requested tag for removal!<br>#错误：无法找到要删除的请求Tag标签！<br>
 Error: Cannot set a department as its own parent.#错误：不能将部门设置为自己的上级部门。
+ERROR : Do not run this script directly.#错误：请不要直接运行此文件。
 Error ei0:#错误 ei0：
 Error: Item not saved, correct these errors:#错误：设备未保存，请修正以下错误：
 Error: Item not saved#错误：设备未保存
@@ -347,7 +335,6 @@ Expected format is CSV file with the following fields#要求的格式是包含�
 Experimental import#导入（实验性）
 Expired#已过保
 Export to Excel#导出到Excel
-Failed to copy#复制失败
 cannot be empty.#不能为空。
 Folder doesn't exist.#文件夹不存在。
 Folder not writable.#文件夹不可写。
@@ -373,7 +360,6 @@ Filter#筛选
 Filtered from#筛选自
 Find#查找
 Find Item#查找设备
-Find Item2#查找设备2
 Finished.#已完成。
 Floor is missing#楼层缺失
 Floor Plan#建筑平面图
@@ -389,13 +375,12 @@ Function#功能
 GO#跳转
 Go back#点击返回
 Go here#点击这里
-H/W &amp; S/W Manufacturers &amp; Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
-H/W Manufacturer#设备厂商
+H/W & S/W Manufacturers & Vendors, Buyers, Contractors#软硬件厂商，供应商、采购者、承包商
+H/W Manufacturer#软硬件厂商
 H/W Manufacturers#软硬件厂商
 Hardware#设备
 here you may enter rack data + view rack layouts. Items are assigned to racks based on their rackmountable,rack and rack-position properties.#这里可以录入机柜数据并查看机柜布局。系统会根据设备的“是否可上架”、“所属机柜”以及“机柜位置”属性，自动将其分配到对应的机柜中。
 HDs (TB)#硬盘 (TB)
-Header (from conf.php)#标题 (from conf.php)
 Header Color#页头字体颜色
 Header FontSize#页头字体大小
 Header Image#页头图片
@@ -406,7 +391,6 @@ Height#高度
 Higher number shows later#数字越大，显示越靠后
 Hire Date#入职日期
 History#历史
-History of Changes#变更历史
 Home#首页
 Horizontal Bar#横向条形图
 Horz. Pitch#水平间距
@@ -434,7 +418,6 @@ Internal ID#内部ID
 Internal ID already exists#内部ID已经存在
 Internal Type#内部类型
 Inter-Item Associations#内部设备关联
-Intrinsic Properties#内在特性
 Invalid file format. Only CSV files are allowed.#无效的文件格式。只允许上传 CSV 文件。
 Invalid Status Types detected (will NOT be inserted to the DB)#检测到无效的状态类型（将不会将其插入数据库）
 invalid tagid#无效的Tag标签ID
@@ -472,13 +455,13 @@ Item list per location#按地点显示设备
 Item Log (Item %d)#设备日志（设备 %d）
 Item Log can be edited after inserting item#插入设备后，设备日志可进行编辑
 Item Management#设备管理
+Item not found#设备未找到
 Item Type#设备类型
 Item Types#设备类型
 Items can be associated with other items, and invoices. You may also add relevant files (manuals, offers, etc)#设备可以与其他设备或发票相关联。您也可以添加相关文件（如说明书、报价单等）。
 Items with warranty end date close to (before or after) today#今日前后授权过期的设备
 Items without invoices#无发票的设备
 Items without location#无地点的设备
-items#设备
 Item#设备
 Items#设备
 ITEMS#设备
@@ -487,7 +470,7 @@ Key Name#唯一标识
 Key Name is missing#唯一标识不能为空。
 Label properties#Label标签属性
 Label#Label标签
-labels#Label标签
+labels#个标签
 Labels#Label标签
 Language#语言
 Last#末页
@@ -539,14 +522,14 @@ Management system users, database management password, homepage card display, et
 Manage statistics cards#管理统计卡片
 Manage various parameters#管理各种参数
 Manage your contracts <br> Support, Licenses, Leases, etc#管理您的合同 <br> 维保, 许可, 租赁, 等等
-Manage your H/W items <br> PCs, Switches, Phones, etc#管理您的设备设备 <br> PC机, 交换机, 电话, 等等
+Manage your H/W items <br> Servers, PCs, Switches, etc#管理您的硬件设备 <br> 服务器、PC机,、交换机 等等
 Manage your Invoices#管理您的发票
 Manage your software#管理您的软件
 Manufact.#厂商
 Manufacturer/Model#厂商/型号
 Manufacturer is missing#缺少厂商
 Manufacturer#厂商
-Manuf.-Model#厂商
+Manuf.-Model#厂商型号
 Manuf: %s <br>#厂商：%s <br>
 Make Item Labels#创建设备Label标签
 Menu help:#菜单帮助：
@@ -558,7 +541,6 @@ Missing model#缺失型号
 Missing 'Part' classification#缺失“部件”分类
 Missing 'Rackmountable' classification#缺失“机架式”分类
 Missing 'Status' classification#缺失“状态”分类
-Missing User#缺失用户
 Model#型号
 Model: %s <br>#型号：%s <br>
 mon#个月
@@ -580,6 +562,7 @@ New tag added successfully!#新标签添加成功！
 New Users detected (will be inserted to the DB)#检测到新用户（将将其插入数据库）
 No areas defined#未定义区域
 No colname specified#未指定列名
+No dashboard cards, please <a href="%s">add cards</a> first.#暂无任何卡片，请先<a href="%s">添加卡片</a>。
 No data available in table#表中无数据
 No date specified#未指定日期
 No employees#无员工
@@ -710,7 +693,7 @@ Rem.Adm.IP#远程管理IP
 Remaining Days#剩余天数
 Remote Administration IP#远程管理IP
 Remove association. If file is orphaned (nothing links to it), it gets deleted.#移除关联。如果文件因此成为孤立文件（没有任何条目链接到它），则将其删除。
-Renewals#备件
+Renewals#续签
 Replace File#替换文件
 Replace Floor Plan#更换建筑平面图
 Reports#报告
@@ -735,6 +718,7 @@ Save new location first to define areas onto it#请先保存新位置，然后�
 Save Preset#保存预设
 Saved successfully#保存成功
 Save#保存
+Scan to view#扫码查看
 Select & Print#选择并打印
 select and print labels for your items#保存并打印您的设备的Label标签
 Select Cores/CPU#选择 核数/CPU
@@ -768,7 +752,7 @@ Showing 0 to 0 of 0 entries#显示 0 到 0 共 0 条
 Sibling#同级
 SIDE VIEW#侧视图
 Size (U)#大小 (U)
-Skip#忽略
+Skip#跳过
 Skip 1st row#跳过首行
 Skipping semi-empty line (%s)<br>#跳过半空行（%s）<br>
 Software Associations#软件关联
@@ -783,7 +767,6 @@ Sort#排序
 Sort Order#排序序号
 Special maintenance instructions#特殊维护说明书
 Specify model#指定型号
-Specify user responsible for this item#指定该设备的负责人（已废，请在下面输入使用人）
 SQL Error#SQL错误
 Start date cannot be later than end date#开始时间不能晚于结束时间
 Start Date of contract is missing.#缺少合同开始日期。
@@ -831,11 +814,9 @@ Title-Version#标题版本
 Tips for new users:#新手指南：
 Tip: After modifying department attributes, please check related employee information.#提示：修改部门属性后，请检查相关员工信息。
 Tip: Please fill in the department name and select the parent department.#提示：请填写部门名称并选择上级部门。
-to#到
 Tools & Reports#工具与报表
 Top Level Department#顶级部门
 Top Margin#上边距
-Total#总数
 total entries#条总记录
 Total Cost#总成本
 Total Count#总数
@@ -853,6 +834,7 @@ Unbind?#确定解绑么？
 Undefined#不明确
 Unknown#未知
 unknown id#未知的ID
+Unknown Status#未知状态
 Updated by#更新人：
 Upload#上传
 Upload a File#上传文件
@@ -871,10 +853,8 @@ user admin has always full access#用户名admin已经获得所有权限
 User Authenticated#用户已通过身份验证
 User Description#用户描述
 User Properties#用户属性
-User#用户
 Username is missing#用户名缺失
 Username#用户名
-username#用户名
 Users are used for both web login and as item assignees#用户既用于网页登录，也用作设备的指派对象
 Users#用户
 Users, Tags#用户, Tag标签
@@ -905,6 +885,7 @@ Warning: %s - already exists#⚠️警告：%s - 已经存在
 Warr. Left#维保剩余
 Warr. Rem. days#维保剩余天数
 Warranty expiration in#维保剩余时间
+Warranty Expire#维保到期
 Warranty Info#维保信息
 Warranty Months#维保月数
 Warranty#维保
@@ -915,7 +896,7 @@ Won#韩元
 Write YES if you want to delete id #如果你想删除这些 ID，请输入 YES
 wrong arguments#错误的参数
 Wrong Password#密码错误
-Year-Month-Day#年/月/日
+Year-Month-Day#年-月-日
 Yen#日元
 Yes#是
 Ymd#年月日

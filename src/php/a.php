@@ -301,7 +301,8 @@ if ($table_check_label->fetch()) {
     $target_label_fields = [
         'print_fields' => 'TEXT DEFAULT NULL',
         'custom_w'     => 'INTEGER DEFAULT NULL',
-        'custom_h'     => 'INTEGER DEFAULT NULL'
+        'custom_h'     => 'INTEGER DEFAULT NULL',
+        'labelskip'    => 'INTEGER DEFAULT 0'
     ];
     $modified_label = false;
     foreach ($target_label_fields as $fname => $ftype) {
