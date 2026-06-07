@@ -94,37 +94,46 @@ ITDB附带源代码，在GNU公共许可证下发布。
 部分截图来自之前的版本。  
 一些截图已经被编辑删除私人信息。  
 
-[![](images/itdb-home.png)  <br>首页](images/itdb-home.png)
+[![](images/pyccl/home.png)  <br>首页](images/pyccl/home.png)
 
-[![](images/itdb-listitems.png)  <br>硬件搜索](images/itdb-listitems.png)
+[![](images/pyccl/listcard.png)  <br>卡片列表](images/pyccl/listcard.png)
 
-[![](images/itdb-items-edit.png)  <br>硬件编辑](images/itdb-items-edit.png)
+[![](images/pyccl/listdepartment.png)  <br>部门列表](images/pyccl/listdepartment.png)
 
-[![](images/itdb-item-invoices.png)  <br>相关项目发票](images/itdb-item-invoices.png)
+[![](images/pyccl/listemploy.png)  <br>员工列表](images/pyccl/listemploy.png)
 
-[![](images/itdb-editcontract.png)  <br>编辑合同](images/itdb-editcontract.png)
+[![](images/pyccl/listitem.png)  <br>硬件列表](images/pyccl/listitem.png)
 
-[![](images/itdb-contractevents.png)  <br>合同事件](images/itdb-contractevents.png)
+[![](images/pyccl/listuser.png)  <br>用户列表](images/pyccl/listuser.png)
 
-[![](images/itdb-itemtypes.png)  <br>硬件类型](images/itdb-itemtypes.png)
+[![](images/pyccl/edititem.png)  <br>编辑硬件](images/pyccl/edititem.png)
 
-[![](images/itdb-editagent.png)  <br>编辑代理商](images/itdb-editagent.png)
+[![](images/pyccl/associationitem.png)  <br>关联硬件](images/pyccl/associationitem.png)
 
-[![](images/itdb-labelprint.png)  <br>标签打印](images/itdb-labelprint.png)
+[![](images/pyccl/statustype.png)  <br>状态类型](images/pyccl/statustype.png)
 
-[![](images/itdb-editrack.png)  <br>机柜编辑和侧视图](images/itdb-editrack.png)
+[![](images/pyccl/editrack.png)  <br>编辑机柜](images/pyccl/editrack.png)
 
-[![](images/itdb-reportspie.png)  <br>报告](images/itdb-reportspie.png)
+[![](images/pyccl/printlabel.png)  <br>标签打印](images/pyccl/printlabel.png)
 
-[![](images/itdb-software-list.png)  <br>软件列表](images/itdb-software-list.png)
+[![](images/pyccl/setting.png)  <br>系统设置](images/pyccl/setting.png)
 
-[![](images/itdb-software-edit.png)  <br>编辑软件](images/itdb-software-edit.png)
+[![](images/pyccl/reportpie.png)  <br>报告-饼图](images/pyccl/reportpie.png)
 
-[![](images/itdb-editlocation.png)  <br>编辑位置](images/itdb-editlocation.png)
+[![](images/pyccl/reportline1.png)  <br>报告-条形统计图1](images/pyccl/reportline1.png)
 
-[![](images/itdb-browse.png)  <br>树形浏览器](images/itdb-browse.png "Browse")
+[![](images/pyccl/reportline2.png)  <br>报告-条形统计图2](images/pyccl/reportline2.png)
 
-[![](images/itdb-addcontract-trans.png)  <br>翻译样本](images/itdb-addcontract-trans.png "希腊语翻译")
+[![](images/pyccl/editdepartment.png)  <br>编辑部门](images/pyccl/editdepartment.png)
+
+[![](images/pyccl/editemploy.png)  <br>编辑员工](images/pyccl/editemploy.png)
+
+[![](images/pyccl/edituser.png)  <br>编辑用户](images/pyccl/edituser.png)
+
+[![](images/pyccl/editcard.png)  <br>编辑卡片](images/pyccl/editcard.png)
+
+[![](images/pyccl/dbmanager.png)  <br>数据库管理](images/pyccl/dbmanager.png)
+
 
 安装
 ============
